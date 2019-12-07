@@ -8,7 +8,7 @@ public class ModItems {
 
     public static ItemBase leatherSide = new ItemBase("leather_side").setCreativeTab(CreativeTabs.MATERIALS);
     public static ItemBase bladder = new ItemBase("bladder").setCreativeTab(CreativeTabs.MATERIALS);
-    public static ItemBase leatherFlask = new ItemBase("leather_flask").setCreativeTab(CreativeTabs.FOOD);
+    public static ItemWaterFlask leatherFlask = new ItemWaterFlask();
 
     public static void register(IForgeRegistry<Item> registry) {
         registry.registerAll(

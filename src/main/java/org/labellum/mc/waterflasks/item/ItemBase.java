@@ -4,13 +4,15 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import org.labellum.mc.waterflasks.Waterflasks;
 
+import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
+
 public class ItemBase extends Item {
 
     protected String name;
 
     public ItemBase(String name) {
         this.name = name;
-        setTranslationKey(name);
+        setTranslationKey(MOD_ID+"."+name);
         setRegistryName(name);
 
         setCreativeTab(CreativeTabs.MATERIALS);
