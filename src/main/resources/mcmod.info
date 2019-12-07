@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "waterflasks",
+    "name": "Waterflasks",
+    "description": "Water containers of various sizes and durabilities",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "github.com/Gaelmare/waterflasks",
+    "updateUrl": "",
+    "authorList": [
+      "Gaelmare"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
