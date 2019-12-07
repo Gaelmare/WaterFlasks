@@ -1,0 +1,27 @@
+{
+  "type": "forge:ore_shaped",
+  "pattern": [
+    " L ",
+    "SBS",
+    " LK"
+  ],
+  "key": {
+    "S": {
+      "type": "forge:ore_dict",
+      "item": "string"
+    },
+    "L": {
+      "item": "waterflasks:leather_side"
+    },
+    "B": {
+      "item": "waterflasks:bladder"
+    },
+    "K": {
+      "type": "forge:ore_dict",
+      "item": "knife"
+    }
+  },
+  "result": {
+    "item": "waterflasks:leather_flask"
+  }
+}

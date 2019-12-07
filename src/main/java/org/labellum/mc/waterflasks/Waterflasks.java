@@ -17,6 +17,7 @@ package org.labellum.mc.waterflasks;
     along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import net.dries007.tfc.api.recipes.knapping.KnappingRecipe;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraftforge.client.event.ModelRegistryEvent;
@@ -30,6 +31,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import org.labellum.mc.waterflasks.item.ModItems;
 import org.labellum.mc.waterflasks.proxy.*;
+import org.labellum.mc.waterflasks.recipe.ModRecipes;
 
 @Mod(
         modid = Waterflasks.MOD_ID,
@@ -66,7 +68,7 @@ public class Waterflasks {
      */
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-
+		//ModRecipes.init();
     }
 
     /**
@@ -121,6 +123,17 @@ public class Waterflasks {
         public static void registerItems(ModelRegistryEvent event) {
             ModItems.registerModels();
         }
+
+        /**
+         * Register Knapping Recipes
+         * @param event
+         */
+
+        @SubscribeEvent
+        public static void onRegisterKnappingRecipeEvent(RegistryEvent.Register<KnappingRecipe> event) {
+            ModRecipes.registerKnapping(event);
+        }
+
 
         /**
          * Listen for the register event for creating custom blocks
