@@ -19,6 +19,7 @@ package org.labellum.mc.waterflasks;
 
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
+import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -57,7 +58,7 @@ public class Waterflasks {
      */
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
-        System.out.println(MOD_NAME + "is loading");
+        System.out.println(MOD_NAME + " is loading");
     }
 
     /**
@@ -110,6 +111,15 @@ public class Waterflasks {
         @SubscribeEvent
         public static void addItems(RegistryEvent.Register<Item> event) {
             ModItems.register(event.getRegistry());
+        }
+
+        /**
+         * Listen for the register event for models
+         * @param event
+         */
+        @SubscribeEvent
+        public static void registerItems(ModelRegistryEvent event) {
+            ModItems.registerModels();
         }
 
         /**
