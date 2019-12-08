@@ -4,7 +4,6 @@ package org.labellum.mc.waterflasks.item;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 
 import net.dries007.tfc.api.capability.size.Size;
 import net.dries007.tfc.api.capability.size.Weight;
@@ -28,9 +27,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.ItemHandlerHelper;
 
-import mcp.MethodsReturnNonnullByDefault;
-import net.dries007.tfc.Constants;
-import net.dries007.tfc.client.TFCSounds;
 import net.dries007.tfc.objects.fluids.FluidsTFC;
 import net.dries007.tfc.objects.fluids.capability.FluidWhitelistHandler;
 import net.dries007.tfc.objects.fluids.properties.DrinkableProperty;
@@ -44,6 +40,7 @@ public abstract class ItemFlask extends ItemTFC {
 
     private static final int CAPACITY = 600;
     private static final int DRINK = 50;
+    private static final int CAP_DAMAGE = 12;
 
     protected String name;
 
@@ -68,11 +65,10 @@ public abstract class ItemFlask extends ItemTFC {
         setTranslationKey(MOD_ID+"."+name);
         setRegistryName(name);
 
-        setCreativeTab(CreativeTabs.MATERIALS);
+        setCreativeTab(CreativeTabs.FOOD);
 
-        this.setCreativeTab(CreativeTabs.FOOD);
-
-
+        setMaxDamage (CAP_DAMAGE);
+        setNoRepair();
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -96,15 +92,16 @@ public abstract class ItemFlask extends ItemTFC {
                 {
                     ItemStack single = stack.copy();
                     single.setCount(1);
-                    FluidActionResult result = FluidTransferHelper.tryPickUpFluidGreedy(single, player, world, rayTrace.getBlockPos(), rayTrace.sideHit, Fluid.BUCKET_VOLUME, false);
+                    FluidActionResult result = FluidTransferHelper.tryPickUpFluidGreedy(single, player, world, rayTrace.getBlockPos(), rayTrace.sideHit, CAPACITY, false);
                     if (result.isSuccess())
                     {
                         stack.shrink(1);
-                        if (stack.isEmpty())
-                        {
-                            return new ActionResult<>(EnumActionResult.SUCCESS, result.getResult());
+                        ItemStack res = result.getResult();
+                        res.setItemDamage(CAP_DAMAGE);
+                        if (stack.isEmpty()) {
+                            return new ActionResult<>(EnumActionResult.SUCCESS, res);
                         }
-                        ItemHandlerHelper.giveItemToPlayer(player, result.getResult());
+                        ItemHandlerHelper.giveItemToPlayer(player, res);
                         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
                     }
                 }
@@ -128,6 +125,7 @@ public abstract class ItemFlask extends ItemTFC {
                 if (drinkable != null)
                 {
                     drinkable.onDrink((EntityPlayer) entityLiving);
+                    stack.damageItem(1,entityLiving);
                 }
             }
 /*            if (Constants.RNG.nextFloat() < 0.02) // 1/50 chance, same as 1.7.10
