@@ -1,5 +1,8 @@
 package org.labellum.mc.waterflasks.item;
 
+/** Largely borrowed from TFC ItemJug
+ *  EUPL license meshes with GPLv3
+ */
 
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
