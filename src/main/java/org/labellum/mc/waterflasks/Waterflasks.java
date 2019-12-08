@@ -1,6 +1,8 @@
 package org.labellum.mc.waterflasks;
 
 /*
+    Copyright (c) 2019 Gaelmare
+
     This file is part of Waterflasks.
 
     Waterflasks is free software: you can redistribute it and/or modify
@@ -8,13 +10,13 @@ package org.labellum.mc.waterflasks;
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+    WaterFlasks is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+    along with WaterFlasks.  If not, see <https://www.gnu.org/licenses/>.
 */
 
 import net.dries007.tfc.api.recipes.knapping.KnappingRecipe;
