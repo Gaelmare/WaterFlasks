@@ -39,11 +39,10 @@ import net.dries007.tfc.util.FluidTransferHelper;
 
 public class ItemWaterFlask extends ItemFlask {
 
-    private static final int CAPACITY = 600;
-    private static final int DRINK = 50;
+    protected static int CAPACITY = 600;
+    protected static int DRINK = 50;
 
     public ItemWaterFlask() {
-        super("leather_flask");
+        super("leather_flask", CAPACITY, DRINK);
     }
-
 }

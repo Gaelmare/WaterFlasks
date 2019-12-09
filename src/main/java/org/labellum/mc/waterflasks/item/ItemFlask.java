@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.dries007.tfc.api.capability.size.IItemSize;
 import net.dries007.tfc.api.capability.size.Size;
 import net.dries007.tfc.api.capability.size.Weight;
 import net.dries007.tfc.objects.items.ItemTFC;
@@ -28,6 +29,8 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
+import net.minecraftforge.fluids.capability.ItemFluidContainer;
+import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
 
 import net.dries007.tfc.objects.fluids.FluidsTFC;
@@ -39,14 +42,27 @@ import org.labellum.mc.waterflasks.Waterflasks;
 
 import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
 
-public abstract class ItemFlask extends ItemTFC {
+public abstract class ItemFlask extends ItemFluidContainer implements IItemSize {
 
-    private static final int CAPACITY = 600;
-    private static final int DRINK = 50;
-    private static final int CAP_DAMAGE = 12;
+    private int CAPACITY;
+    private int DRINK;
 
     protected String name;
 
+    public ItemFlask(String name, int CAPACITY, int DRINK) {
+
+        super(CAPACITY);
+        this.CAPACITY=CAPACITY;
+        this.DRINK=DRINK;
+        this.name=name;
+        setTranslationKey(MOD_ID+"."+name);
+        setRegistryName(name);
+        setCreativeTab(CreativeTabs.FOOD);
+
+        setMaxDamage (CAPACITY/DRINK);
+        setNoRepair();
+        setHasSubtypes(true);
+    }
     @Nonnull
     @Override
     public Size getSize(@Nonnull ItemStack stack)
@@ -61,17 +77,17 @@ public abstract class ItemFlask extends ItemTFC {
         return Weight.MEDIUM;
     }
 
+    @Override
+    public boolean canStack(@Nonnull ItemStack stack) { return false; }
 
-    public ItemFlask(String name) {
-        super();
-        this.name=name;
-        setTranslationKey(MOD_ID+"."+name);
-        setRegistryName(name);
+    @Override
+    public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable NBTTagCompound nbt)
+    {
+        return new FluidWhitelistHandler(stack, CAPACITY, FluidsTFC.getAllWrappers().stream().filter(x -> x.get(DrinkableProperty.DRINKABLE) != null).map(FluidWrapper::get).collect(Collectors.toSet()));
+    }
 
-        setCreativeTab(CreativeTabs.FOOD);
-
-        setMaxDamage (CAP_DAMAGE);
-        setNoRepair();
+    public void registerItemModel() {
+        Waterflasks.proxy.registerItemRenderer(this, 0, name);
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -95,12 +111,12 @@ public abstract class ItemFlask extends ItemTFC {
                 {
                     ItemStack single = stack.copy();
                     single.setCount(1);
-                    FluidActionResult result = FluidTransferHelper.tryPickUpFluidGreedy(single, player, world, rayTrace.getBlockPos(), rayTrace.sideHit, CAPACITY, false);
+                    FluidActionResult result = FluidTransferHelper.tryPickUpFluidGreedy(single, player, world, rayTrace.getBlockPos(), rayTrace.sideHit, Fluid.BUCKET_VOLUME, false);
                     if (result.isSuccess())
                     {
                         stack.shrink(1);
                         ItemStack res = result.getResult();
-                        res.setItemDamage(CAP_DAMAGE);
+                        res.setItemDamage(0);
                         if (stack.isEmpty()) {
                             return new ActionResult<>(EnumActionResult.SUCCESS, res);
                         }
@@ -121,7 +137,7 @@ public abstract class ItemFlask extends ItemTFC {
         IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
         if (flaskCap != null)
         {
-            FluidStack fluidConsumed = flaskCap.drain(DRINK, true);
+            FluidStack fluidConsumed = flaskCap.drain(CAPACITY /*DRINK*/, true);
             if (fluidConsumed != null && entityLiving instanceof EntityPlayer)
             {
                 DrinkableProperty drinkable = FluidsTFC.getWrapper(fluidConsumed.getFluid()).get(DrinkableProperty.DRINKABLE);
@@ -131,11 +147,6 @@ public abstract class ItemFlask extends ItemTFC {
                     stack.damageItem(1,entityLiving);
                 }
             }
-/*            if (Constants.RNG.nextFloat() < 0.02) // 1/50 chance, same as 1.7.10
-            {
-                stack.shrink(1);
-                worldIn.playSound(null, entityLiving.getPosition(), TFCSounds.CERAMIC_BREAK, SoundCategory.PLAYERS, 1.0f, 1.0f);
-            }*/
         }
         return stack;
     }
@@ -191,21 +202,4 @@ public abstract class ItemFlask extends ItemTFC {
             }
         }
     }
-
-    @Override
-    public boolean canStack(ItemStack stack)
-    {
-        return false;
-    }
-
-    @Override
-    public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable NBTTagCompound nbt)
-    {
-        return new FluidWhitelistHandler(stack, CAPACITY, FluidsTFC.getAllWrappers().stream().filter(x -> x.get(DrinkableProperty.DRINKABLE) != null).map(FluidWrapper::get).collect(Collectors.toSet()));
-    }
-
-    public void registerItemModel() {
-        Waterflasks.proxy.registerItemRenderer(this, 0, name);
-    }
-
 }
