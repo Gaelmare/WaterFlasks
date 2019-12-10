@@ -61,7 +61,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         this.CAPACITY=CAPACITY;
         this.DRINK=DRINK;
         this.name=name;
-        setTranslationKey(MOD_ID+"."+name+".name");
+        setTranslationKey(MOD_ID+"."+name);
         setRegistryName(name);
         setCreativeTab(CreativeTabs.FOOD);
 
@@ -235,7 +235,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
             if (fluidStack != null)
             {
                 String fluidname = fluidStack.getLocalizedName();
-                return new TextComponentTranslation("waterflasks.filled_"+name+".name", fluidname).getFormattedText();
+                return new TextComponentTranslation(MOD_ID+".filled_"+name, fluidname).getFormattedText();
             }
         }
         return super.getItemStackDisplayName(stack);
