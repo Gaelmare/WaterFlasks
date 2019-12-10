@@ -8,7 +8,8 @@
   "key": {
     "K": {
       "type": "forge:ore_dict",
-      "ore": "knife"
+      "ore": "knife",
+      "data": "*"
     },
     "S": {
       "type": "forge:ore_dict",
@@ -22,6 +23,7 @@
     }
   },
   "result": {
-    "item": "waterflasks:leather_flask"
+    "item": "waterflasks:leather_flask",
+    "data": 12
   }
 }

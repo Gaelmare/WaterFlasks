@@ -1,3 +1,4 @@
-item.waterflasks.leather_side.name=Leather Flask side
-item.waterflasks.bladder.name=Bladder
-item.waterflasks.leather_flask.name=Leather Water Flask
+waterflasks.leather_side.name="Leather Flask side"
+waterflasks.bladder.name="Bladder"
+waterflasks.filled_leather_flask.name="%s Leather Water Flask"
+waterflasks.leather_flask.name="Empty Leather Water Flask"

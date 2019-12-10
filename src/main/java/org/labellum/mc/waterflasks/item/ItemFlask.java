@@ -8,17 +8,21 @@ import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import net.dries007.tfc.api.capability.food.FoodStatsTFC;
 import net.dries007.tfc.api.capability.size.IItemSize;
 import net.dries007.tfc.api.capability.size.Size;
 import net.dries007.tfc.api.capability.size.Weight;
 import net.dries007.tfc.objects.items.ItemTFC;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
@@ -39,7 +43,9 @@ import net.dries007.tfc.objects.fluids.properties.DrinkableProperty;
 import net.dries007.tfc.objects.fluids.properties.FluidWrapper;
 import net.dries007.tfc.util.FluidTransferHelper;
 import org.labellum.mc.waterflasks.Waterflasks;
+import org.labellum.mc.waterflasks.fluids.FlaskFluidHandler;
 
+import static net.dries007.tfc.api.capability.food.IFoodStatsTFC.MAX_PLAYER_THIRST;
 import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
 
 public abstract class ItemFlask extends ItemFluidContainer implements IItemSize {
@@ -55,11 +61,11 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         this.CAPACITY=CAPACITY;
         this.DRINK=DRINK;
         this.name=name;
-        setTranslationKey(MOD_ID+"."+name);
+        setTranslationKey(MOD_ID+"."+name+".name");
         setRegistryName(name);
         setCreativeTab(CreativeTabs.FOOD);
 
-        setMaxDamage (CAPACITY/DRINK);
+        setMaxDamage (CAPACITY);
         setNoRepair();
         setHasSubtypes(true);
     }
@@ -83,20 +89,57 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
     @Override
     public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable NBTTagCompound nbt)
     {
-        return new FluidWhitelistHandler(stack, CAPACITY, FluidsTFC.getAllWrappers().stream().filter(x -> x.get(DrinkableProperty.DRINKABLE) != null).map(FluidWrapper::get).collect(Collectors.toSet()));
+        return new FlaskFluidHandler(stack, CAPACITY, FluidsTFC.getAllWrappers().stream().filter(x -> x.get(DrinkableProperty.DRINKABLE) != null).map(FluidWrapper::get).collect(Collectors.toSet()));
     }
 
     public void registerItemModel() {
         Waterflasks.proxy.registerItemRenderer(this, 0, name);
     }
 
+    /** nasty dirty hack to handle updating damage from contained amount when filled by right-clicking
+     *  would love another option that doesn't involve re-implementing FluidUtil and FluidHandler!
+     */
+    @Override
+    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
+    {
+        if (!isSelected) return;
+//        if (worldIn.getTotalWorldTime() % 17 == 0 ) {
+            IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
+            if (flaskCap != null) {
+                FluidStack drained = flaskCap.drain(CAPACITY, false);
+                if (drained != null) {
+                    stack.setItemDamage(CAPACITY - drained.amount);
+                }
+            }
+//      }
+        return;
+    }
+
+    /** Hack to avoid duplicating fluid by filling a barrel from a partially filled flask.
+     *  cannot fill or empty a partially full flask with a fluid container.
+     */
+    @Override
+    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand)
+    {
+        //can't hit a block with this if it's not empty or full
+        int dam = getDamage(player.getHeldItem(hand));
+        if (dam != 0 && dam != CAPACITY) {
+            return EnumActionResult.FAIL;
+        }
+        return EnumActionResult.PASS;
+    }
+
     @SuppressWarnings("ConstantConditions")
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
     {
-        ItemStack stack = player.getHeldItem(hand);
+		ItemStack stack = player.getHeldItem(hand);
         if (!stack.isEmpty())
         {
+            // Do not use in creative game mode
+            if(player.isCreative())
+                return new ActionResult<>(EnumActionResult.PASS, stack);
+
             IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
             if (flaskCap != null)
             {
@@ -104,8 +147,22 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
 
                 if (flaskCap.drain(CAPACITY, false) != null)
                 {
+                    // If contains fluid, allow emptying with shift-right-click
+            		if(player.isSneaking())
+		            {
+			            flaskCap.drain(CAPACITY, true);
+			            stack.setItemDamage(CAPACITY);
+
+
+                        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+                    }
                     player.setActiveHand(hand);
-                    return new ActionResult<>(EnumActionResult.SUCCESS, stack);
+            		// Don't drink if not thirsty
+            		FoodStats stats = player.getFoodStats();
+                    if (stats instanceof FoodStatsTFC && ((FoodStatsTFC) stats).getThirst() >= MAX_PLAYER_THIRST)
+                    {
+                        return new ActionResult<>(EnumActionResult.FAIL, stack);
+                    }
                 }
                 else if (!world.isRemote && flaskCap.drain(CAPACITY, false) == null && rayTrace != null && rayTrace.typeOfHit == RayTraceResult.Type.BLOCK)
                 {
@@ -137,14 +194,17 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
         if (flaskCap != null)
         {
-            FluidStack fluidConsumed = flaskCap.drain(CAPACITY /*DRINK*/, true);
-            if (fluidConsumed != null && entityLiving instanceof EntityPlayer)
-            {
-                DrinkableProperty drinkable = FluidsTFC.getWrapper(fluidConsumed.getFluid()).get(DrinkableProperty.DRINKABLE);
-                if (drinkable != null)
-                {
-                    drinkable.onDrink((EntityPlayer) entityLiving);
-                    stack.damageItem(1,entityLiving);
+            //in case damage is out of date
+            FluidStack total = flaskCap.drain(CAPACITY,false);
+            if (total != null) {
+                stack.setItemDamage((CAPACITY - total.amount) / DRINK);
+                FluidStack fluidConsumed = flaskCap.drain(DRINK, true);
+                if (fluidConsumed != null) {
+                    DrinkableProperty drinkable = FluidsTFC.getWrapper(fluidConsumed.getFluid()).get(DrinkableProperty.DRINKABLE);
+                    if (drinkable != null) {
+                        drinkable.onDrink((EntityPlayer) entityLiving);
+                        stack.damageItem(1, entityLiving);
+                    }
                 }
             }
         }
@@ -175,7 +235,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
             if (fluidStack != null)
             {
                 String fluidname = fluidStack.getLocalizedName();
-                return new TextComponentTranslation("item.waterflasks."+name+".name", fluidname).getFormattedText();
+                return new TextComponentTranslation("waterflasks.filled_"+name+".name", fluidname).getFormattedText();
             }
         }
         return super.getItemStackDisplayName(stack);
