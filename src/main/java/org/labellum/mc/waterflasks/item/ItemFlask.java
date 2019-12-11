@@ -4,15 +4,14 @@ package org.labellum.mc.waterflasks.item;
  *  EUPL license meshes with GPLv3
  */
 
-import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 import net.dries007.tfc.api.capability.food.FoodStatsTFC;
 import net.dries007.tfc.api.capability.size.IItemSize;
 import net.dries007.tfc.api.capability.size.Size;
 import net.dries007.tfc.api.capability.size.Weight;
-import net.dries007.tfc.objects.items.ItemTFC;
+import net.dries007.tfc.objects.fluids.FluidsTFC;
+import net.dries007.tfc.objects.fluids.properties.DrinkableProperty;
+import net.dries007.tfc.objects.fluids.properties.FluidWrapper;
+import net.dries007.tfc.util.FluidTransferHelper;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -20,9 +19,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.stats.StatList;
 import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
@@ -34,16 +31,13 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.ItemFluidContainer;
-import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.minecraftforge.items.ItemHandlerHelper;
-
-import net.dries007.tfc.objects.fluids.FluidsTFC;
-import net.dries007.tfc.objects.fluids.capability.FluidWhitelistHandler;
-import net.dries007.tfc.objects.fluids.properties.DrinkableProperty;
-import net.dries007.tfc.objects.fluids.properties.FluidWrapper;
-import net.dries007.tfc.util.FluidTransferHelper;
 import org.labellum.mc.waterflasks.Waterflasks;
 import org.labellum.mc.waterflasks.fluids.FlaskFluidHandler;
+
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.stream.Collectors;
 
 import static net.dries007.tfc.api.capability.food.IFoodStatsTFC.MAX_PLAYER_THIRST;
 import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
@@ -112,12 +106,12 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                 }
             }
 //      }
-        return;
     }
 
     /** Hack to avoid duplicating fluid by filling a barrel from a partially filled flask.
      *  cannot fill or empty a partially full flask with a fluid container.
      */
+/*
     @Override
     public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand)
     {
@@ -128,6 +122,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         }
         return EnumActionResult.PASS;
     }
+*/
 
     @SuppressWarnings("ConstantConditions")
     @Override
