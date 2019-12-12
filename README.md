@@ -11,5 +11,5 @@ Translations and textures welcome.
 
 ## Status
 
-Needs Obfuscated release. Otherwise functional. 
+Beta release. Otherwise functional. 
 
