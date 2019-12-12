@@ -50,8 +50,9 @@ public class Waterflasks {
     public static final String VERSION = "0.3";
 
     /**
-     * This is the instance of your mod as created by Forge. It will never be null.
+     * Many thanks to Shadowfacts' 1.12.2 modding tutorial. Fingerprints from it remain...
      */
+
     @Mod.Instance(MOD_ID)
     public static Waterflasks INSTANCE;
 
@@ -69,9 +70,6 @@ public class Waterflasks {
     }
 
 
-    /**
-     * This is a special class that listens to registry events, to allow creation of mod blocks and items at the proper time.
-     */
     @Mod.EventBusSubscriber
     public static class ObjectRegistryHandler {
         /**
@@ -93,7 +91,6 @@ public class Waterflasks {
         /**
          * Register Knapping Recipes
          */
-
         @SubscribeEvent
         public static void onRegisterKnappingRecipeEvent(RegistryEvent.Register<KnappingRecipe> event) {
             ModRecipes.registerKnapping(event);
