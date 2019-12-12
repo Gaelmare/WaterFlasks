@@ -122,7 +122,8 @@ public class Waterflasks {
 
                 LootPool newPool = new LootPool(new LootEntry [] {entry}, new LootCondition[0],
                         new RandomValueRange(1), new RandomValueRange(0), "waterflasks_bladder_pool");
-
+                //json files here seem to use weights of 25/35/50%. A 10 listed there was more like 2-5%.
+                //TODO: apply butchering skill to drop bladders?
                 event.getTable().addPool(newPool);
             }
         }
