@@ -108,22 +108,6 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
 //      }
     }
 
-    /** Hack to avoid duplicating fluid by filling a barrel from a partially filled flask.
-     *  cannot fill or empty a partially full flask with a fluid container.
-     */
-/*
-    @Override
-    public EnumActionResult onItemUseFirst(EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ, EnumHand hand)
-    {
-        //can't hit a block with this if it's not empty or full
-        int dam = getDamage(player.getHeldItem(hand));
-        if (dam != 0 && dam != CAPACITY) {
-            return EnumActionResult.FAIL;
-        }
-        return EnumActionResult.PASS;
-    }
-*/
-
     @SuppressWarnings("ConstantConditions")
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand)
@@ -138,28 +122,18 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
             IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
             if (flaskCap != null)
             {
-                RayTraceResult rayTrace = rayTrace(world, player, true);
-
-                if (flaskCap.drain(CAPACITY, false) != null)
+                // If contains fluid, allow emptying with shift-right-click
+                if(player.isSneaking())
                 {
-                    // If contains fluid, allow emptying with shift-right-click
-            		if(player.isSneaking())
-		            {
-			            flaskCap.drain(CAPACITY, true);
-			            stack.setItemDamage(CAPACITY);
+                    flaskCap.drain(CAPACITY, true);
+                    stack.setItemDamage(CAPACITY);
 
-
-                        return new ActionResult<>(EnumActionResult.SUCCESS, stack);
-                    }
-                    player.setActiveHand(hand);
-            		// Don't drink if not thirsty
-            		FoodStats stats = player.getFoodStats();
-                    if (stats instanceof FoodStatsTFC && ((FoodStatsTFC) stats).getThirst() >= MAX_PLAYER_THIRST)
-                    {
-                        return new ActionResult<>(EnumActionResult.FAIL, stack);
-                    }
+                    return new ActionResult<>(EnumActionResult.SUCCESS, stack);
                 }
-                else if (!world.isRemote && flaskCap.drain(CAPACITY, false) == null && rayTrace != null && rayTrace.typeOfHit == RayTraceResult.Type.BLOCK)
+                // Try to Fill
+                RayTraceResult rayTrace = rayTrace(world, player, true);
+                FluidStack cont = flaskCap.drain(CAPACITY, false);
+                if (!world.isRemote && (cont == null || cont.amount < CAPACITY) && rayTrace != null && rayTrace.typeOfHit == RayTraceResult.Type.BLOCK)
                 {
                     ItemStack single = stack.copy();
                     single.setCount(1);
@@ -176,6 +150,16 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
                     }
                 }
+                FoodStats stats = player.getFoodStats();
+                if (stats instanceof FoodStatsTFC && ((FoodStatsTFC) stats).getThirst() >= MAX_PLAYER_THIRST)
+                {
+                    // Don't drink if not thirsty
+                    return new ActionResult<>(EnumActionResult.FAIL, stack);
+                }
+                else if (cont != null && cont.amount >= DRINK)
+                {
+                    player.setActiveHand(hand);
+                }
                 return new ActionResult<>(EnumActionResult.SUCCESS, stack);
             }
         }
@@ -189,17 +173,15 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
         if (flaskCap != null)
         {
-            //in case damage is out of date
             FluidStack total = flaskCap.drain(CAPACITY,false);
-            if (total != null) {
-                stack.setItemDamage((CAPACITY - total.amount) / DRINK);
+            if (total != null && total.amount > 0) {
                 FluidStack fluidConsumed = flaskCap.drain(DRINK, true);
                 if (fluidConsumed != null) {
                     DrinkableProperty drinkable = FluidsTFC.getWrapper(fluidConsumed.getFluid()).get(DrinkableProperty.DRINKABLE);
                     if (drinkable != null) {
                         drinkable.onDrink((EntityPlayer) entityLiving);
-                        stack.damageItem(1, entityLiving);
-                    }
+                        stack.damageItem(DRINK, entityLiving);
+                        }
                 }
             }
         }

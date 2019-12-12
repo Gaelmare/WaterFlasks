@@ -47,7 +47,7 @@ public class Waterflasks {
 
     public static final String MOD_ID = "waterflasks";
     public static final String MOD_NAME = "WaterFlasks";
-    public static final String VERSION = "0.2";
+    public static final String VERSION = "0.3";
 
     /**
      * This is the instance of your mod as created by Forge. It will never be null.
@@ -84,7 +84,6 @@ public class Waterflasks {
 
         /**
          * Listen for the register event for models
-         * @param event
          */
         @SubscribeEvent
         public static void registerItems(ModelRegistryEvent event) {
@@ -93,7 +92,6 @@ public class Waterflasks {
 
         /**
          * Register Knapping Recipes
-         * @param event
          */
 
         @SubscribeEvent
