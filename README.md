@@ -9,6 +9,9 @@ All code and resources used according to their published licenses.
 
 Translations and textures welcome.
 
+Sides of flask are knapped out of leather.
+Bladders drop from cows, horses, sheep, and bears at some probability.
+
 ## Status
 
 Beta release. Otherwise functional. 
