@@ -1,0 +1,34 @@
+{
+  "type": "tfc:damage_item_shaped",
+  "pattern": [
+    "CLI",
+    "LBS",
+    "ISK"
+  ],
+  "key": {
+    "I": {
+      "item": "tfc:metal/pick_head/iron"
+    },
+    "K": {
+      "type": "forge:ore_dict",
+      "ore": "knife",
+      "data": "*"
+    },
+    "C": {
+      "item": "tfc:crop/product/burlap_cloth"
+    },
+    "S": {
+      "type": "forge:ore_dict",
+      "ore": "string"
+    },
+    "L": {
+      "item": "waterflasks:leather_side"
+    },
+    "B": {
+      "item": "waterflasks:bladder"
+    }
+  },
+  "result": {
+    "item": "waterflasks:iron_flask"
+  }
+}

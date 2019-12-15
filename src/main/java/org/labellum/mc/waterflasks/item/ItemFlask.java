@@ -212,7 +212,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
             if (fluidStack != null)
             {
                 String fluidname = fluidStack.getLocalizedName();
-                return new TextComponentTranslation(MOD_ID+".filled_"+name, fluidname).getFormattedText();
+                return new TextComponentTranslation("item."+MOD_ID+".filled_"+name+".name", fluidname).getFormattedText();
             }
         }
         return super.getItemStackDisplayName(stack);
