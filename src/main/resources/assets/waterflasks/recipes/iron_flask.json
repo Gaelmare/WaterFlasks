@@ -1,13 +1,13 @@
 {
   "type": "tfc:damage_item_shaped",
   "pattern": [
-    "CLI",
-    "LBS",
-    "ISK"
+    "ISK",
+    "LBL",
+    "CSI"
   ],
   "key": {
     "I": {
-      "item": "tfc:metal/pick_head/iron"
+      "item": "tfc:metal/pick_head/wrought_iron"
     },
     "K": {
       "type": "forge:ore_dict",
@@ -29,6 +29,7 @@
     }
   },
   "result": {
-    "item": "waterflasks:iron_flask"
+    "item": "waterflasks:iron_flask",
+    "data": 1000
   }
 }
