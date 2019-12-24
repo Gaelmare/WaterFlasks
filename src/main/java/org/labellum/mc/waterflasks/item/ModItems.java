@@ -24,7 +24,6 @@ public class ModItems {
     }
 
     public static void registerModels() {
-        leatherFlask.registerItemModel();
         leatherSide.registerItemModel();
         bladder.registerItemModel();
         if (ConfigFlasks.GENERAL.enableIron) {

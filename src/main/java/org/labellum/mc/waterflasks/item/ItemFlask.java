@@ -12,17 +12,23 @@ import net.dries007.tfc.objects.fluids.FluidsTFC;
 import net.dries007.tfc.objects.fluids.properties.DrinkableProperty;
 import net.dries007.tfc.objects.fluids.properties.FluidWrapper;
 import net.dries007.tfc.util.FluidTransferHelper;
+import net.minecraft.client.renderer.ItemMeshDefinition;
+import net.minecraft.client.renderer.block.model.ModelBakery;
+import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidActionResult;
@@ -31,6 +37,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.ItemFluidContainer;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.labellum.mc.waterflasks.Waterflasks;
 import org.labellum.mc.waterflasks.fluids.FlaskFluidHandler;
@@ -59,10 +67,11 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         setRegistryName(name);
         setCreativeTab(CreativeTabs.FOOD);
 
+        // don't know why if this is not set that render models for subtypes are not found!
         setMaxDamage (CAPACITY);
-        setNoRepair();
         setHasSubtypes(true);
     }
+
     @Nonnull
     @Override
     public Size getSize(@Nonnull ItemStack stack)
@@ -87,26 +96,118 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
     }
 
     public void registerItemModel() {
-        Waterflasks.proxy.registerItemRenderer(this, 0, name);
+        initModel(this, 0, name);
     }
 
-    /** nasty dirty hack to handle updating damage from contained amount when filled by right-clicking
-     *  would love another option that doesn't involve re-implementing FluidUtil and FluidHandler!
-     */
-    @Override
-    public void onUpdate(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected)
-    {
-        if (!isSelected) return;
-//        if (worldIn.getTotalWorldTime() % 17 == 0 ) {
-            IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
-            if (flaskCap != null) {
-                FluidStack drained = flaskCap.drain(CAPACITY, false);
-                if (drained != null) {
-                    stack.setItemDamage(CAPACITY - drained.amount);
+
+    public void registerItemRenderer(Item item, int meta, String id) {
+        ModelLoader.setCustomModelResourceLocation(item, meta,
+                new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id, "inventory"));
+    }
+    @SideOnly(Side.CLIENT)
+    public void initModel(Item item, int meta, String id) {
+        ModelResourceLocation modelFull = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id , "inventory");
+        ModelResourceLocation model4 = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id + "-4", "inventory");
+        ModelResourceLocation model3 = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id + "-3", "inventory");
+        ModelResourceLocation model2 = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id + "-2", "inventory");
+        ModelResourceLocation model1 = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id + "-1", "inventory");
+        ModelResourceLocation model0 = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id + "-0", "inventory");
+
+        ModelBakery.registerItemVariants(this, modelFull, model4, model3, model2, model1, model0);
+
+        ModelLoader.setCustomMeshDefinition(this, new ItemMeshDefinition() {
+            @Override
+            public ModelResourceLocation getModelLocation(ItemStack stack) {
+                switch ((int) Math.floor(getLiquidAmount(stack)/(double)CAPACITY * 5F)) {
+                    case 5:
+                        return modelFull;
+                    case 4:
+                        return model4;
+                    case 3:
+                        return model3;
+                    case 2:
+                        return model2;
+                    case 1:
+                        return model1;
+                    default:
+                        return model0;
                 }
             }
-//      }
+        });
     }
+
+
+    public int getLiquidAmount(ItemStack stack) {
+        int content = 0;
+        IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
+        if (flaskCap != null) {
+            FluidStack drained = flaskCap.drain(CAPACITY, false);
+            if (drained != null) {
+                content = drained.amount;
+            }
+        }
+        return content;
+    }
+
+    /**
+     * This used to be 'display damage' but its really just 'aux' data in the ItemStack, usually shares the same variable as damage.
+     * @param stack
+     * @return
+     */
+    public int getMetadata(ItemStack stack)
+    {
+        return getLiquidAmount(stack);
+    }
+
+    /**
+     * Determines if the durability bar should be rendered for this item.
+     * Defaults to vanilla stack.isDamaged behavior.
+     * But modders can use this for any data they wish.
+     *
+     * @param stack The current Item Stack
+     * @return True if it should render the 'durability' bar.
+     */
+    @Override
+    public boolean showDurabilityBar(ItemStack stack)
+    {
+        return getLiquidAmount(stack) < CAPACITY;
+    }
+
+    /**
+     * Queries the percentage of the 'Durability' bar that should be drawn.
+     *
+     * @param stack The current ItemStack
+     * @return 0.0 for 100% (no damage / full bar), 1.0 for 0% (fully damaged / empty bar)
+     */
+    @Override
+    public double getDurabilityForDisplay(ItemStack stack)
+    {
+        return 1 - (getLiquidAmount(stack) / (double)CAPACITY);
+    }
+
+    /**
+     * Returns the packed int RGB value used to render the durability bar in the GUI.
+     * Water colors used, even when liquid color may be different?
+     *
+     * @param stack Stack to get durability from
+     * @return A packed RGB value for the durability colour (0x00RRGGBB)
+     */
+    @Override
+    public int getRGBDurabilityForDisplay(ItemStack stack)
+    {
+        int fluidRGB = 0xFFFFFF;
+        IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
+        if (flaskCap != null) {
+            FluidStack drained = flaskCap.drain(CAPACITY, false);
+            if (drained != null) {
+                Fluid fluid = drained.getFluid();
+                fluidRGB = fluid.getColor();
+            }
+        }
+        return fluidRGB | 0xFF000000; //make sure alpha channel is 100%
+    }
+
+
 
     @SuppressWarnings("ConstantConditions")
     @Override
@@ -126,7 +227,6 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                 if(player.isSneaking())
                 {
                     flaskCap.drain(CAPACITY, true);
-                    stack.setItemDamage(CAPACITY);
 
                     return new ActionResult<>(EnumActionResult.SUCCESS, stack);
                 }
@@ -142,7 +242,6 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                     {
                         stack.shrink(1);
                         ItemStack res = result.getResult();
-                        res.setItemDamage(0);
                         if (stack.isEmpty()) {
                             return new ActionResult<>(EnumActionResult.SUCCESS, res);
                         }
@@ -150,6 +249,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                         return new ActionResult<>(EnumActionResult.SUCCESS, stack);
                     }
                 }
+                //Try to Drink
                 FoodStats stats = player.getFoodStats();
                 if (stats instanceof FoodStatsTFC && ((FoodStatsTFC) stats).getThirst() >= MAX_PLAYER_THIRST)
                 {
@@ -180,7 +280,6 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                     DrinkableProperty drinkable = FluidsTFC.getWrapper(fluidConsumed.getFluid()).get(DrinkableProperty.DRINKABLE);
                     if (drinkable != null) {
                         drinkable.onDrink((EntityPlayer) entityLiving);
-                        stack.damageItem(DRINK, entityLiving);
                         }
                 }
             }

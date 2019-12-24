@@ -32,12 +32,12 @@ public class ConfigFlasks {
     }
 
     public static class GeneralCFG {
-        @Config.Comment("Liquid Capacity of Leather Flask (500 = 1/2 bucket = 5 drinks or 2 water bars, update recipe data if changing)")
+        @Config.Comment("Liquid Capacity of Leather Flask (500 = 1/2 bucket = 5 drinks or 2 water bars)")
         @Config.RangeInt(min = 100)
         @Config.LangKey("config." + MOD_ID + ".general.leatherCap")
         public int leatherCap = 500;
 
-        @Config.Comment("Liquid Capacity of Iron Flask (1000 = 1 bucket = 10 drinks or 4 water bars, update recipe data if changing)")
+        @Config.Comment("Liquid Capacity of Iron Flask (1000 = 1 bucket = 10 drinks or 4 water bars)")
         @Config.RangeInt(min = 100)
         @Config.LangKey("config." + MOD_ID + ".general.ironCap")
         public int ironCap = 1000;
