@@ -68,7 +68,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         setCreativeTab(CreativeTabs.FOOD);
 
         // don't know why if this is not set that render models for subtypes are not found!
-        setMaxDamage (CAPACITY);
+        //setMaxDamage (CAPACITY);
         setHasSubtypes(true);
     }
 
@@ -136,7 +136,6 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         });
     }
 
-
     public int getLiquidAmount(ItemStack stack) {
         int content = 0;
         IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
@@ -150,46 +149,10 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
     }
 
     /**
-     * This used to be 'display damage' but its really just 'aux' data in the ItemStack, usually shares the same variable as damage.
-     * @param stack
-     * @return
-     */
-    public int getMetadata(ItemStack stack)
-    {
-        return getLiquidAmount(stack);
-    }
-
-    /**
-     * Determines if the durability bar should be rendered for this item.
-     * Defaults to vanilla stack.isDamaged behavior.
-     * But modders can use this for any data they wish.
-     *
-     * @param stack The current Item Stack
-     * @return True if it should render the 'durability' bar.
-     */
-    @Override
-    public boolean showDurabilityBar(ItemStack stack)
-    {
-        return getLiquidAmount(stack) < CAPACITY;
-    }
-
-    /**
-     * Queries the percentage of the 'Durability' bar that should be drawn.
-     *
-     * @param stack The current ItemStack
-     * @return 0.0 for 100% (no damage / full bar), 1.0 for 0% (fully damaged / empty bar)
-     */
-    @Override
-    public double getDurabilityForDisplay(ItemStack stack)
-    {
-        return 1 - (getLiquidAmount(stack) / (double)CAPACITY);
-    }
-
-    /**
      * Returns the packed int RGB value used to render the durability bar in the GUI.
-     * Water colors used, even when liquid color may be different?
+     * Retrieves no-alpha RGB color from liquid to use in durability bar
      *
-     * @param stack Stack to get durability from
+     * @param stack Stack to get color from
      * @return A packed RGB value for the durability colour (0x00RRGGBB)
      */
     @Override
