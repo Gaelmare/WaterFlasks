@@ -40,6 +40,7 @@ import net.minecraftforge.fluids.capability.ItemFluidContainer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
+import org.labellum.mc.waterflasks.ConfigFlasks;
 import org.labellum.mc.waterflasks.Waterflasks;
 import org.labellum.mc.waterflasks.fluids.FlaskFluidHandler;
 
@@ -67,8 +68,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         setRegistryName(name);
         setCreativeTab(CreativeTabs.FOOD);
 
-        // don't know why if this is not set that render models for subtypes are not found!
-        //setMaxDamage (CAPACITY);
+        setMaxDamage (CAPACITY/ConfigFlasks.GENERAL.damageFactor);
         setHasSubtypes(true);
     }
 
@@ -99,11 +99,6 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         initModel(this, 0, name);
     }
 
-
-    public void registerItemRenderer(Item item, int meta, String id) {
-        ModelLoader.setCustomModelResourceLocation(item, meta,
-                new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id, "inventory"));
-    }
     @SideOnly(Side.CLIENT)
     public void initModel(Item item, int meta, String id) {
         ModelResourceLocation modelFull = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id , "inventory");
@@ -243,7 +238,8 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                     DrinkableProperty drinkable = FluidsTFC.getWrapper(fluidConsumed.getFluid()).get(DrinkableProperty.DRINKABLE);
                     if (drinkable != null) {
                         drinkable.onDrink((EntityPlayer) entityLiving);
-                        }
+                        stack.damageItem(1,entityLiving);
+                    }
                 }
             }
         }

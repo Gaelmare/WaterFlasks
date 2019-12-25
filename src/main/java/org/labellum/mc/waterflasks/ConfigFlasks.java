@@ -46,5 +46,9 @@ public class ConfigFlasks {
         @Config.LangKey("config." + MOD_ID + ".general.enableIron")
         public boolean enableIron = true;
 
+        @Config.Comment("Damage Capability of Flasks are Capacity/(this value)")
+        @Config.RangeInt(min = 1)
+        @Config.LangKey("config." + MOD_ID + ".general.damageFactor")
+        public int damageFactor = 5;
     }
 }
