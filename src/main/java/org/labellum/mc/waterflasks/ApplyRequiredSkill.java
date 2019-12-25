@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.JsonUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.RandomValueRange;
 import net.minecraft.world.storage.loot.conditions.LootCondition;
 import net.minecraft.world.storage.loot.functions.LootFunction;
 
@@ -29,14 +28,14 @@ public class ApplyRequiredSkill extends LootFunction
 {
     private final SkillType<? extends SimpleSkill> skillType;
     private final SkillTier tier;
-    private final float chanceAmount;
+    private final float rarity;
 
-    private ApplyRequiredSkill(LootCondition[] conditionsIn, SkillType<? extends SimpleSkill> skillType, SkillTier tier, float chanceAmount)
+    private ApplyRequiredSkill(LootCondition[] conditionsIn, SkillType<? extends SimpleSkill> skillType, SkillTier tier, float rarity)
     {
         super(conditionsIn);
         this.skillType = skillType;
-        this.chanceAmount = chanceAmount;
         this.tier = tier;
+        this.rarity = rarity;
     }
 
     @Override
@@ -52,11 +51,12 @@ public class ApplyRequiredSkill extends LootFunction
                 SimpleSkill skill = skills.getSkill(this.skillType);
                 if (skill != null && skill.getTier().isAtLeast(tier))
                 {
-                    //[0..1] - [0..1] < .5 for 50% chance. Since Adept = .25, setting chance to 25 means
+                    //[0..1] + [0..1] > .5 for 50% chance. Since Adept = .25, setting chance to 25 means
                     // a 50% chance of drop at ADEPT, and 100% at MASTER
-                    if (rand.nextDouble() - skill.getTotalLevel() < chanceAmount/100) {
+                    if (rand.nextDouble() + skill.getTotalLevel() > rarity/100F) {
                         stack.setCount(1);
                     }
+                    else stack.setCount(0);
                 }
             }
         }
@@ -74,7 +74,8 @@ public class ApplyRequiredSkill extends LootFunction
         public void serialize(JsonObject object, ApplyRequiredSkill functionClazz, JsonSerializationContext serializationContext)
         {
             object.add("skill", serializationContext.serialize(functionClazz.skillType.getName()));
-            object.add("chance", serializationContext.serialize(functionClazz.chanceAmount));
+            object.add("tier", serializationContext.serialize(functionClazz.tier));
+            object.add("rarity", serializationContext.serialize(functionClazz.rarity));
         }
 
         @Override
@@ -88,7 +89,7 @@ public class ApplyRequiredSkill extends LootFunction
                 throw new JsonParseException("Unknown skill type: '" + skillName + "'");
             }
             int tierIndex = JsonUtils.getInt(object, "tier");
-            float amount = JsonUtils.getFloat(object, "chance");
+            float amount = JsonUtils.getFloat(object, "rarity");
             return new ApplyRequiredSkill(conditionsIn, skillType, SkillTier.valueOf(tierIndex), amount);
         }
     }

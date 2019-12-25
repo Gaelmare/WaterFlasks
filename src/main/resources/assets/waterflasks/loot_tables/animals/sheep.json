@@ -12,7 +12,7 @@
               "function": "water_flasks:apply_req_skill",
               "skill": "butchering",
               "tier": 2,
-              "chance": 25
+              "rarity": 125
             }
           ]
         }
