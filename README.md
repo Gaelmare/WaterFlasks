@@ -14,5 +14,5 @@ Bladders drop from cows, horses, sheep, and bears at some probability.
 
 ## Status
 
-Beta release. Otherwise functional. 
+Stable release! 
 
