@@ -10,7 +10,12 @@ All code and resources used according to their published licenses.
 Translations and textures welcome.
 
 Sides of flask are knapped out of leather.
-Bladders drop from cows, horses, sheep, and bears at some probability.
+Bladders drop from bears, cows, horses, and sheep at some probability affected by butchering skill.
+Bears are the most likely, and take the least skill.
+
+Flasks now take damage, and are repairable.
+
+Fluid level in flask is indicated by vertical bar.
 
 ## Status
 
