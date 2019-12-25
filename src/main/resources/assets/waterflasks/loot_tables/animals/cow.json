@@ -7,11 +7,14 @@
         {
           "type": "item",
           "name": "waterflasks:bladder",
-          "weight": 35
-        },
-        {
-          "type": "empty",
-          "weight": 65
+          "functions": [
+            {
+              "function": "water_flasks:apply_req_skill",
+              "skill": "butchering",
+              "tier": 1,
+              "chance": 35
+            }
+          ]
         }
       ]
     }
