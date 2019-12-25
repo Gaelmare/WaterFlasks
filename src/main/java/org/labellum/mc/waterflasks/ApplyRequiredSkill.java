@@ -1,5 +1,9 @@
 package org.labellum.mc.waterflasks;
 
+/**
+ * Much thanks to TFC for making this possible. This code mostly borrowed from net.dries007.tfc.util.loot.ApplySimpleSkill
+ */
+
 import java.util.Random;
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -22,6 +26,10 @@ import net.dries007.tfc.api.capability.player.CapabilityPlayerData;
 import net.dries007.tfc.api.capability.player.IPlayerData;
 import net.dries007.tfc.util.skills.SimpleSkill;
 import net.dries007.tfc.util.skills.SkillType;
+
+/**
+ * Skill and random affect chance of any drop at all. Can require a minimum Skill Tier
+ */
 
 @ParametersAreNonnullByDefault
 public class ApplyRequiredSkill extends LootFunction
@@ -51,7 +59,7 @@ public class ApplyRequiredSkill extends LootFunction
                 SimpleSkill skill = skills.getSkill(this.skillType);
                 if (skill != null && skill.getTier().isAtLeast(tier))
                 {
-                    //[0..1] + [0..1] > .5 for 50% chance. Since Adept = .25, setting chance to 25 means
+                    //[0..1] + [0..1] > .5 for 50% chance. Since Adept = .25, setting rarity to 25 means
                     // a 50% chance of drop at ADEPT, and 100% at MASTER
                     if (rand.nextDouble() + skill.getTotalLevel() > rarity/100F) {
                         stack.setCount(1);

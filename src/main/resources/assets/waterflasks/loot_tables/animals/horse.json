@@ -9,7 +9,7 @@
           "name": "waterflasks:bladder",
           "functions": [
             {
-              "function": "water_flasks:apply_req_skill",
+              "function": "waterflasks:apply_req_skill",
               "skill": "butchering",
               "tier": 1,
               "rarity": 75
