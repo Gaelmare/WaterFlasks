@@ -13,13 +13,13 @@ public class ModRecipes {
 	public static void registerKnapping(RegistryEvent.Register<KnappingRecipe> event) {
         event.getRegistry().registerAll(
             new KnappingRecipeSimple(KnappingType.LEATHER, true, new ItemStack(ModItems.leatherSide),
-                    "   XX", " X XX", "XXXXX", "XXXXX", " XXX ").setRegistryName("leather_side")
+                    "X X X", "XXXXX", "XXXXX", "XXXXX", " XXX ").setRegistryName("leather_side")
         );
 	}
 }
 /*
-   XX
- X XX
+X X X
+XXXXX
 XXXXX
 XXXXX
  XXX
