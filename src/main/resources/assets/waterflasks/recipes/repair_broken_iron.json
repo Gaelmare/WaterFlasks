@@ -1,13 +1,13 @@
 {
   "type": "tfc:damage_item_shaped",
   "pattern": [
-    " SK",
-    "CBC",
-    "LIL"
+    "FB",
+    "CK"
   ],
   "key": {
-    "I": {
-      "item": "waterflasks:unfinished_iron_flask"
+    "F": {
+      "item": "waterflasks:broken_iron_flask",
+      "data": 32767
     },
     "K": {
       "type": "forge:ore_dict",
@@ -16,13 +16,6 @@
     },
     "C": {
       "item": "tfc:crop/product/burlap_cloth"
-    },
-    "S": {
-      "type": "forge:ore_dict",
-      "ore": "string"
-    },
-    "L": {
-      "item": "waterflasks:leather_side"
     },
     "B": {
       "item": "waterflasks:bladder"

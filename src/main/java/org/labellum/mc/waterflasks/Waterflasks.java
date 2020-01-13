@@ -19,6 +19,7 @@ package org.labellum.mc.waterflasks;
     along with WaterFlasks.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import net.dries007.tfc.api.recipes.anvil.AnvilRecipe;
 import net.dries007.tfc.api.recipes.knapping.KnappingRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -96,12 +97,21 @@ public class Waterflasks {
         }
 
         /**
-         * Register Knapping Recipes
+         * Register Knapping Recipe
          */
         @SubscribeEvent
         public static void onRegisterKnappingRecipeEvent(RegistryEvent.Register<KnappingRecipe> event) {
             ModRecipes.registerKnapping(event);
         }
+
+        /**
+         * Register Anvil Recipe
+         */
+        @SubscribeEvent
+        public static void onRegisterAnvilRecipeEvent(RegistryEvent.Register<AnvilRecipe> event) {
+            ModRecipes.registerAnvil(event);
+        }
+
 
         @SubscribeEvent
         public static void onLootTableLoad(LootTableLoadEvent event)

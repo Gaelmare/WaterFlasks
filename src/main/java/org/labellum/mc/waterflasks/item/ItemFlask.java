@@ -8,6 +8,7 @@ import net.dries007.tfc.api.capability.food.FoodStatsTFC;
 import net.dries007.tfc.api.capability.size.IItemSize;
 import net.dries007.tfc.api.capability.size.Size;
 import net.dries007.tfc.api.capability.size.Weight;
+import net.dries007.tfc.client.TFCSounds;
 import net.dries007.tfc.objects.fluids.FluidsTFC;
 import net.dries007.tfc.objects.fluids.properties.DrinkableProperty;
 import net.dries007.tfc.objects.fluids.properties.FluidWrapper;
@@ -245,7 +246,24 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                     DrinkableProperty drinkable = FluidsTFC.getWrapper(fluidConsumed.getFluid()).get(DrinkableProperty.DRINKABLE);
                     if (drinkable != null) {
                         drinkable.onDrink((EntityPlayer) entityLiving);
-                        stack.damageItem(1,entityLiving);
+                        if (stack.getItemDamage() == stack.getMaxDamage()) {
+                            ResourceLocation name = stack.getItem().getRegistryName();
+                            //break item, play sound
+                            worldIn.playSound(null, entityLiving.getPosition(), TFCSounds.CERAMIC_BREAK, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                            if (name.toString().contains("leather"))
+                            {
+                                ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entityLiving, new ItemStack(ModItems.brokenLeatherFlask));
+                            }
+                            else
+                            {
+                                ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entityLiving, new ItemStack(ModItems.brokenIronFlask));
+                            }
+                            stack.shrink(1); //race condition here, seems to only sometimes work?
+                        }
+                        else
+                        {
+                            stack.damageItem(1, entityLiving);
+                        }
                     }
                 }
             }
