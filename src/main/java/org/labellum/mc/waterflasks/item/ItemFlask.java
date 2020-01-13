@@ -69,7 +69,13 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         setRegistryName(name);
         setCreativeTab(CreativeTabs.FOOD);
 
-        setMaxDamage (CAPACITY/ConfigFlasks.GENERAL.damageFactor);
+        if (ConfigFlasks.GENERAL.damageFactor == 0)
+        {
+            setMaxDamage(Integer.MAX_VALUE);
+        }
+        else {
+            setMaxDamage (CAPACITY/ConfigFlasks.GENERAL.damageFactor);
+        }
         setHasSubtypes(true);
     }
 
