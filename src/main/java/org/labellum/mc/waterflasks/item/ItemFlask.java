@@ -161,16 +161,15 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
     @Override
     public int getRGBDurabilityForDisplay(ItemStack stack)
     {
-        int fluidRGB = 0xFFFFFF;
         IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
         if (flaskCap != null) {
             FluidStack drained = flaskCap.drain(CAPACITY, false);
             if (drained != null) {
                 Fluid fluid = drained.getFluid();
-                fluidRGB = fluid.getColor();
+                return fluid.getColor();
             }
         }
-        return fluidRGB | 0xFF000000; //make sure alpha channel is 100%
+        return super.getRGBDurabilityForDisplay(stack);
     }
 
 

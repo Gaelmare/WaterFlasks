@@ -59,7 +59,7 @@ public class ApplyRequiredSkill extends LootFunction
                 SimpleSkill skill = skills.getSkill(this.skillType);
                 if (skill != null && skill.getTier().isAtLeast(tier))
                 {
-                    //[0..1] + [0..1] > .5 for 50% chance. Since Adept = .25, setting rarity to 25 means
+                    //[0..1] + [0..1] > .5 for 50 rarity. Since Adept = .25, setting rarity to 75 means
                     // a 50% chance of drop at ADEPT, and 100% at MASTER
                     if (rand.nextDouble() + skill.getTotalLevel() > rarity/100F) {
                         stack.setCount(1);
