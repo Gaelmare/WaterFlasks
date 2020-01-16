@@ -248,6 +248,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                         if (stack.getItemDamage() == stack.getMaxDamage()) {
                             ResourceLocation name = stack.getItem().getRegistryName();
                             //break item, play sound
+                            //todo: Get a better sound
                             worldIn.playSound(null, entityLiving.getPosition(), TFCSounds.CERAMIC_BREAK, SoundCategory.PLAYERS, 1.0f, 1.0f);
                             if (name.toString().contains("leather"))
                             {
