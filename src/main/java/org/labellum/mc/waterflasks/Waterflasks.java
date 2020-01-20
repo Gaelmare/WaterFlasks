@@ -131,12 +131,13 @@ public class Waterflasks {
         {
             if (event.getName().toString().startsWith("tfc:"))
             {
-                //attempt to adjust 4 tables for every table load.
+                //attempt to adjust 5 tables for every table load.
                 //TODO: Clean up loot table name matching
                 addPool(event, "animals/cow");
                 addPool(event, "animals/horse");
                 addPool(event, "animals/bear");
                 addPool(event, "animals/sheep");
+                addPool(event, "animals/deer");
             }
         }
 
