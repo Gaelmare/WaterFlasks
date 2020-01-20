@@ -8,7 +8,6 @@ import net.dries007.tfc.api.capability.food.FoodStatsTFC;
 import net.dries007.tfc.api.capability.size.IItemSize;
 import net.dries007.tfc.api.capability.size.Size;
 import net.dries007.tfc.api.capability.size.Weight;
-import net.dries007.tfc.client.TFCSounds;
 import net.dries007.tfc.objects.fluids.FluidsTFC;
 import net.dries007.tfc.objects.fluids.properties.DrinkableProperty;
 import net.dries007.tfc.objects.fluids.properties.FluidWrapper;
@@ -51,6 +50,7 @@ import javax.annotation.Nullable;
 import java.util.stream.Collectors;
 
 import static net.dries007.tfc.api.capability.food.IFoodStatsTFC.MAX_PLAYER_THIRST;
+import static org.labellum.mc.waterflasks.Waterflasks.FLASK_BREAK;
 import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
 
 public abstract class ItemFlask extends ItemFluidContainer implements IItemSize {
@@ -248,8 +248,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                         if (stack.getItemDamage() == stack.getMaxDamage()) {
                             ResourceLocation name = stack.getItem().getRegistryName();
                             //break item, play sound
-                            //todo: Get a better sound
-                            worldIn.playSound(null, entityLiving.getPosition(), TFCSounds.CERAMIC_BREAK, SoundCategory.PLAYERS, 1.0f, 1.0f);
+                            worldIn.playSound(null, entityLiving.getPosition(), FLASK_BREAK, SoundCategory.PLAYERS, 1.0f, 1.0f);
                             if (name.toString().contains("leather"))
                             {
                                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entityLiving, new ItemStack(ModItems.brokenLeatherFlask));
@@ -258,7 +257,7 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
                             {
                                 ItemHandlerHelper.giveItemToPlayer((EntityPlayer) entityLiving, new ItemStack(ModItems.brokenIronFlask));
                             }
-                            stack.shrink(1); //race condition here, seems to only sometimes work?
+                            stack.shrink(1); //race condition here, seems to only sometimes work if done before giving broken flask
                         }
                         else
                         {

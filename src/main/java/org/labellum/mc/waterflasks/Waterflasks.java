@@ -23,6 +23,7 @@ import net.dries007.tfc.api.recipes.anvil.AnvilRecipe;
 import net.dries007.tfc.api.recipes.knapping.KnappingRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.SoundEvent;
 import net.minecraft.world.storage.loot.LootEntry;
 import net.minecraft.world.storage.loot.LootEntryTable;
 import net.minecraft.world.storage.loot.LootPool;
@@ -37,6 +38,9 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import net.dries007.tfc.util.Helpers;
 import org.labellum.mc.waterflasks.item.ModItems;
 import org.labellum.mc.waterflasks.proxy.CommonProxy;
 import org.labellum.mc.waterflasks.recipe.ModRecipes;
@@ -58,6 +62,10 @@ public class Waterflasks {
 
     @Mod.Instance(MOD_ID)
     public static Waterflasks INSTANCE;
+
+    @GameRegistry.ObjectHolder("waterflasks:item.flaskbreak")
+    public static final SoundEvent FLASK_BREAK = (SoundEvent) Helpers.getNull();
+
 
     @SidedProxy(serverSide = "org.labellum.mc.waterflasks.proxy.CommonProxy",
             clientSide = "org.labellum.mc.waterflasks.proxy.ClientProxy")
@@ -112,6 +120,11 @@ public class Waterflasks {
             ModRecipes.registerAnvil(event);
         }
 
+        @SubscribeEvent
+        public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
+            ResourceLocation soundID = new ResourceLocation(MOD_ID, "item.flaskbreak");
+            event.getRegistry().register((new SoundEvent(soundID)).setRegistryName(soundID));
+        }
 
         @SubscribeEvent
         public static void onLootTableLoad(LootTableLoadEvent event)
