@@ -40,7 +40,7 @@ public class ConfigFlasks {
         @Config.Comment("Liquid Capacity of Iron Flask (1000 = 1 bucket = 10 drinks or 4 water bars)")
         @Config.RangeInt(min = 100)
         @Config.LangKey("config." + MOD_ID + ".general.ironCap")
-        public int ironCap = 1000;
+        public int ironCap = 2000;
 
         @Config.Comment("Enable Iron Flask")
         @Config.LangKey("config." + MOD_ID + ".general.enableIron")
