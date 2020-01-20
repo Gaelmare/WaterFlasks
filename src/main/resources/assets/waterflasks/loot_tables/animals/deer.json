@@ -11,8 +11,8 @@
             {
               "function": "waterflasks:apply_req_skill",
               "skill": "butchering",
-              "tier": 1,
-              "rarity": 100
+              "tier": 2,
+              "rarity": 135
             }
           ]
         }
