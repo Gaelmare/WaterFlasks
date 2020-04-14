@@ -56,6 +56,7 @@ public class ApplyRequiredSkill extends LootFunction
             IPlayerData skills = entity.getCapability(CapabilityPlayerData.CAPABILITY, null);
             if (skills != null)
             {
+                stack.setCount(0);
                 SimpleSkill skill = skills.getSkill(this.skillType);
                 if (skill != null && skill.getTier().isAtLeast(tier))
                 {
@@ -64,7 +65,6 @@ public class ApplyRequiredSkill extends LootFunction
                     if (rand.nextDouble() + skill.getTotalLevel() > rarity/100F) {
                         stack.setCount(1);
                     }
-                    else stack.setCount(0);
                 }
             }
         }
