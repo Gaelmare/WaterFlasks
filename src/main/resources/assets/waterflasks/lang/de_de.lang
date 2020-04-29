@@ -1,0 +1,14 @@
+#Materials
+item.waterflasks.bladder.name=Blase
+item.waterflasks.leather_side.name=Lederflaschenseite
+
+#Leather
+item.waterflasks.filled_leather_flask.name=%s Lederflasche
+item.waterflasks.leather_flask.name=Leere Lederflasche
+item.waterflasks.broken_leather_flask.name=Beschädigte Lederflasche
+
+#Iron
+item.waterflasks.filled_iron_flask.name=%s Eisenflasche
+item.waterflasks.iron_flask.name=Leere Eisenflasche
+item.waterflasks.unfinished_iron_flask.name=Unfertige Eisenflasche
+item.waterflasks.broken_iron_flask.name=Beschädigte Eisenflasche
