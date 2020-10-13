@@ -19,9 +19,6 @@ package org.labellum.mc.waterflasks;
     along with WaterFlasks.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.dries007.tfc.TerraFirmaCraft;
-import net.dries007.tfc.api.recipes.anvil.AnvilRecipe;
-import net.dries007.tfc.api.recipes.knapping.KnappingRecipe;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
@@ -41,6 +38,9 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import net.dries007.tfc.TerraFirmaCraft;
+import net.dries007.tfc.api.recipes.anvil.AnvilRecipe;
+import net.dries007.tfc.api.recipes.knapping.KnappingRecipe;
 import net.dries007.tfc.util.Helpers;
 import org.labellum.mc.waterflasks.item.ModItems;
 import org.labellum.mc.waterflasks.proxy.CommonProxy;
@@ -137,11 +137,54 @@ public class Waterflasks {
             {
                 //attempt to adjust 5 tables for every table load.
                 //TODO: Clean up loot table name matching
-                addPool(event, "animals/cow");
-                addPool(event, "animals/horse");
-                addPool(event, "animals/bear");
-                addPool(event, "animals/sheep");
-                addPool(event, "animals/deer");
+                if (event.getName().toString().startsWith("tfc:animals/cow"))
+                {
+                    addPool(event, "animals/cow");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/horse"))
+                {
+                    addPool(event, "animals/horse");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/black_bear"))
+                {
+                    addPool(event, "animals/black_bear");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/grizzly_bear"))
+                {
+                    addPool(event, "animals/grizzly_bear");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/polar_bear"))
+                {
+                    addPool(event, "animals/polar_bear");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/donkey"))
+                {
+                    addPool(event, "animals/donkey");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/mule"))
+                {
+                    addPool(event, "animals/mule");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/muskox"))
+                {
+                    addPool(event, "animals/muskox");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/yak"))
+                {
+                    addPool(event, "animals/yak");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/zebu"))
+                {
+                    addPool(event, "animals/zebu");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/sheep"))
+                {
+                    addPool(event, "animals/sheep");
+                }
+                if (event.getName().toString().startsWith("tfc:animals/deer"))
+                {
+                    addPool(event, "animals/deer");
+                }
             }
         }
 
