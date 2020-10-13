@@ -1,0 +1,22 @@
+{
+  "pools": [
+    {
+      "name": "main",
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "item",
+          "name": "waterflasks:bladder",
+          "functions": [
+            {
+              "function": "waterflasks:apply_req_skill",
+              "skill": "butchering",
+              "tier": 1,
+              "rarity": 75
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
