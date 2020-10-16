@@ -11,7 +11,7 @@ Translations and textures welcome.
 
 Sides of flask are knapped out of leather.
 
-Bladders drop from bears, cows, horses, and sheep at some probability affected by butchering skill. See table below:
+Bladders drop from bears, cows, horses, sheep etc. at some probability affected by butchering skill. See table below:
 
 |Animals|Required|Minimum|
 |---:|---:|---:|
