@@ -36,5 +36,9 @@ Fluid level in flask is indicated by vertical bar.
 
 ## Status
 
-Stable release! 
+Stable release!
+
+## Developing
+
+Download the latest TFC deobf.jar from their releases on GitHub and place in the libs/ directory.
 
