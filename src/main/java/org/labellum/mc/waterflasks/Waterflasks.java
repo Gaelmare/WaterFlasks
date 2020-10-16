@@ -135,71 +135,50 @@ public class Waterflasks {
         {
             if (event.getName().toString().startsWith("tfc:"))
             {
-                //attempt to adjust 5 tables for every table load.
-                //TODO: Clean up loot table name matching
-                if (event.getName().toString().startsWith("tfc:animals/cow"))
-                {
-                    addPool(event, "animals/cow");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/horse"))
-                {
-                    addPool(event, "animals/horse");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/black_bear"))
-                {
-                    addPool(event, "animals/black_bear");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/grizzly_bear"))
-                {
-                    addPool(event, "animals/grizzly_bear");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/polar_bear"))
-                {
-                    addPool(event, "animals/polar_bear");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/donkey"))
-                {
-                    addPool(event, "animals/donkey");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/mule"))
-                {
-                    addPool(event, "animals/mule");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/muskox"))
-                {
-                    addPool(event, "animals/muskox");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/yak"))
-                {
-                    addPool(event, "animals/yak");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/zebu"))
-                {
-                    addPool(event, "animals/zebu");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/sheep"))
-                {
-                    addPool(event, "animals/sheep");
-                }
-                if (event.getName().toString().startsWith("tfc:animals/deer"))
-                {
-                    addPool(event, "animals/deer");
+                switch (event.getName().toString().substring(4)) {
+                    case "animals/cow":
+                    case "animals/muskox":
+                    case "animals/wildebeest":
+                    case "animals/yak":
+                    case "animals/zebu":
+                        addPool(event, "animals/cow");
+                        break;
+                    case "animals/black_bear":
+                    case "animals/grizzly_bear":
+                    case "animals/polar_bear":
+                        addPool(event, "animals/bear");
+                        break;
+                    case "animals/horse":
+                    case "animals/camel":
+                    case "animals/donkey":
+                    case "animals/mule":
+                        addPool(event, "animals/horse");
+                        break;
+                    case "animals/sheep":
+                    case "animals/goat":
+                    case "animals/alpaca":
+                    case "animals/llama":
+                        addPool(event, "animals/sheep");
+                        break;
+                    case "animals/deer":
+                    case "animals/gazelle":
+                        addPool(event, "animals/deer");
+                        break;
+                    default:
+                        break;
                 }
             }
         }
 
         private static void addPool(LootTableLoadEvent event, String tableName)
         {
-            if (("tfc:"+tableName).equals(event.getName().toString()))
-            {
-                LootEntry entry = new LootEntryTable(new ResourceLocation("waterflasks:"+tableName),
-                        1, 0, new LootCondition[0], "waterflasks_bladder_entry");
+            LootEntry entry = new LootEntryTable(new ResourceLocation("waterflasks:"+tableName),
+                    1, 0, new LootCondition[0], "waterflasks_bladder_entry");
 
-                LootPool newPool = new LootPool(new LootEntry [] {entry}, new LootCondition[0],
-                        new RandomValueRange(1), new RandomValueRange(0), "waterflasks_bladder_pool");
-                //weights here seemed screwy. Implemented own skill function, applied in json data
-                event.getTable().addPool(newPool);
-            }
+            LootPool newPool = new LootPool(new LootEntry [] {entry}, new LootCondition[0],
+                    new RandomValueRange(1), new RandomValueRange(0), "waterflasks_bladder_pool");
+            //weights here seemed screwy. Implemented own skill function, applied in json data
+            event.getTable().addPool(newPool);
         }
     }
 }
