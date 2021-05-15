@@ -80,6 +80,13 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
         setHasSubtypes(true);
     }
 
+// Fix #12 by actually implementing the MC function that limits stack sizes
+    @Override
+    public int getItemStackLimit(ItemStack stack)
+    {
+        return getStackSize(stack);
+    }
+
     @Nonnull
     @Override
     public Size getSize(@Nonnull ItemStack stack)
