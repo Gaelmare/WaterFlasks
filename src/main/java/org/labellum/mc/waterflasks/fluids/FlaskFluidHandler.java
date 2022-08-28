@@ -11,9 +11,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 
@@ -26,9 +27,9 @@ public class FlaskFluidHandler extends FluidHandlerItemStack
 {
     private final Set<Fluid> whitelist;
 
-    public FlaskFluidHandler(@Nonnull ItemStack container, int capacity, String[] fluidNames)
+    public FlaskFluidHandler(@Nonnull ItemStack container, int capacity, ResourceLocation[] fluidNames)
     {
-        this(container, capacity, Arrays.stream(fluidNames).map(FluidRegistry::getFluid).filter(Objects::nonNull).collect(Collectors.toSet()));
+        this(container, capacity, Arrays.stream(fluidNames).map(ForgeRegistries.FLUIDS::getValue).filter(Objects::nonNull).collect(Collectors.toSet()));
     }
 
     public FlaskFluidHandler(@Nonnull ItemStack container, int capacity, Set<Fluid> whitelist)

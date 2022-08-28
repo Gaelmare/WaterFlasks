@@ -5,29 +5,36 @@ package org.labellum.mc.waterflasks.item;
  */
 
 import net.dries007.tfc.api.capability.food.FoodStatsTFC;
-import net.dries007.tfc.api.capability.size.IItemSize;
-import net.dries007.tfc.api.capability.size.Size;
-import net.dries007.tfc.api.capability.size.Weight;
-import net.dries007.tfc.objects.fluids.FluidsTFC;
-import net.dries007.tfc.objects.fluids.properties.DrinkableProperty;
+import net.dries007.tfc.common.capabilities.size.IItemSize;
+import net.dries007.tfc.common.capabilities.size.Size;
+import net.dries007.tfc.common.capabilities.size.Weight;
+import net.dries007.tfc.common.fluids.TFCFluids;
+import net.dries007.tfc.common.fluids.FluidType;
 import net.dries007.tfc.objects.fluids.properties.FluidWrapper;
+import net.dries007.tfc.util.Drinkable;
 import net.dries007.tfc.util.FluidTransferHelper;
 
 import net.minecraft.client.renderer.ItemMeshDefinition;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.Fluid;
@@ -37,10 +44,12 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.fluids.capability.ItemFluidContainer;
+import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+import net.minecraftforge.registries.RegistryObject;
 import org.labellum.mc.waterflasks.ConfigFlasks;
 import org.labellum.mc.waterflasks.Waterflasks;
 import org.labellum.mc.waterflasks.fluids.FlaskFluidHandler;
@@ -57,57 +66,37 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
 
     private int CAPACITY;
     private int DRINK;
+    private int maxDamage;
 
     protected String name;
 
-    public ItemFlask(String name, int CAPACITY, int DRINK) {
+    public ItemFlask(Item.Properties prop, String name, int CAPACITY, int DRINK) {
 
-        super(CAPACITY);
+        super(prop, CAPACITY);
         this.CAPACITY=CAPACITY;
         this.DRINK=DRINK;
         this.name=name;
-        setTranslationKey(MOD_ID+"."+name);
         setRegistryName(name);
-        setCreativeTab(CreativeTabs.FOOD);
-
-        if (ConfigFlasks.GENERAL.damageFactor == 0)
-        {
-            setMaxDamage(Integer.MAX_VALUE);
-        }
-        else {
-            setMaxDamage (CAPACITY/ConfigFlasks.GENERAL.damageFactor);
-        }
-        setHasSubtypes(true);
+        maxDamage = ;
+        //setHasSubtypes(true);
     }
 
-// Fix #12 by actually implementing the MC function that limits stack sizes
+    // Fix #12 by actually implementing the MC function that limits stack sizes
     @Override
-    public int getItemStackLimit(ItemStack stack)
-    {
-        return getStackSize(stack);
-    }
+    public int getItemStackLimit(ItemStack stack) { return getWeight(stack).stackSize; }
 
     @Nonnull
     @Override
-    public Size getSize(@Nonnull ItemStack stack)
-    {
-        return Size.SMALL;
-    }
+    public Size getSize(@Nonnull ItemStack stack) { return Size.SMALL; }
 
     @Nonnull
     @Override
-    public Weight getWeight(@Nonnull ItemStack stack)
-    {
-        return Weight.MEDIUM;
-    }
+    public Weight getWeight(@Nonnull ItemStack stack) { return Weight.MEDIUM; }
 
     @Override
-    public boolean canStack(@Nonnull ItemStack stack) { return false; }
-
-    @Override
-    public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable NBTTagCompound nbt)
+    public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable CompoundTag nbt)
     {
-        return new FlaskFluidHandler(stack, CAPACITY, FluidsTFC.getAllWrappers().stream().filter(x -> x.get(DrinkableProperty.DRINKABLE) != null).map(FluidWrapper::get).collect(Collectors.toSet()));
+        return new FlaskFluidHandler(stack, CAPACITY, TFCFluids.FLUIDS.getEntries().stream().filter(x -> Drinkable.get(x.get()) != null).map(RegistryObject::get).collect(Collectors.toSet()));
     }
 
     public void registerItemModel() {
@@ -166,17 +155,17 @@ public abstract class ItemFlask extends ItemFluidContainer implements IItemSize 
      * @return A packed RGB value for the durability colour (0x00RRGGBB)
      */
     @Override
-    public int getRGBDurabilityForDisplay(ItemStack stack)
+    public int getBarColor(ItemStack stack)
     {
         IFluidHandler flaskCap = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null);
         if (flaskCap != null) {
             FluidStack drained = flaskCap.drain(CAPACITY, false);
             if (drained != null) {
                 Fluid fluid = drained.getFluid();
-                return fluid.getColor();
+                return fluid.getAttributes().getColor();
             }
         }
-        return super.getRGBDurabilityForDisplay(stack);
+        return super.getBarColor(stack);
     }
 
 
