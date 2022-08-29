@@ -1,11 +1,16 @@
 package org.labellum.mc.waterflasks.setup;
 
+import net.dries007.tfc.TerraFirmaCraft;
 import net.dries007.tfc.util.Helpers;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegistryObject;
 import org.labellum.mc.waterflasks.ApplyRequiredSkill;
 import org.labellum.mc.waterflasks.item.ModItems;
 import org.labellum.mc.waterflasks.proxy.CommonProxy;
@@ -15,13 +20,15 @@ import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
 
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModSetup {
+
+    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, TerraFirmaCraft.MOD_ID);
+
     public static void init(FMLCommonSetupEvent event)
     {
 
     }
 
-    @GameRegistry.ObjectHolder("waterflasks:item.flaskbreak")
-    public static final SoundEvent FLASK_BREAK = (SoundEvent) Helpers.getNull();
+    public static final RegistryObject<SoundEvent> FLASK_BREAK = SOUNDS.register("item.flaskbreak", () -> new SoundEvent(Helpers.identifier("item.flaskbreak")));;
 
     @SidedProxy(serverSide = "org.labellum.mc.waterflasks.proxy.CommonProxy",
             clientSide = "org.labellum.mc.waterflasks.proxy.ClientProxy")

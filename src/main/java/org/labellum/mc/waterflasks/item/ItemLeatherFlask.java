@@ -13,4 +13,6 @@ public class ItemLeatherFlask extends ItemFlask {
         super(prop, "leather_flask", CAPACITY, DRINK);
     }
 
+
+
 }
