@@ -73,11 +73,11 @@ public class Waterflasks {
         // Register the deferred registry
         //ModSetup.setup();
         Registration.init();
-        //Config.register();
+        ConfigFlasks.register();
 
         // Register the setup method for modloading
         IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
-        modbus.addListener(ModSetup::init);
+        //modbus.addListener(ModSetup::init);
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modbus.addListener(ClientSetup::init));
     }
 

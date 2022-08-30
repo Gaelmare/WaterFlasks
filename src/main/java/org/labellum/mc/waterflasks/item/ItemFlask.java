@@ -4,7 +4,6 @@ package org.labellum.mc.waterflasks.item;
  *  EUPL license meshes with GPLv3
  */
 
-import net.dries007.tfc.api.capability.food.FoodStatsTFC;
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.common.capabilities.food.TFCFoodData;
@@ -14,9 +13,7 @@ import net.dries007.tfc.common.capabilities.size.Weight;
 import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.common.items.DiscreteFluidContainerItem;
-import net.dries007.tfc.objects.fluids.properties.FluidWrapper;
 import net.dries007.tfc.util.Drinkable;
-import net.dries007.tfc.util.FluidTransferHelper;
 
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.client.renderer.ItemMeshDefinition;
@@ -24,22 +21,14 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.TextComponentTranslation;
+
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.World;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -52,13 +41,9 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidActionResult;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fluids.capability.ItemFluidContainer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -70,13 +55,11 @@ import org.labellum.mc.waterflasks.fluids.FlaskFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static net.dries007.tfc.api.capability.food.IFoodStatsTFC.MAX_PLAYER_THIRST;
 import static net.dries007.tfc.common.capabilities.food.TFCFoodData.MAX_THIRST;
-import static org.labellum.mc.waterflasks.Waterflasks.FLASK_BREAK;
-import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
-import static org.labellum.mc.waterflasks.setup.ModSetup.FLASK_BREAK;
+import static org.labellum.mc.waterflasks.setup.Registration.FLASK_BREAK;
 import static org.labellum.mc.waterflasks.setup.Registration.brokenIronFlask;
 import static org.labellum.mc.waterflasks.setup.Registration.brokenLeatherFlask;
 
@@ -84,17 +67,16 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
 
     private int CAPACITY;
     private int DRINK;
-    //private int maxDamage; // implemented by registrar
 
     protected String name;
 
-    public ItemFlask(Item.Properties prop, String name, int CAPACITY, int DRINK) {
+    public ItemFlask(Item.Properties prop, String name, Supplier<Integer> capFunc, int DRINK) {
 
-        super(prop, CAPACITY, TFCTags.Fluids.USABLE_IN_JUG,false,false);
-        this.CAPACITY=CAPACITY;
-        this.DRINK=DRINK;
-        this.name=name;
-        setRegistryName(name);
+        super(prop, capFunc, TFCTags.Fluids.USABLE_IN_JUG,false,false);
+        this.CAPACITY = capFunc.get();
+        this.DRINK = DRINK;
+        this.name = name;
+        //setRegistryName(name);
         //setHasSubtypes(true);
     }
 

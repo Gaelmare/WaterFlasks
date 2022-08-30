@@ -1,16 +1,16 @@
 package org.labellum.mc.waterflasks.setup;
 
 import net.dries007.tfc.TerraFirmaCraft;
-import net.dries007.tfc.util.Helpers;
+import net.dries007.tfc.common.recipes.KnappingRecipe;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import org.labellum.mc.waterflasks.ApplyRequiredSkill;
 import org.labellum.mc.waterflasks.item.ModItems;
 import org.labellum.mc.waterflasks.proxy.CommonProxy;
@@ -21,14 +21,10 @@ import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
 @Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModSetup {
 
-    public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, TerraFirmaCraft.MOD_ID);
-
     public static void init(FMLCommonSetupEvent event)
     {
 
     }
-
-    public static final RegistryObject<SoundEvent> FLASK_BREAK = SOUNDS.register("item.flaskbreak", () -> new SoundEvent(Helpers.identifier("item.flaskbreak")));;
 
     @SidedProxy(serverSide = "org.labellum.mc.waterflasks.proxy.CommonProxy",
             clientSide = "org.labellum.mc.waterflasks.proxy.ClientProxy")
@@ -51,13 +47,6 @@ public class ModSetup {
 
     @Mod.EventBusSubscriber
     public static class ObjectRegistryHandler {
-        /**
-         * Listen for the register event for creating custom items
-         */
-        @SubscribeEvent
-        public static void addItems(RegistryEvent.Register<Item> event) {
-            ModItems.register(event.getRegistry());
-        }
 
         /**
          * Listen for the register event for models
@@ -81,12 +70,6 @@ public class ModSetup {
         @SubscribeEvent
         public static void onRegisterAnvilRecipeEvent(RegistryEvent.Register<AnvilRecipe> event) {
             ModRecipes.registerAnvil(event);
-        }
-
-        @SubscribeEvent
-        public static void registerSounds(RegistryEvent.Register<SoundEvent> event) {
-            ResourceLocation soundID = new ResourceLocation(MOD_ID, "item.flaskbreak");
-            event.getRegistry().register((new SoundEvent(soundID)).setRegistryName(soundID));
         }
 
         @SubscribeEvent
