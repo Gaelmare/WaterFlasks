@@ -65,7 +65,7 @@ import static org.labellum.mc.waterflasks.setup.Registration.brokenLeatherFlask;
 
 public abstract class ItemFlask extends DiscreteFluidContainerItem implements IItemSize {
 
-    private int CAPACITY;
+    public final Supplier<Integer> CAPACITY;
     private int DRINK;
 
     protected String name;
@@ -73,11 +73,15 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
     public ItemFlask(Item.Properties prop, String name, Supplier<Integer> capFunc, int DRINK) {
 
         super(prop, capFunc, TFCTags.Fluids.USABLE_IN_JUG,false,false);
-        this.CAPACITY = capFunc.get();
+        this.CAPACITY = capFunc;
         this.DRINK = DRINK;
         this.name = name;
         //setRegistryName(name);
         //setHasSubtypes(true);
+    }
+
+    public static float getFullnessDisplay(ItemStack stack) {
+        return (float) Math.floor(getLiquidAmount(stack)/(float)((ItemFlask)stack.getItem()).CAPACITY.get());
     }
 
     // Fix #12 by actually implementing the MC function that limits stack sizes
@@ -95,8 +99,10 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
     @Override
     public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable CompoundTag nbt)
     {
-        return new FlaskFluidHandler(stack, CAPACITY, TFCFluids.FLUIDS.getEntries().stream().filter(x -> Drinkable.get(x.get()) != null).map(RegistryObject::get).collect(Collectors.toSet()));
+        return new FlaskFluidHandler(stack, CAPACITY.get(), TFCFluids.FLUIDS.getEntries().stream().filter(x -> Drinkable.get(x.get()) != null).map(RegistryObject::get).collect(Collectors.toSet()));
     }
+
+    /* 1.12
 
     public void registerItemModel() {
         initModel(this, 0, name);
@@ -133,12 +139,12 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
             }
         });
     }
-
-    public int getLiquidAmount(ItemStack stack) {
+*/
+    public static int getLiquidAmount(ItemStack stack) {
         int content = 0;
         LazyOptional<IFluidHandlerItem> flaskCap = stack.getCapability(Capabilities.FLUID_ITEM, null);
         if (flaskCap.isPresent()) {
-            FluidStack drained = flaskCap.resolve().get().drain(CAPACITY, IFluidHandler.FluidAction.SIMULATE);
+            FluidStack drained = flaskCap.resolve().get().drain(((ItemFlask)stack.getItem()).CAPACITY.get(), IFluidHandler.FluidAction.SIMULATE);
             content = drained.getAmount();
         }
         return content;
@@ -156,7 +162,7 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
     {
         LazyOptional<IFluidHandlerItem> flaskCap = stack.getCapability(Capabilities.FLUID_ITEM, null);
         if (flaskCap.isPresent()) {
-            FluidStack drained = flaskCap.resolve().get().drain(CAPACITY, IFluidHandler.FluidAction.SIMULATE);
+            FluidStack drained = flaskCap.resolve().get().drain(CAPACITY.get(), IFluidHandler.FluidAction.SIMULATE);
             Fluid fluid = drained.getFluid();
             return fluid.getAttributes().getColor();
         }
@@ -184,7 +190,7 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
             // If contains fluid, allow emptying with shift-right-click
             if(player.isCrouching())
             {
-                handler.drain(CAPACITY, IFluidHandler.FluidAction.EXECUTE);
+                handler.drain(CAPACITY.get(), IFluidHandler.FluidAction.EXECUTE);
                 return InteractionResultHolder.success(player.getItemInHand(hand));
             }
 
@@ -205,7 +211,7 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
                     // Don't drink if not thirsty
                     return InteractionResultHolder.fail(player.getItemInHand(hand));
                 }
-                FluidStack cont = handler.drain(CAPACITY, IFluidHandler.FluidAction.SIMULATE);
+                FluidStack cont = handler.drain(CAPACITY.get(), IFluidHandler.FluidAction.SIMULATE);
                 if (cont != null && cont.getAmount() >= DRINK) {
                     return afterEmptyFailed(handler, level, player, stack, hand);
                 }

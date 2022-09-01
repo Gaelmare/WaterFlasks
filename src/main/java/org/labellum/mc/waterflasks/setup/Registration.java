@@ -1,6 +1,8 @@
 package org.labellum.mc.waterflasks.setup;
 
 import net.dries007.tfc.util.Helpers;
+import net.minecraft.client.renderer.item.ItemProperties;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.Item;
 
@@ -12,6 +14,7 @@ import net.minecraftforge.registries.RegistryObject;
 import org.labellum.mc.waterflasks.ConfigFlasks;
 import org.labellum.mc.waterflasks.item.ItemIronFlask;
 import org.labellum.mc.waterflasks.item.ItemLeatherFlask;
+import org.lwjgl.system.CallbackI;
 
 import static net.dries007.tfc.common.TFCItemGroup.FOOD;
 
@@ -33,7 +36,6 @@ public class Registration {
 
     public static final Item.Properties MISC_PROPERTIES = new Item.Properties().tab(FOOD);
     public static final Item.Properties METAL_PROPERTIES = new Item.Properties().tab(METAL);
-
     public static RegistryObject<Item> leatherSide = ITEMS.register("leather_side",()->new Item(MISC_PROPERTIES));
     public static RegistryObject<Item> bladder = ITEMS.register("bladder",()->new Item(MISC_PROPERTIES));
     public static RegistryObject<Item> leatherFlask = ITEMS.register("leather_flask",() -> new ItemLeatherFlask(
@@ -44,6 +46,7 @@ public class Registration {
     public static RegistryObject<Item> brokenIronFlask = registerIronItem("broken_iron_flask");
 
     public static final RegistryObject<SoundEvent> FLASK_BREAK = SOUNDS.register("item.flaskbreak", () -> new SoundEvent(Helpers.identifier("item.flaskbreak")));;
+
 
     private static RegistryObject<Item> registerIronItem(String name) {
         if (ConfigFlasks.ENABLE_IRON.get())
