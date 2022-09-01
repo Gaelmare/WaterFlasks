@@ -1,0 +1,29 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "tfc:damage_inputs_shaped_crafting",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      " L ",
+      "SBS",
+      " LK"
+    ],
+    "key": {
+      "K": {
+        "tag": "tfc:knives"
+      },
+      "S": {
+        "tag": "forge:string"
+      },
+      "L": {
+        "item": "waterflasks:leather_side"
+      },
+      "B": {
+        "item": "waterflasks:bladder"
+      }
+    },
+    "result": {
+      "item": "waterflasks:leather_flask"
+    }
+  }
+}

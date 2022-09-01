@@ -12,11 +12,11 @@ import javax.annotation.Nonnull;
 
 public class ItemIronFlask extends ItemFlask {
 
-    protected static int CAPACITY = ConfigFlasks.GENERAL.ironCap;
+    protected static int CAPACITY = ConfigFlasks.IRON_CAPACITY.get();
     protected static int DRINK = 100; //matches amount of water in TFC Jug
 
     public ItemIronFlask(Item.Properties prop) {
-        super(prop,"iron_flask", CAPACITY, DRINK);
+        super(prop,"iron_flask", ConfigFlasks.IRON_CAPACITY, DRINK);
     }
 
     @Nonnull

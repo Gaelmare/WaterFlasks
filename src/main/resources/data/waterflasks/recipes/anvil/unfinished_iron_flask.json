@@ -1,0 +1,16 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "tfc:anvil",
+  "input": {
+    "tag": "forge:sheets/wrought_iron"
+  },
+  "result": {
+    "item": "waterflasks:unfinished_iron_flask"
+  },
+  "tier": 3,
+  "rules": [
+    "punch_last",
+    "bend_second_last",
+    "bend_third_last"
+  ]
+}

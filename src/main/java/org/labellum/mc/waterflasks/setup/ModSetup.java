@@ -1,20 +1,7 @@
 package org.labellum.mc.waterflasks.setup;
 
-import net.dries007.tfc.TerraFirmaCraft;
-import net.dries007.tfc.common.recipes.KnappingRecipe;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import org.labellum.mc.waterflasks.ApplyRequiredSkill;
-import org.labellum.mc.waterflasks.item.ModItems;
-import org.labellum.mc.waterflasks.proxy.CommonProxy;
-import org.labellum.mc.waterflasks.recipe.ModRecipes;
 
 import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
 
@@ -26,14 +13,12 @@ public class ModSetup {
 
     }
 
-    @SidedProxy(serverSide = "org.labellum.mc.waterflasks.proxy.CommonProxy",
-            clientSide = "org.labellum.mc.waterflasks.proxy.ClientProxy")
-    public static CommonProxy proxy;
 
     /**
      * This is the first initialization event. Register tile entities here.
      * The registry events below will have fired prior to entry to this method.
      */
+/*
     @Mod.EventHandler
     public void preinit(FMLPreInitializationEvent event) {
         System.out.println(MOD_NAME + " is loading");
@@ -42,36 +27,10 @@ public class ModSetup {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         // register loot function for use when we add bladder loot pools to TFC animals
-        LootFunctionManager.registerFunction(new ApplyRequiredSkill.Serializer(new ResourceLocation(MOD_ID, "apply_req_skill")));
     }
 
     @Mod.EventBusSubscriber
     public static class ObjectRegistryHandler {
-
-        /**
-         * Listen for the register event for models
-         */
-        @SubscribeEvent
-        public static void registerItems(ModelRegistryEvent event) {
-            ModItems.registerModels();
-        }
-
-        /**
-         * Register Knapping Recipe
-         */
-        @SubscribeEvent
-        public static void onRegisterKnappingRecipeEvent(RegistryEvent.Register<KnappingRecipe> event) {
-            ModRecipes.registerKnapping(event);
-        }
-
-        /**
-         * Register Anvil Recipe
-         */
-        @SubscribeEvent
-        public static void onRegisterAnvilRecipeEvent(RegistryEvent.Register<AnvilRecipe> event) {
-            ModRecipes.registerAnvil(event);
-        }
-
         @SubscribeEvent
         public static void onLootTableLoad(LootTableLoadEvent event)
         {
@@ -122,6 +81,7 @@ public class ModSetup {
             //weights here seemed screwy. Implemented own skill function, applied in json data
             event.getTable().addPool(newPool);
         }
-    }
 
+    }
+    */
 }

@@ -118,10 +118,10 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
-            property 'forge.enabledGameTestNamespaces', 'examplemod'
+            property 'forge.enabledGameTestNamespaces', 'waterflasks'
 
             mods {
-                examplemod {
+                waterflasks {
                     source sourceSets.main
                 }
             }
@@ -202,6 +202,10 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}:api")
     runtimeOnly fg.deobf("mezz.jei:jei-${minecraft_version}:${jei_version}")
 
+    // Patchouli
+    // We need to compile against the full JAR, not just the API, because we do some egregious hacks.
+    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
     // Real mod deobf dependency examples - these get remapped to your current mappings
     // compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}:api") // Adds JEI API as a compile dependency
     // runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}") // Adds the full JEI mod as a runtime dependency
@@ -262,17 +266,10 @@ processResources {
     inputs.property "mcversion", project.minecraft_version
 
     // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include "mcmod.info"
-
+    filesMatching("mcmod.info") {
         // replace version and mcversion
         expand "version": project.version,
              "mcversion": project.minecraft_version
-    }
-
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude "mcmod.info"
     }
 }
 

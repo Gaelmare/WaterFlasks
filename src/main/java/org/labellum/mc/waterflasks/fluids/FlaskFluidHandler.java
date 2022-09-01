@@ -11,10 +11,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 
-import net.minecraft.resources.ResourceLocation;
+import net.dries007.tfc.util.Helpers;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 
@@ -25,14 +25,9 @@ import net.minecraftforge.fluids.capability.templates.FluidHandlerItemStack;
 
 public class FlaskFluidHandler extends FluidHandlerItemStack
 {
-    private final Set<Fluid> whitelist;
+    private final TagKey<Fluid> whitelist;
 
-    public FlaskFluidHandler(@Nonnull ItemStack container, int capacity, ResourceLocation[] fluidNames)
-    {
-        this(container, capacity, Arrays.stream(fluidNames).map(ForgeRegistries.FLUIDS::getValue).filter(Objects::nonNull).collect(Collectors.toSet()));
-    }
-
-    public FlaskFluidHandler(@Nonnull ItemStack container, int capacity, Set<Fluid> whitelist)
+    public FlaskFluidHandler(@Nonnull ItemStack container, int capacity, TagKey<Fluid> whitelist)
     {
         super(container, capacity);
         this.whitelist = whitelist;
@@ -41,6 +36,6 @@ public class FlaskFluidHandler extends FluidHandlerItemStack
     @Override
     public boolean canFillFluidType(FluidStack fluid)
     {
-        return whitelist.contains(fluid.getFluid());
+        return Helpers.isFluid(fluid.getFluid(), whitelist);
     }
 }

@@ -1,0 +1,17 @@
+{
+  "_comment": "Materials",
+  "item.waterflasks.bladder": "Bladder",
+  "item.waterflasks.leather_side": "Leather Flask Side",
+
+
+  "_comment": "Leather",
+  "item.waterflasks.filled_leather_flask": "%s Leather Flask",
+  "item.waterflasks.leather_flask": "Leather Flask",
+  "item.waterflasks.broken_leather_flask": "Broken Leather Flask",
+
+  "_comment": "Iron",
+  "item.waterflasks.filled_iron_flask": "%s Iron Flask",
+  "item.waterflasks.iron_flask": "Iron Flask",
+  "item.waterflasks.unfinished_iron_flask": "Unfinished Iron Flask",
+  "item.waterflasks.broken_iron_flask": "Broken Iron Flask"
+}

@@ -14,22 +14,15 @@ import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.common.items.DiscreteFluidContainerItem;
 import net.dries007.tfc.util.Drinkable;
-
 import net.dries007.tfc.util.Helpers;
-import net.minecraft.client.renderer.ItemMeshDefinition;
-import net.minecraft.client.renderer.block.model.ModelBakery;
-import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.food.FoodData;
@@ -38,19 +31,14 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
-
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
-import org.labellum.mc.waterflasks.Waterflasks;
 import org.labellum.mc.waterflasks.fluids.FlaskFluidHandler;
 
 import javax.annotation.Nonnull;
@@ -59,11 +47,11 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static net.dries007.tfc.common.capabilities.food.TFCFoodData.MAX_THIRST;
-import static org.labellum.mc.waterflasks.setup.Registration.FLASK_BREAK;
-import static org.labellum.mc.waterflasks.setup.Registration.brokenIronFlask;
-import static org.labellum.mc.waterflasks.setup.Registration.brokenLeatherFlask;
+import static org.labellum.mc.waterflasks.setup.Registration.*;
 
 public abstract class ItemFlask extends DiscreteFluidContainerItem implements IItemSize {
+
+    public static final TagKey<Fluid> DRINKABLE = TagKey.create(Registry.FLUID_REGISTRY, Helpers.identifier("drinkables"));
 
     public final Supplier<Integer> CAPACITY;
     private int DRINK;
@@ -72,7 +60,7 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
 
     public ItemFlask(Item.Properties prop, String name, Supplier<Integer> capFunc, int DRINK) {
 
-        super(prop, capFunc, TFCTags.Fluids.USABLE_IN_JUG,false,false);
+        super(prop, capFunc, DRINKABLE,false,false);
         this.CAPACITY = capFunc;
         this.DRINK = DRINK;
         this.name = name;
@@ -81,7 +69,7 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
     }
 
     public static float getFullnessDisplay(ItemStack stack) {
-        return (float) Math.floor(getLiquidAmount(stack)/(float)((ItemFlask)stack.getItem()).CAPACITY.get());
+        return getLiquidAmount(stack)/(float)((ItemFlask)stack.getItem()).CAPACITY.get();
     }
 
     // Fix #12 by actually implementing the MC function that limits stack sizes
@@ -99,47 +87,9 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
     @Override
     public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable CompoundTag nbt)
     {
-        return new FlaskFluidHandler(stack, CAPACITY.get(), TFCFluids.FLUIDS.getEntries().stream().filter(x -> Drinkable.get(x.get()) != null).map(RegistryObject::get).collect(Collectors.toSet()));
+        return new FlaskFluidHandler(stack, CAPACITY.get(), DRINKABLE);
     }
 
-    /* 1.12
-
-    public void registerItemModel() {
-        initModel(this, 0, name);
-    }
-
-    @SideOnly(Side.CLIENT)
-    public void initModel(Item item, int meta, String id) {
-        ModelResourceLocation modelFull = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id , "inventory");
-        ModelResourceLocation model4 = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id + "-4", "inventory");
-        ModelResourceLocation model3 = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id + "-3", "inventory");
-        ModelResourceLocation model2 = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id + "-2", "inventory");
-        ModelResourceLocation model1 = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id + "-1", "inventory");
-        ModelResourceLocation model0 = new ModelResourceLocation(Waterflasks.MOD_ID + ":" + id + "-0", "inventory");
-
-        ModelBakery.registerItemVariants(this, modelFull, model4, model3, model2, model1, model0);
-
-        ModelLoader.setCustomMeshDefinition(this, new ItemMeshDefinition() {
-            @Override
-            public ModelResourceLocation getModelLocation(ItemStack stack) {
-                switch ((int) Math.floor(getLiquidAmount(stack)/(double)CAPACITY * 5F)) {
-                    case 5:
-                        return modelFull;
-                    case 4:
-                        return model4;
-                    case 3:
-                        return model3;
-                    case 2:
-                        return model2;
-                    case 1:
-                        return model1;
-                    default:
-                        return model0;
-                }
-            }
-        });
-    }
-*/
     public static int getLiquidAmount(ItemStack stack) {
         int content = 0;
         LazyOptional<IFluidHandlerItem> flaskCap = stack.getCapability(Capabilities.FLUID_ITEM, null);
@@ -195,7 +145,7 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
             }
 
             final BlockHitResult hit = Helpers.rayTracePlayer(level, player, ClipContext.Fluid.SOURCE_ONLY);
-            if (FluidHelpers.transferBetweenWorldAndItem(stack, level, hit, player, hand, false, false, false))
+            if (FluidHelpers.transferBetweenWorldAndItem(stack, level, hit, player, hand, false, false, true))
             {
                 return InteractionResultHolder.success(player.getItemInHand(hand));
             }

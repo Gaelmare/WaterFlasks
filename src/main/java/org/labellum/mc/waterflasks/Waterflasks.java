@@ -19,40 +19,14 @@ package org.labellum.mc.waterflasks;
     along with WaterFlasks.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.world.storage.loot.LootEntry;
-import net.minecraft.world.storage.loot.LootEntryTable;
-import net.minecraft.world.storage.loot.LootPool;
-import net.minecraft.world.storage.loot.RandomValueRange;
-import net.minecraft.world.storage.loot.conditions.LootCondition;
-import net.minecraft.world.storage.loot.functions.LootFunctionManager;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.ModelRegistryEvent;
-import net.minecraftforge.event.LootTableLoadEvent;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import net.dries007.tfc.TerraFirmaCraft;
-import net.dries007.tfc.api.recipes.anvil.AnvilRecipe;
-import net.dries007.tfc.api.recipes.knapping.KnappingRecipe;
-import net.dries007.tfc.util.Helpers;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.labellum.mc.waterflasks.item.ModItems;
-import org.labellum.mc.waterflasks.proxy.CommonProxy;
-import org.labellum.mc.waterflasks.recipe.ModRecipes;
 import org.labellum.mc.waterflasks.setup.ClientSetup;
-import org.labellum.mc.waterflasks.setup.ModSetup;
 import org.labellum.mc.waterflasks.setup.Registration;
 
 @Mod(Waterflasks.MOD_ID)
@@ -72,8 +46,8 @@ public class Waterflasks {
 
         // Register the deferred registry
         //ModSetup.setup();
-        Registration.init();
         ConfigFlasks.register();
+        Registration.init();
 
         // Register the setup method for modloading
         IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
