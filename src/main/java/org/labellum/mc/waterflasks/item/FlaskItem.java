@@ -1,14 +1,7 @@
 package org.labellum.mc.waterflasks.item;
 
-/** Largely borrowed from TFC ItemJug
- *  EUPL license meshes with GPLv3
- */
-
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.common.capabilities.food.TFCFoodData;
-import net.dries007.tfc.common.capabilities.size.IItemSize;
-import net.dries007.tfc.common.capabilities.size.Size;
-import net.dries007.tfc.common.capabilities.size.Weight;
 import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.dries007.tfc.common.items.DiscreteFluidContainerItem;
 import net.dries007.tfc.util.Drinkable;
@@ -16,7 +9,6 @@ import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
@@ -30,13 +22,10 @@ import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
-import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
@@ -50,27 +39,25 @@ import java.util.function.Supplier;
 import static net.dries007.tfc.common.capabilities.food.TFCFoodData.MAX_THIRST;
 import static org.labellum.mc.waterflasks.setup.Registration.*;
 
-public abstract class ItemFlask extends DiscreteFluidContainerItem implements IItemSize {
+public class FlaskItem extends DiscreteFluidContainerItem {
 
+    public static final int DEFAULT_DRINK = 100;
     public static final TagKey<Fluid> DRINKABLE = TagKey.create(Registry.FLUID_REGISTRY, Helpers.identifier("drinkables"));
 
-    public final Supplier<Integer> CAPACITY;
-    private int DRINK;
+    private final Supplier<Integer> capacity;
+    private final Supplier<? extends Item> broken;
+    private final int drink;
 
-    protected String name;
+    public FlaskItem(Item.Properties prop, Supplier<Integer> capFunc, int drink, Supplier<? extends Item> broken) {
 
-    public ItemFlask(Item.Properties prop, String name, Supplier<Integer> capFunc, int DRINK) {
-
-        super(prop, capFunc, DRINKABLE,false,false);
-        this.CAPACITY = capFunc;
-        this.DRINK = DRINK;
-        this.name = name;
-        //setRegistryName(name);
-        //setHasSubtypes(true);
+        super(prop, capFunc, DRINKABLE, false, false);
+        this.capacity = capFunc;
+        this.drink = drink;
+        this.broken = broken;
     }
 
     public static int getCapacity(ItemStack stack) {
-        return ((ItemFlask)stack.getItem()).CAPACITY.get();
+        return ((FlaskItem)stack.getItem()).capacity.get();
     }
 
     /**
@@ -82,32 +69,14 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
         return 1.0f - getLiquidAmount(stack)/(float)getCapacity(stack);
     }
 
-    // Fix #12 by actually implementing the MC function that limits stack sizes
-    @Override
-    public int getItemStackLimit(ItemStack stack) { return getWeight(stack).stackSize; }
-
-    @Nonnull
-    @Override
-    public Size getSize(@Nonnull ItemStack stack) { return Size.SMALL; }
-
-    @Nonnull
-    @Override
-    public Weight getWeight(@Nonnull ItemStack stack) { return Weight.MEDIUM; }
-
     @Override
     public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable CompoundTag nbt)
     {
-        return new FlaskFluidHandler(stack, CAPACITY.get(), DRINKABLE);
+        return new FlaskFluidHandler(stack, capacity.get(), DRINKABLE);
     }
 
     public static int getLiquidAmount(ItemStack stack) {
-        int content = 0;
-        LazyOptional<IFluidHandlerItem> flaskCap = stack.getCapability(Capabilities.FLUID_ITEM, null);
-        if (flaskCap.isPresent()) {
-            FluidStack drained = flaskCap.resolve().get().drain(getCapacity(stack), IFluidHandler.FluidAction.SIMULATE);
-            content = drained.getAmount();
-        }
-        return content;
+        return stack.getCapability(Capabilities.FLUID_ITEM).map(cap -> cap.getFluidInTank(0).getAmount()).orElse(0);
     }
 
     /**
@@ -120,17 +89,17 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
     @Override
     public int getBarColor(ItemStack stack)
     {
-        LazyOptional<IFluidHandlerItem> flaskCap = stack.getCapability(Capabilities.FLUID_ITEM, null);
-        if (flaskCap.isPresent()) {
-            FluidStack drained = flaskCap.resolve().get().drain(CAPACITY.get(), IFluidHandler.FluidAction.SIMULATE);
-            if (!drained.getFluid().isSame(Fluids.EMPTY))
+        return stack.getCapability(Capabilities.FLUID_ITEM).map(cap -> {
+            FluidStack drained = cap.drain(capacity.get(), IFluidHandler.FluidAction.SIMULATE);
+            if (!drained.isEmpty())
+            {
                 return drained.getFluid().getAttributes().getColor();
-        }
-        return super.getBarColor(stack);
+            }
+            return super.getBarColor(stack);
+        }).orElse(super.getBarColor(stack));
     }
 
 
-    @SuppressWarnings("ConstantConditions")
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
     {
@@ -149,7 +118,8 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
             // If contains fluid, allow emptying with shift-right-click
             if(player.isCrouching())
             {
-                handler.drain(CAPACITY.get(), IFluidHandler.FluidAction.EXECUTE);
+                handler.drain(capacity.get(), IFluidHandler.FluidAction.EXECUTE);
+                Helpers.playSound(level, player.blockPosition(), SoundEvents.BUCKET_EMPTY);
                 return InteractionResultHolder.success(player.getItemInHand(hand));
             }
 
@@ -164,14 +134,15 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
                 return afterFillFailed(handler, level, player, stack, hand);
             }
             else
-            {             //Try to Drink
+            {
+                //Try to Drink
                 FoodData stats = player.getFoodData();
                 if (stats instanceof TFCFoodData && ((TFCFoodData) stats).getThirst() >= MAX_THIRST) {
                     // Don't drink if not thirsty
                     return InteractionResultHolder.fail(player.getItemInHand(hand));
                 }
-                FluidStack cont = handler.drain(CAPACITY.get(), IFluidHandler.FluidAction.SIMULATE);
-               if (cont != null && cont.getAmount() >= DRINK) {
+                FluidStack cont = handler.drain(capacity.get(), IFluidHandler.FluidAction.SIMULATE);
+               if (!cont.isEmpty() && cont.getAmount() >= drink) {
                     return afterEmptyFailed(handler, level, player, stack, hand);
                 }
             }
@@ -183,40 +154,26 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
     @Nonnull
     public ItemStack finishUsingItem(@Nonnull ItemStack stack, Level level, LivingEntity entity)
     {
-        final IFluidHandler handler = stack.getCapability(Capabilities.FLUID_ITEM).resolve().orElse(null);
-        if (handler != null)
+        if (entity instanceof Player player)
         {
-            final FluidStack drained = handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
-            if (drained.getAmount() >= DRINK) {
-                FluidStack fluidConsumed = handler.drain(DRINK, IFluidHandler.FluidAction.EXECUTE);
-                final Player player = entity instanceof Player ? (Player) entity : null;
-                if (player != null)
-                {
+            stack.getCapability(Capabilities.FLUID_ITEM).ifPresent(handler -> {
+                final FluidStack drained = handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
+                if (drained.getAmount() >= drink) {
+                    FluidStack fluidConsumed = handler.drain(drink, IFluidHandler.FluidAction.EXECUTE);
                     final Drinkable drinkable = Drinkable.get(fluidConsumed.getFluid());
                     if (drinkable != null)
                     {
                         drinkable.onDrink(player, fluidConsumed.getAmount());
                     }
+                    // the consumer is triggered when the player breaks an item. So we always know when something actually broke!
+                    stack.hurtAndBreak(1, player, p -> {
+                        // vanilla requests that we do this. not sure why
+                        p.broadcastBreakEvent(player.getUsedItemHand());
+                        level.playSound(null, entity.getOnPos(), FLASK_BREAK.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
+                        ItemHandlerHelper.giveItemToPlayer((Player) entity, new ItemStack(broken.get()));
+                    });
                 }
-                if (stack.getDamageValue() == stack.getMaxDamage()) {
-                    ResourceLocation name = stack.getItem().getRegistryName();
-                    //break item, play sound
-                    level.playSound((Player) entity, entity.getOnPos(), FLASK_BREAK.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
-                    if (name.toString().contains("leather"))
-                    {
-                        ItemHandlerHelper.giveItemToPlayer((Player) entity, new ItemStack(brokenLeatherFlask.get()));
-                    }
-                    else
-                    {
-                        ItemHandlerHelper.giveItemToPlayer((Player) entity, new ItemStack(brokenIronFlask.get()));
-                    }
-                    stack.shrink(1); //race condition here, seems to only sometimes work if done before giving broken flask
-                }
-                else
-                {
-                    stack.setDamageValue(stack.getDamageValue() + 1);
-                }
-            }
+            });
         }
         return stack;
     }
@@ -256,17 +213,17 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
     public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
         if (this.allowdedIn(category)) {
             items.add(new ItemStack(this));
-            Iterator var3 = Helpers.getAllTagValues(DRINKABLE, ForgeRegistries.FLUIDS).iterator();
+            Iterator<Fluid> iterator = Helpers.getAllTagValues(DRINKABLE, ForgeRegistries.FLUIDS).iterator();
 
             while(true) {
                 Fluid fluid;
                 FlowingFluid flowing;
                 do {
-                    if (!var3.hasNext()) {
+                    if (!iterator.hasNext()) {
                         return;
                     }
 
-                    fluid = (Fluid)var3.next();
+                    fluid = iterator.next();
                     if (!(fluid instanceof FlowingFluid)) {
                         break;
                     }
@@ -277,7 +234,7 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
                 ItemStack stack = new ItemStack(this);
                 Fluid finalFluid = fluid;
                 stack.getCapability(Capabilities.FLUID_ITEM).ifPresent((c) -> {
-                    c.fill(new FluidStack(finalFluid, CAPACITY.get()), IFluidHandler.FluidAction.EXECUTE);
+                    c.fill(new FluidStack(finalFluid, capacity.get()), IFluidHandler.FluidAction.EXECUTE);
                 });
                 items.add(stack);
             }
