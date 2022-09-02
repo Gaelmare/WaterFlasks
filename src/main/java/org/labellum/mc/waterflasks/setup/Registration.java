@@ -1,13 +1,11 @@
 package org.labellum.mc.waterflasks.setup;
 
 import net.dries007.tfc.util.Helpers;
-import net.minecraft.client.renderer.item.ItemProperties;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
+
 import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 
-import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -16,15 +14,11 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.labellum.mc.waterflasks.ConfigFlasks;
-import org.labellum.mc.waterflasks.item.ItemIronFlask;
-import org.labellum.mc.waterflasks.item.ItemLeatherFlask;
-import org.lwjgl.system.CallbackI;
+import org.labellum.mc.waterflasks.item.FlaskItem;
 
 import java.util.function.Supplier;
 
-import static net.dries007.tfc.common.TFCItemGroup.FOOD;
-
-import static net.dries007.tfc.common.TFCItemGroup.METAL;
+import static net.dries007.tfc.common.TFCItemGroup.*;
 import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
 
 public class Registration {
@@ -34,7 +28,6 @@ public class Registration {
 
     public static final RegistryObject<AddItemChanceModifier.Serializer> ADD_ITEM = glmSerializer("add_item", AddItemChanceModifier.Serializer::new);
 
-
     public static void init()
     {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
@@ -43,35 +36,32 @@ public class Registration {
         MODIFIER_SERIALIZERS.register(bus);
     }
 
-    public static final Item.Properties MISC_PROPERTIES = new Item.Properties().tab(FOOD);
-    public static final Item.Properties METAL_PROPERTIES = new Item.Properties().tab(METAL);
-    public static RegistryObject<Item> leatherSide = ITEMS.register("leather_side",()->new Item(MISC_PROPERTIES));
-    public static RegistryObject<Item> bladder = ITEMS.register("bladder",()->new Item(MISC_PROPERTIES));
-    public static RegistryObject<Item> leatherFlask = ITEMS.register("leather_flask",() -> new ItemLeatherFlask(
-            MISC_PROPERTIES.stacksTo(1).durability(ConfigFlasks.DAMAGE_FACTOR.get() == 0 ? Integer.MAX_VALUE : ConfigFlasks.LEATHER_CAPACITY.get() / ConfigFlasks.DAMAGE_FACTOR.get())));
-    public static RegistryObject<Item> brokenLeatherFlask = ITEMS.register("broken_leather_flask",()->new Item(MISC_PROPERTIES));
-    public static RegistryObject<Item> unfinishedFlask = registerIronItem("unfinished_iron_flask");
-    public static RegistryObject<Item> ironFlask = registerIronFlask("iron_flask");
-    public static RegistryObject<Item> brokenIronFlask = registerIronItem("broken_iron_flask");
+    public static final RegistryObject<Item> LEATHER_SIDE = register("leather_side", MISC);
+    public static final RegistryObject<Item> BLADDER = register("bladder", MISC);
+    public static final RegistryObject<Item> BROKEN_LEATHER_FLASK = register("broken_leather_flask", MISC);
+    public static final RegistryObject<Item> LEATHER_FLASK = register("leather_flask", () -> new FlaskItem(flaskProperties(), ConfigFlasks.LEATHER_CAPACITY, FlaskItem.DEFAULT_DRINK, BROKEN_LEATHER_FLASK));
+    public static final RegistryObject<Item> UNFINISHED_FLASK = register("unfinished_iron_flask", MISC);
+    public static final RegistryObject<Item> BROKEN_IRON_FLASK = register("broken_iron_flask", METAL);
+    public static final RegistryObject<Item> IRON_FLASK = register("iron_flask", () -> new FlaskItem(flaskProperties(), ConfigFlasks.IRON_CAPACITY, FlaskItem.DEFAULT_DRINK, BROKEN_IRON_FLASK));
 
     public static final RegistryObject<SoundEvent> FLASK_BREAK = SOUNDS.register("item.flaskbreak", () -> new SoundEvent(Helpers.identifier("item.flaskbreak")));;
 
-
-    private static RegistryObject<Item> registerIronItem(String name) {
-        if (ConfigFlasks.ENABLE_IRON.get())
-        {
-            return ITEMS.register(name, ()->new Item(METAL_PROPERTIES));
-        }
-        else return null;
+    // todo this may not work
+    // todo we can also set a config-based capacity for our flask items.
+    // we generally want to instantiate *new* properties per item, as the properties builder is mutable.
+    private static Item.Properties flaskProperties()
+    {
+        return new Item.Properties().tab(MISC).durability(ConfigFlasks.DAMAGE_FACTOR.get() == 0 ? Integer.MAX_VALUE : ConfigFlasks.LEATHER_CAPACITY.get() / ConfigFlasks.DAMAGE_FACTOR.get());
     }
 
-    private static RegistryObject<Item> registerIronFlask(String name) {
-        if (ConfigFlasks.ENABLE_IRON.get())
-        {
-            return ITEMS.register(name, () -> new ItemIronFlask(
-                   METAL_PROPERTIES.stacksTo(1).durability(ConfigFlasks.DAMAGE_FACTOR.get() == 0 ? Integer.MAX_VALUE : ConfigFlasks.IRON_CAPACITY.get() / ConfigFlasks.DAMAGE_FACTOR.get())));
-        }
-        else return null;
+    private static RegistryObject<Item> register(String name, CreativeModeTab tab)
+    {
+        return ITEMS.register(name, () -> new Item(new Item.Properties().tab(tab)));
+    }
+
+    private static <T extends Item> RegistryObject<T> register(String name, Supplier<T> supplier)
+    {
+        return ITEMS.register(name, supplier);
     }
 
     private static <T extends GlobalLootModifierSerializer<? extends IGlobalLootModifier>> RegistryObject<T> glmSerializer(String id, Supplier<T> modifier)

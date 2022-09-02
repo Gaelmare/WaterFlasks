@@ -20,10 +20,8 @@ package org.labellum.mc.waterflasks;
 */
 
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.labellum.mc.waterflasks.setup.ClientSetup;
@@ -40,19 +38,16 @@ public class Waterflasks {
      * Many thanks to Shadowfacts' 1.12.2 and McJty's 1.18.2 modding tutorials. Fingerprints from them may remain...
      */
 
-    public static Waterflasks INSTANCE;
-
     public Waterflasks() {
 
         // Register the deferred registry
-        //ModSetup.setup();
         ConfigFlasks.register();
         Registration.init();
 
-        // Register the setup method for modloading
-        IEventBus modbus = FMLJavaModLoadingContext.get().getModEventBus();
-        //modbus.addListener(ModSetup::init);
-        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> modbus.addListener(ClientSetup::init));
+        if (FMLEnvironment.dist == Dist.CLIENT)
+        {
+            ClientSetup.init();
+        }
     }
 
 }

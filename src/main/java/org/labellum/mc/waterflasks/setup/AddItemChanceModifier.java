@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
-import net.dries007.tfc.common.capabilities.food.FoodCapability;
 import net.dries007.tfc.util.JsonHelpers;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
@@ -21,7 +20,6 @@ import java.util.List;
 public class AddItemChanceModifier extends LootModifier {
     private final ItemStack item;
     private final double chance;
-
 
     protected AddItemChanceModifier(LootItemCondition[] conditions, ItemStack item, double chance)
     {
