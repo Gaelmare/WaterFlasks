@@ -3,12 +3,10 @@
 
 from enum import Enum
 from typing import Union
-from itertools import repeat
 
 from mcresources import ResourceManager, RecipeContext, utils
-from mcresources.type_definitions import ResourceIdentifier, Json
+from mcresources.type_definitions import Json
 
-#from constants import *
 
 from typing import List, Sequence, Optional
 
@@ -52,7 +50,7 @@ def generate(rm: ResourceManager):
 
     anvil_recipe(rm, 'unfinished_iron_flask', '#forge:sheets/wrought_iron', 'waterflasks:unfinished_iron_flask', 3, Rules.punch_last, Rules.bend_second_last, Rules.bend_third_last)
 
-    heat_recipe(rm, 'wrought_iron_unfinished_iron_flask', 'waterflasks:unfinished_iron_flask', 1535, None, '100 tfc:metal/wrought_iron')
+    heat_recipe(rm, 'wrought_iron_unfinished_iron_flask', 'waterflasks:unfinished_iron_flask', 1535, None, '200 tfc:metal/cast_iron')
 
     damage_shaped(rm, 'crafting/iron_flask', [" SK", "CBC", "LIL"], {"I": {"item": "waterflasks:unfinished_iron_flask"},
                                                                      "K": {"tag": "tfc:knives"},

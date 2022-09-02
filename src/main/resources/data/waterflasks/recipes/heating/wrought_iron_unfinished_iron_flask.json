@@ -5,8 +5,8 @@
     "item": "waterflasks:unfinished_iron_flask"
   },
   "result_fluid": {
-    "fluid": "tfc:metal/wrought_iron",
-    "amount": 100
+    "fluid": "tfc:metal/cast_iron",
+    "amount": 200
   },
   "temperature": 1535
 }
