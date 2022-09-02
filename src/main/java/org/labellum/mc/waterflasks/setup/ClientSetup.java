@@ -15,10 +15,10 @@ public class ClientSetup {
     {
         event.enqueueWork(() -> {
             ItemProperties.register(Registration.leatherFlask.get(), new ResourceLocation(MOD_ID, "filled"), (stack, level, living, id) -> {
-                return ItemFlask.getFullnessDisplay(stack);
+                return ItemFlask.getEmptinessDisplay(stack);
             });
             ItemProperties.register(Registration.ironFlask.get(), new ResourceLocation(MOD_ID, "filled"), (stack, level, living, id) -> {
-                return ItemFlask.getFullnessDisplay(stack);
+                return ItemFlask.getEmptinessDisplay(stack);
             });
         });
     }

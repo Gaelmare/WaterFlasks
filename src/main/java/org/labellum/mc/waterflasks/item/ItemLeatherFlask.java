@@ -6,13 +6,10 @@ import org.labellum.mc.waterflasks.ConfigFlasks;
 
 public class ItemLeatherFlask extends ItemFlask {
 
-    protected static int CAPACITY = ConfigFlasks.LEATHER_CAPACITY.get();
     protected static int DRINK = 100; //matches amount of water in TFC Jug
 
     public ItemLeatherFlask(Item.Properties prop) {
         super(prop, "leather_flask", ConfigFlasks.LEATHER_CAPACITY, DRINK);
     }
-
-
 
 }

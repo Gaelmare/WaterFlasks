@@ -22,13 +22,13 @@ public class ConfigFlasks {
                 .defineInRange("leatherCapacity", 500, 100, Integer.MAX_VALUE);
         DAMAGE_FACTOR = COMMON_BUILDER
                 .comment("Damage Capability of Flasks are Capacity/(this value), 0 = MAXINT uses")
-                .defineInRange("leatherCapacity", 5, 0, Integer.MAX_VALUE);
+                .defineInRange("damageFactor", 5, 0, Integer.MAX_VALUE);
         ENABLE_IRON = COMMON_BUILDER
                 .comment("Liquid Capacity of Leather Flask (500 = 1/2 bucket = 5 drinks or 2 water bars)")
-                .define("Enable Iron Flask", true);
+                .define("enableIronFlask", true);
         IRON_CAPACITY = COMMON_BUILDER
                 .comment("Liquid Capacity of Iron Flask (1000 = 1 bucket = 10 drinks or 4 water bars)")
-                .defineInRange("leatherCapacity", 2000, 100, Integer.MAX_VALUE);
+                .defineInRange("ironCapacity", 2000, 100, Integer.MAX_VALUE);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_BUILDER.build());
     }
 

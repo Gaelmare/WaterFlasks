@@ -12,7 +12,6 @@ import javax.annotation.Nonnull;
 
 public class ItemIronFlask extends ItemFlask {
 
-    protected static int CAPACITY = ConfigFlasks.IRON_CAPACITY.get();
     protected static int DRINK = 100; //matches amount of water in TFC Jug
 
     public ItemIronFlask(Item.Properties prop) {

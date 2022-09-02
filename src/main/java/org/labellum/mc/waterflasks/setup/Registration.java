@@ -31,11 +31,8 @@ public class Registration {
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
     private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
     public static final DeferredRegister<GlobalLootModifierSerializer<?>> MODIFIER_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, MOD_ID);
-    private static <T extends GlobalLootModifierSerializer<? extends IGlobalLootModifier>> RegistryObject<T> glmSerializer(String id, Supplier<T> modifier)
-    {
-        return MODIFIER_SERIALIZERS.register(id, modifier);
-    }
-    public static final RegistryObject<AddItemModifier.Serializer> ADD_ITEM = glmSerializer("add_item", AddItemModifier.Serializer::new);
+
+    public static final RegistryObject<AddItemChanceModifier.Serializer> ADD_ITEM = glmSerializer("add_item", AddItemChanceModifier.Serializer::new);
 
 
     public static void init()
@@ -75,5 +72,10 @@ public class Registration {
                    METAL_PROPERTIES.stacksTo(1).durability(ConfigFlasks.DAMAGE_FACTOR.get() == 0 ? Integer.MAX_VALUE : ConfigFlasks.IRON_CAPACITY.get() / ConfigFlasks.DAMAGE_FACTOR.get())));
         }
         else return null;
+    }
+
+    private static <T extends GlobalLootModifierSerializer<? extends IGlobalLootModifier>> RegistryObject<T> glmSerializer(String id, Supplier<T> modifier)
+    {
+        return MODIFIER_SERIALIZERS.register(id, modifier);
     }
 }

@@ -70,22 +70,23 @@ def generate(rm: ResourceManager):
                                                                                 "S": {"tag": "forge:string"},
                                                                                 "L": {"item": "waterflasks:leather_side"},
                                                                                 "B": {"item": "waterflasks:bladder"}}, 'waterflasks:leather_flask')
-    # todo: test repair
-    damage_shaped(rm, 'crafting/repair_broken_iron', ["FB", "CK"], {"K": {"tag": "tfc:knives"},
-                                                                    "F": {"item": "waterflasks:broken_iron_flask"},
-                                                                    "C": {"item": "tfc:burlap_cloth"},
-                                                                    "B": {"item": "waterflasks:bladder"}}, 'waterflasks:iron_flask')
+    # todo: damage knife, but don't also keep broken flask
+    rm.crafting_shaped('crafting/repair_broken_iron', ["FB", "CK"], {"K": {"tag": "tfc:knives"},
+                                                                     "F": {"item": "waterflasks:broken_iron_flask"},
+                                                                     "C": {"item": "tfc:burlap_cloth"},
+                                                                     "B": {"item": "waterflasks:bladder"}}, 'waterflasks:iron_flask')
 
-    damage_shaped(rm, 'crafting/repair_broken_leather', ["FB"], {"F": {"item": "waterflasks:broken_leather_flask"},
-                                                                 "B": {"item": "waterflasks:bladder"}}, 'waterflasks:leather_flask')
+    rm.crafting_shaped('crafting/repair_broken_leather', ["FB"], {"F": {"item": "waterflasks:broken_leather_flask"},
+                                                                  "B": {"item": "waterflasks:bladder"}}, 'waterflasks:leather_flask')
 
-    damage_shaped(rm, 'crafting/repair_iron', ["FB", "CK"], {"K": {"tag": "tfc:knives"},
-                                                             "F": {"item": "waterflasks:iron_flask"},
-                                                             "C": {"item": "tfc:burlap_cloth"},
-                                                             "B": {"item": "waterflasks:bladder"}}, 'waterflasks:iron_flask')
+    #todo: keep input fluid stack if present
+    rm.crafting_shaped('crafting/repair_iron', ["FB", "CK"], {"K": {"tag": "tfc:knives"},
+                                                              "F": {"item": "waterflasks:iron_flask"},
+                                                              "C": {"item": "tfc:burlap_cloth"},
+                                                              "B": {"item": "waterflasks:bladder"}}, 'waterflasks:iron_flask')
 
-    damage_shaped(rm, 'crafting/repair_leather', ["FB"], {"F": {"item": "waterflasks:leather_flask"},
-                                                          "B": {"item": "waterflasks:bladder"}}, 'waterflasks:leather_flask')
+    rm.crafting_shaped('crafting/repair_leather', ["FB"], {"F": {"item": "waterflasks:leather_flask"},
+                                                           "B": {"item": "waterflasks:bladder"}}, 'waterflasks:leather_flask')
 
 def damage_shaped(rm: ResourceManager, name_parts: utils.ResourceIdentifier, pattern: Sequence[str], ingredients: Json, result: Json, group: str = None, conditions: Optional[Json] = None) -> RecipeContext:
     res = utils.resource_location(rm.domain, name_parts)

@@ -14,8 +14,8 @@ from typing import Sequence
 from mcresources import ResourceManager, utils
 from mcresources.type_definitions import Json
 
-import assets
 import recipes
+import data
 
 
 class ModificationLoggingResourceManager(ResourceManager):
@@ -53,6 +53,7 @@ def main():
 
 def generate_all(rm: ResourceManager):
     recipes.generate(rm)
+    data.generate(rm)
 
     rm.flush()
 

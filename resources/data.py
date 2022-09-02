@@ -14,7 +14,7 @@ def generate(rm: ResourceManager):
 
     ### MISC DATA ###
     global_loot_modifiers(rm, 'waterflasks:bladders')
-    global_loot_modifier(rm, 'bladders', 'waterflasks:add_item', {'item': utils.item_stack('waterflasks:bladder')}, match_entity_tag('waterflasks:drops_bladders'))
+    global_loot_modifier(rm, 'bladders', 'waterflasks:add_item', {'item': utils.item_stack('waterflasks:bladder'), 'chance': 0.1}, match_entity_tag('waterflasks:drops_bladders'))
 
 
 ## Lost animals

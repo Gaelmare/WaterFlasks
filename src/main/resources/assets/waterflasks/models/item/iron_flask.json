@@ -6,31 +6,31 @@
 	"overrides": [
 		{
 			"predicate": {
-				"waterflasks:filled": 0.8
+				"waterflasks:filled": 0.2
 			},
 			"model": "waterflasks:item/iron_flask-4"
 		},
 		{
 			"predicate": {
-				"waterflasks:filled": 0.6
+				"waterflasks:filled": 0.4
 			},
 			"model": "waterflasks:item/iron_flask-3"
 		},
 		{
 			"predicate": {
-				"waterflasks:filled": 0.4
+				"waterflasks:filled": 0.6
 			},
 			"model": "waterflasks:item/iron_flask-2"
 		},
 		{
 			"predicate": {
-				"waterflasks:filled": 0.2
+				"waterflasks:filled": 0.8
 			},
 			"model": "waterflasks:item/iron_flask-1"
 		},
 		{
 			"predicate": {
-				"waterflasks:filled": 0.0
+				"waterflasks:filled": 1.0
 			},
 			"model": "waterflasks:item/iron_flask-0"
 		}

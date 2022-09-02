@@ -4,17 +4,16 @@ package org.labellum.mc.waterflasks.item;
  *  EUPL license meshes with GPLv3
  */
 
-import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.common.capabilities.food.TFCFoodData;
 import net.dries007.tfc.common.capabilities.size.IItemSize;
 import net.dries007.tfc.common.capabilities.size.Size;
 import net.dries007.tfc.common.capabilities.size.Weight;
 import net.dries007.tfc.common.fluids.FluidHelpers;
-import net.dries007.tfc.common.fluids.TFCFluids;
 import net.dries007.tfc.common.items.DiscreteFluidContainerItem;
 import net.dries007.tfc.util.Drinkable;
 import net.dries007.tfc.util.Helpers;
+import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
@@ -29,7 +28,9 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
@@ -37,14 +38,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandlerItem;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.registries.RegistryObject;
+import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.labellum.mc.waterflasks.fluids.FlaskFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Iterator;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 import static net.dries007.tfc.common.capabilities.food.TFCFoodData.MAX_THIRST;
 import static org.labellum.mc.waterflasks.setup.Registration.*;
@@ -68,8 +69,17 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
         //setHasSubtypes(true);
     }
 
-    public static float getFullnessDisplay(ItemStack stack) {
-        return getLiquidAmount(stack)/(float)((ItemFlask)stack.getItem()).CAPACITY.get();
+    public static int getCapacity(ItemStack stack) {
+        return ((ItemFlask)stack.getItem()).CAPACITY.get();
+    }
+
+    /**
+     * Returns 1 - fraction full because model overrides are like that
+     * @param stack Flask
+     * @return fraction empty
+     */
+    public static float getEmptinessDisplay(ItemStack stack) {
+        return 1.0f - getLiquidAmount(stack)/(float)getCapacity(stack);
     }
 
     // Fix #12 by actually implementing the MC function that limits stack sizes
@@ -94,7 +104,7 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
         int content = 0;
         LazyOptional<IFluidHandlerItem> flaskCap = stack.getCapability(Capabilities.FLUID_ITEM, null);
         if (flaskCap.isPresent()) {
-            FluidStack drained = flaskCap.resolve().get().drain(((ItemFlask)stack.getItem()).CAPACITY.get(), IFluidHandler.FluidAction.SIMULATE);
+            FluidStack drained = flaskCap.resolve().get().drain(getCapacity(stack), IFluidHandler.FluidAction.SIMULATE);
             content = drained.getAmount();
         }
         return content;
@@ -113,12 +123,11 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
         LazyOptional<IFluidHandlerItem> flaskCap = stack.getCapability(Capabilities.FLUID_ITEM, null);
         if (flaskCap.isPresent()) {
             FluidStack drained = flaskCap.resolve().get().drain(CAPACITY.get(), IFluidHandler.FluidAction.SIMULATE);
-            Fluid fluid = drained.getFluid();
-            return fluid.getAttributes().getColor();
+            if (!drained.getFluid().isSame(Fluids.EMPTY))
+                return drained.getFluid().getAttributes().getColor();
         }
         return super.getBarColor(stack);
     }
-
 
 
     @SuppressWarnings("ConstantConditions")
@@ -162,7 +171,7 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
                     return InteractionResultHolder.fail(player.getItemInHand(hand));
                 }
                 FluidStack cont = handler.drain(CAPACITY.get(), IFluidHandler.FluidAction.SIMULATE);
-                if (cont != null && cont.getAmount() >= DRINK) {
+               if (cont != null && cont.getAmount() >= DRINK) {
                     return afterEmptyFailed(handler, level, player, stack, hand);
                 }
             }
@@ -178,7 +187,7 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
         if (handler != null)
         {
             final FluidStack drained = handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE);
-            if (drained.getAmount() > DRINK) {
+            if (drained.getAmount() >= DRINK) {
                 FluidStack fluidConsumed = handler.drain(DRINK, IFluidHandler.FluidAction.EXECUTE);
                 final Player player = entity instanceof Player ? (Player) entity : null;
                 if (player != null)
@@ -241,5 +250,37 @@ public abstract class ItemFlask extends DiscreteFluidContainerItem implements II
             return ItemUtils.startUsingInstantly(level, player, hand);
         }
         return InteractionResultHolder.pass(stack);
+    }
+
+    @Override
+    public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
+        if (this.allowdedIn(category)) {
+            items.add(new ItemStack(this));
+            Iterator var3 = Helpers.getAllTagValues(DRINKABLE, ForgeRegistries.FLUIDS).iterator();
+
+            while(true) {
+                Fluid fluid;
+                FlowingFluid flowing;
+                do {
+                    if (!var3.hasNext()) {
+                        return;
+                    }
+
+                    fluid = (Fluid)var3.next();
+                    if (!(fluid instanceof FlowingFluid)) {
+                        break;
+                    }
+
+                    flowing = (FlowingFluid)fluid;
+                } while(flowing.getSource() != flowing);
+
+                ItemStack stack = new ItemStack(this);
+                Fluid finalFluid = fluid;
+                stack.getCapability(Capabilities.FLUID_ITEM).ifPresent((c) -> {
+                    c.fill(new FluidStack(finalFluid, CAPACITY.get()), IFluidHandler.FluidAction.EXECUTE);
+                });
+                items.add(stack);
+            }
+        }
     }
 }
