@@ -1,6 +1,6 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shaped",
+  "type": "tfc:advanced_shaped_crafting",
   "pattern": [
     "FB",
     "CK"
@@ -20,6 +20,13 @@
     }
   },
   "result": {
-    "item": "waterflasks:iron_flask"
-  }
+    "stack": {
+      "item": "waterflasks:iron_flask"
+    },
+    "modifiers": [
+      "waterflasks:copy_fluid"
+    ]
+  },
+  "input_row": 0,
+  "input_column": 0
 }

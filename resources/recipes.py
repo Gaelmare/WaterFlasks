@@ -2,7 +2,7 @@
 #  See the project README.md and LICENSE.txt for more information.
 
 from enum import Enum
-from typing import Union
+from typing import Union, Tuple
 
 from mcresources import ResourceManager, RecipeContext, utils
 from mcresources.type_definitions import Json
@@ -78,13 +78,41 @@ def generate(rm: ResourceManager):
                                                                   "B": {"item": "waterflasks:bladder"}}, 'waterflasks:leather_flask')
 
     #todo: keep input fluid stack if present
-    rm.crafting_shaped('crafting/repair_iron', ["FB", "CK"], {"K": {"tag": "tfc:knives"},
-                                                              "F": {"item": "waterflasks:iron_flask"},
-                                                              "C": {"item": "tfc:burlap_cloth"},
-                                                              "B": {"item": "waterflasks:bladder"}}, 'waterflasks:iron_flask')
+#    rm.crafting_shaped('crafting/repair_iron', ["FB", "CK"], {"K": {"tag": "tfc:knives"},
+#                                                              "F": {"item": "waterflasks:iron_flask"},
+#                                                              "C": {"item": "tfc:burlap_cloth"},
+#                                                              "B": {"item": "waterflasks:bladder"}}, 'waterflasks:iron_flask')
 
     rm.crafting_shaped('crafting/repair_leather', ["FB"], {"F": {"item": "waterflasks:leather_flask"},
                                                            "B": {"item": "waterflasks:bladder"}}, 'waterflasks:leather_flask')
+
+    iron_repair_pattern = ["FB", "CK"]
+    iron_repair_ingredients = {"K": "#tfc:knives", "F": "waterflasks:iron_flask", "C": "tfc:burlap_cloth", "B": "waterflasks:bladder"}
+#    delegate_recipe(rm, 'crafting/repair_iron2', 'tfc:damage_inputs_shaped_crafting', {
+#        'type': 'tfc:advanced_shaped_crafting',
+#        'pattern': iron_repair_pattern,
+#        'key': utils.item_stack_dict(iron_repair_ingredients, ''.join(iron_repair_pattern)[0]),
+#        'result': item_stack_provider('waterflasks:iron_flask', other_modifier='waterflasks:copy_fluid'),
+#        'input_row': 0,
+#        'input_column': 0,
+#    })
+
+    advanced_shaped(rm, 'crafting/repair_iron3', iron_repair_pattern, iron_repair_ingredients, {"stack": {"item": "waterflasks:iron_flask"}, "modifiers": ["waterflasks:copy_fluid"]}, (0, 0))
+
+def advanced_shaped(rm: ResourceManager, name_parts: utils.ResourceIdentifier, pattern: Sequence[str], ingredients: Json, result: Json, input_xy: Tuple[int, int], group: str = None, conditions: Optional[Json] = None) -> RecipeContext:
+    res = utils.resource_location(rm.domain, name_parts)
+    rm.write((*rm.resource_dir, 'data', res.domain, 'recipes', res.path), {
+        'type': 'tfc:advanced_shaped_crafting',
+        'group': group,
+        'pattern': pattern,
+        'key': utils.item_stack_dict(ingredients, ''.join(pattern)[0]),
+        'result': item_stack_provider(result),
+        'input_row': input_xy[1],
+        'input_column': input_xy[0],
+        'conditions': utils.recipe_condition(conditions)
+    })
+    return RecipeContext(rm, res)
+
 
 def damage_shaped(rm: ResourceManager, name_parts: utils.ResourceIdentifier, pattern: Sequence[str], ingredients: Json, result: Json, group: str = None, conditions: Optional[Json] = None) -> RecipeContext:
     res = utils.resource_location(rm.domain, name_parts)
@@ -101,6 +129,28 @@ def damage_shaped(rm: ResourceManager, name_parts: utils.ResourceIdentifier, pat
     })
     return RecipeContext(rm, res)
 
+def damage_knife_shaped(rm: ResourceManager, name_parts: utils.ResourceIdentifier, pattern: Sequence[str], ingredients: Json, result: Json, group: str = None, conditions: Optional[Json] = None) -> RecipeContext:
+    res = utils.resource_location(rm.domain, name_parts)
+    rm.write((*rm.resource_dir, 'data', res.domain, 'recipes', res.path), {
+        'type': 'waterflasks:damage_knife_shaped_crafting',
+        'recipe': {
+            'type': 'minecraft:crafting_shaped',
+            'group': group,
+            'pattern': pattern,
+            'key': utils.item_stack_dict(ingredients, ''.join(pattern)[0]),
+            'result': utils.item_stack(result),
+            'conditions': utils.recipe_condition(conditions)
+        }
+    })
+    return RecipeContext(rm, res)
+
+def delegate_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier, recipe_type: str, delegate: Json) -> RecipeContext:
+    res = utils.resource_location(rm.domain, name_parts)
+    rm.write((*rm.resource_dir, 'data', res.domain, 'recipes', res.path), {
+        'type': recipe_type,
+        'recipe': delegate
+    })
+    return RecipeContext(rm, res)
 
 def leather_knapping(rm: ResourceManager, name_parts: utils.ResourceIdentifier, pattern: List[str], result: utils.Json, outside_slot_required: bool = None):
     knapping_recipe(rm, 'leather_knapping', name_parts, pattern, result, outside_slot_required)
