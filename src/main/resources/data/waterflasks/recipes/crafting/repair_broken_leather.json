@@ -1,18 +1,21 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "FB"
-  ],
-  "key": {
-    "F": {
-      "item": "waterflasks:broken_leather_flask"
+  "type": "waterflasks:heal_flask",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "FB"
+    ],
+    "key": {
+      "F": {
+        "item": "waterflasks:broken_leather_flask"
+      },
+      "B": {
+        "item": "waterflasks:bladder"
+      }
     },
-    "B": {
-      "item": "waterflasks:bladder"
+    "result": {
+      "item": "waterflasks:leather_flask"
     }
-  },
-  "result": {
-    "item": "waterflasks:leather_flask"
   }
 }

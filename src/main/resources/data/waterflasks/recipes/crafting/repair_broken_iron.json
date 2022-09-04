@@ -1,25 +1,28 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "FB",
-    "CK"
-  ],
-  "key": {
-    "K": {
-      "tag": "tfc:knives"
+  "type": "waterflasks:heal_flask",
+  "recipe": {
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+      "FB",
+      "CK"
+    ],
+    "key": {
+      "K": {
+        "tag": "tfc:knives"
+      },
+      "F": {
+        "item": "waterflasks:broken_iron_flask"
+      },
+      "C": {
+        "item": "tfc:burlap_cloth"
+      },
+      "B": {
+        "item": "waterflasks:bladder"
+      }
     },
-    "F": {
-      "item": "waterflasks:broken_iron_flask"
-    },
-    "C": {
-      "item": "tfc:burlap_cloth"
-    },
-    "B": {
-      "item": "waterflasks:bladder"
+    "result": {
+      "item": "waterflasks:iron_flask"
     }
-  },
-  "result": {
-    "item": "waterflasks:iron_flask"
   }
 }

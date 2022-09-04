@@ -4,18 +4,25 @@
   "recipe": {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-      "FB"
+      "FB",
+      "CK"
     ],
     "key": {
+      "K": {
+        "tag": "tfc:knives"
+      },
       "F": {
-        "item": "waterflasks:leather_flask"
+        "item": "waterflasks:iron_flask"
+      },
+      "C": {
+        "item": "tfc:burlap_cloth"
       },
       "B": {
         "item": "waterflasks:bladder"
       }
     },
     "result": {
-      "item": "waterflasks:leather_flask"
+      "item": "waterflasks:iron_flask"
     }
   }
 }
