@@ -1,20 +1,14 @@
 package org.labellum.mc.waterflasks.setup;
 
-import net.dries007.tfc.TerraFirmaCraft;
-import net.dries007.tfc.common.recipes.DamageInputsCraftingRecipe;
-import net.dries007.tfc.common.recipes.DelegateRecipe;
-import net.dries007.tfc.common.recipes.outputs.ItemStackModifier;
-import net.dries007.tfc.common.recipes.outputs.ItemStackModifiers;
 import net.dries007.tfc.util.Helpers;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.inventory.CraftingContainer;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 
 import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -33,7 +27,7 @@ import static org.labellum.mc.waterflasks.Waterflasks.MOD_ID;
 public class Registration {
     private static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MOD_ID);
     private static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, MOD_ID);
-    private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, TerraFirmaCraft.MOD_ID);
+    private static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, MOD_ID);
     private static final DeferredRegister<GlobalLootModifierSerializer<?>> MODIFIER_SERIALIZERS = DeferredRegister.create(ForgeRegistries.Keys.LOOT_MODIFIER_SERIALIZERS, MOD_ID);
 
     public static void init()
@@ -42,13 +36,10 @@ public class Registration {
         ITEMS.register(bus);
         SOUNDS.register(bus);
         MODIFIER_SERIALIZERS.register(bus);
-        registerModifier("copy_fluid", CopyFluidModifier.INSTANCE);
+        RECIPE_SERIALIZERS.register(bus);
     }
 
-    private static void registerModifier(String name, ItemStackModifier.Serializer<?> serializer)
-    {
-        ItemStackModifiers.register(new ResourceLocation(MOD_ID, name), serializer);
-    }
+    public static final TagKey<Item> FLASKS = TagKey.create(ForgeRegistries.Keys.ITEMS, new ResourceLocation(MOD_ID, "flasks"));
 
     public static final RegistryObject<AddItemChanceModifier.Serializer> ADD_ITEM = glmSerializer("add_item", AddItemChanceModifier.Serializer::new);
 
@@ -61,6 +52,8 @@ public class Registration {
     public static final RegistryObject<Item> IRON_FLASK = register("iron_flask", () -> new FlaskItem(ironProperties(), ConfigFlasks.IRON_CAPACITY, FlaskItem.DEFAULT_DRINK, BROKEN_IRON_FLASK));
 
     public static final RegistryObject<SoundEvent> FLASK_BREAK = SOUNDS.register("item.flaskbreak", () -> new SoundEvent(Helpers.identifier("item.flaskbreak")));
+
+    public static final RegistryObject<RecipeSerializer<?>> HEAL_FLASK_SERIALIZER = registerSerializer("heal_flask", () -> HealFlaskRecipe.getShapedSerializer(HealFlaskRecipe::new));
 
     // todo this may not work
     // todo we can also set a config-based capacity for our flask items.
@@ -88,7 +81,7 @@ public class Registration {
     {
         return MODIFIER_SERIALIZERS.register(id, modifier);
     }
-    private static <S extends RecipeSerializer<?>> RegistryObject<S> registerRecipe(String name, Supplier<S> factory)
+    private static <S extends RecipeSerializer<?>> RegistryObject<S> registerSerializer(String name, Supplier<S> factory)
     {
         return RECIPE_SERIALIZERS.register(name, factory);
     }
