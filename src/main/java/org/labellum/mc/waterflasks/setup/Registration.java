@@ -1,5 +1,12 @@
+/*
+ * Waterflasks, Copyright (C) 2022 Gaelmare
+ * Licensed under v3 of the GPL. You may obtain a copy of the license at:
+ * https://github.com/Gaelmare/WaterFlasks/blob/1.18/LICENSE
+ */
+
 package org.labellum.mc.waterflasks.setup;
 
+import net.dries007.tfc.common.recipes.DelegateRecipe;
 import net.dries007.tfc.util.Helpers;
 
 import net.minecraft.resources.ResourceLocation;
@@ -53,7 +60,7 @@ public class Registration {
 
     public static final RegistryObject<SoundEvent> FLASK_BREAK = SOUNDS.register("item.flaskbreak", () -> new SoundEvent(Helpers.identifier("item.flaskbreak")));
 
-    public static final RegistryObject<RecipeSerializer<?>> HEAL_FLASK_SERIALIZER = registerSerializer("heal_flask", () -> HealFlaskRecipe.getShapedSerializer(HealFlaskRecipe::new));
+    public static final RegistryObject<RecipeSerializer<?>> HEAL_FLASK_SERIALIZER = registerSerializer("heal_flask", () -> DelegateRecipe.Serializer.shaped(HealFlaskRecipe::new));
 
     // todo this may not work
     // todo we can also set a config-based capacity for our flask items.

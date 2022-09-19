@@ -17,8 +17,10 @@ buildscript {
 }
 // Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 plugins {
+    id 'idea'
     id 'eclipse'
     id 'maven-publish'
+    id 'org.cadixdev.licenser' version '0.6.1'
 }
 apply plugin: 'idea'
 apply plugin: 'net.minecraftforge.gradle'
@@ -217,6 +219,12 @@ dependencies {
     // For more info...
     // http://www.gradle.org/docs/current/userguide/artifact_dependencies_tutorial.html
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
+}
+
+license {
+    header = project.file('HEADER.txt')
+
+    include '**/*.java'
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

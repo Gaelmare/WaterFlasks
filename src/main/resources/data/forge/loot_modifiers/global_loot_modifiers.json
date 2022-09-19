@@ -2,6 +2,8 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "entries": [
-    "waterflasks:bladders"
+    "waterflasks:bladders_25",
+    "waterflasks:bladders_50",
+    "waterflasks:bladders_60"
   ]
 }

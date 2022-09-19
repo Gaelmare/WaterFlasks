@@ -1,7 +1,7 @@
 /*
- * Licensed under the EUPL, Version 1.2.
- * You may obtain a copy of the Licence at:
- * https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12
+ * Waterflasks, Copyright (C) 2022 Gaelmare
+ * Licensed under v3 of the GPL. You may obtain a copy of the license at:
+ * https://github.com/Gaelmare/WaterFlasks/blob/1.18/LICENSE
  */
 
 @ParametersAreNonnullByDefault

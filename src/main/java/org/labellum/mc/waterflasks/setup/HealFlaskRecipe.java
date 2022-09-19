@@ -1,6 +1,10 @@
-package org.labellum.mc.waterflasks.setup;
+/*
+ * Waterflasks, Copyright (C) 2022 Gaelmare
+ * Licensed under v3 of the GPL. You may obtain a copy of the license at:
+ * https://github.com/Gaelmare/WaterFlasks/blob/1.18/LICENSE
+ */
 
-import java.util.function.BiFunction;
+package org.labellum.mc.waterflasks.setup;
 
 import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.capabilities.Capabilities;
@@ -18,12 +22,6 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 
 public class HealFlaskRecipe extends DelegateRecipe<IShapedRecipe<CraftingContainer>, CraftingContainer> implements CraftingRecipe
 {
-    // todo: remove when the recipe serializer becomes public
-    public static Serializer<?> getShapedSerializer(BiFunction<ResourceLocation, IShapedRecipe<CraftingContainer>, DelegateRecipe<IShapedRecipe<CraftingContainer>, CraftingContainer>> factory)
-    {
-        return Serializer.shaped(factory);
-    }
-
     protected HealFlaskRecipe(ResourceLocation id, IShapedRecipe<CraftingContainer> recipe)
     {
         super(id, recipe);
