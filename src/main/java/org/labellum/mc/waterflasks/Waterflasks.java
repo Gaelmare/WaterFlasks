@@ -1,23 +1,10 @@
-package org.labellum.mc.waterflasks;
-
 /*
-    Copyright (c) 2019 Gaelmare
+ * Waterflasks, Copyright (C) 2022 Gaelmare
+ * Licensed under v3 of the GPL. You may obtain a copy of the license at:
+ * https://github.com/Gaelmare/WaterFlasks/blob/1.18/LICENSE
+ */
 
-    This file is part of Waterflasks.
-
-    Waterflasks is free software: you can redistribute it and/or modify
-    it under the terms of the GNU General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
-
-    WaterFlasks is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU General Public License for more details.
-
-    You should have received a copy of the GNU General Public License
-    along with WaterFlasks.  If not, see <https://www.gnu.org/licenses/>.
-*/
+package org.labellum.mc.waterflasks;
 
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;

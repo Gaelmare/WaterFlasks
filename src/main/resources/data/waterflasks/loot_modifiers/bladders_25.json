@@ -1,0 +1,17 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "waterflasks:add_item",
+  "conditions": [
+    {
+      "condition": "minecraft:entity_properties",
+      "predicate": {
+        "type": "#waterflasks:drops_bladders_25"
+      },
+      "entity": "this"
+    }
+  ],
+  "item": {
+    "item": "waterflasks:bladder"
+  },
+  "chance": 0.25
+}
