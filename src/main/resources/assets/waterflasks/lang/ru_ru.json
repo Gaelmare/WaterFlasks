@@ -1,0 +1,21 @@
+{
+  "__comment__": "This file was created by Taper4ik",
+  "__comment__": "Russian Translation for version 1.18.2 TFC Water Flasks - v2.0.2",
+  "__comment__": "Прошу!!! Отправляйте ошибки и предложения в переводе в Дискорд: One Taper4ik#8454",
+  "__comment__": "Этот перевод можно использовать для перевода на другие языки без согласия переводчика",
+  
+  "__comment__": "Материалы",
+  "item.waterflasks.bladder": "Мочевой пузырь",
+  "item.waterflasks.leather_side": "Кожа на бурдюк",
+
+  "__comment__": "Кожа",
+  "item.waterflasks.leather_flask.filled": "Бурдюк (%s)",
+  "item.waterflasks.leather_flask": "Бурдюк",
+  "item.waterflasks.broken_leather_flask": "Порванный бурдюк",
+
+  "__comment__": "Железо",
+  "item.waterflasks.iron_flask.filled": "Фляга (%s)",
+  "item.waterflasks.iron_flask": "Фляга",
+  "item.waterflasks.unfinished_iron_flask": "Недоделанная фляга",
+  "item.waterflasks.broken_iron_flask": "Сломанная фляга"
+}
