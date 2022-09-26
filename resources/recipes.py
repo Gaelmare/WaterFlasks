@@ -45,7 +45,11 @@ class Rules(Enum):
 
 def generate(rm: ResourceManager):
 
-    leather_knapping(rm, 'leather_side', ['  XX ', ' XXX ', 'XXXXX', ' XXX ', '  X  '], 'waterflasks:leather_side')
+    leather_knapping(rm, 'leather_side', ['   X ',
+                                          ' XXXX',
+                                          'XXXXX',
+                                          ' XXX ',
+                                          '     '], 'waterflasks:leather_side')
 
     anvil_recipe(rm, 'unfinished_iron_flask', '#forge:sheets/wrought_iron', 'waterflasks:unfinished_iron_flask', 3, Rules.punch_last, Rules.bend_second_last, Rules.bend_third_last)
 

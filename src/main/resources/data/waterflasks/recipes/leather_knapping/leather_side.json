@@ -2,11 +2,11 @@
   "__comment__": "This file was automatically created by mcresources",
   "type": "tfc:leather_knapping",
   "pattern": [
-    "  XX ",
-    " XXX ",
+    "   X ",
+    " XXXX",
     "XXXXX",
     " XXX ",
-    "  X  "
+    "     "
   ],
   "result": {
     "item": "waterflasks:leather_side"
