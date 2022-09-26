@@ -5,7 +5,7 @@
     {
       "condition": "minecraft:entity_properties",
       "predicate": {
-        "type": "#waterflasks:drops_bladders"
+        "type": "#waterflasks:drops_bladders_20"
       },
       "entity": "this"
     }
@@ -13,5 +13,5 @@
   "item": {
     "item": "waterflasks:bladder"
   },
-  "chance": 0.1
+  "chance": 0.2
 }

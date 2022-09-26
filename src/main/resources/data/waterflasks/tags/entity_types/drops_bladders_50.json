@@ -2,11 +2,8 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
-    "tfc:horse",
-    "tfc:mule",
-    "tfc:donkey",
-    "tfc:grizzly_bear",
-    "tfc:polar_bear",
-    "tfc:black_bear"
+    "tfc:cow",
+    "tfc:musk_ox",
+    "tfc:yak"
   ]
 }

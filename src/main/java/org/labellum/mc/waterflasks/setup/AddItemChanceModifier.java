@@ -13,8 +13,11 @@ import com.mojang.serialization.JsonOps;
 import net.dries007.tfc.util.JsonHelpers;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
 import net.minecraftforge.common.loot.LootModifier;
@@ -38,7 +41,14 @@ public class AddItemChanceModifier extends LootModifier {
     @Override
     protected List<ItemStack> doApply(List<ItemStack> loot, LootContext context)
     {
-        if (context.getRandom().nextDouble() < chance)
+        final Player player = context.getParamOrNull(LootContextParams.LAST_DAMAGE_PLAYER);
+
+        // make attack damage 20 equivalent to an additional 50% chance of drop, so divide damage by 40
+        double bonus = 0.0D;
+        if(!(player == null)) {
+            bonus = player.getAttributeValue(Attributes.ATTACK_DAMAGE) / 40.0D;
+        }
+        if (context.getRandom().nextDouble() < chance + bonus)
             loot.add(item.copy());
         return loot;
     }

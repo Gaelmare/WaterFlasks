@@ -2,8 +2,9 @@
   "__comment__": "This file was automatically created by mcresources",
   "replace": false,
   "values": [
-    "tfc:cow",
-    "tfc:musk_ox",
-    "tfc:yak"
+    "tfc:sheep",
+    "tfc:alpaca",
+    "tfc:goat",
+    "tfc:deer"
   ]
 }

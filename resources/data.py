@@ -25,15 +25,15 @@ class Weight(Enum):
 
 def generate(rm: ResourceManager):
 
-    rm.entity_tag('drops_bladders_60', 'tfc:cow', 'tfc:musk_ox', 'tfc:yak')
-    rm.entity_tag('drops_bladders_50', 'tfc:horse', 'tfc:mule', 'tfc:donkey', 'tfc:grizzly_bear', 'tfc:polar_bear', 'tfc:black_bear')
-    rm.entity_tag('drops_bladders_25', 'tfc:sheep', 'tfc:alpaca', 'tfc:goat')
+    rm.entity_tag('drops_bladders_50', 'tfc:cow', 'tfc:musk_ox', 'tfc:yak')
+    rm.entity_tag('drops_bladders_20', 'tfc:horse', 'tfc:mule', 'tfc:donkey', 'tfc:grizzly_bear', 'tfc:polar_bear', 'tfc:black_bear')
+    rm.entity_tag('drops_bladders_10', 'tfc:sheep', 'tfc:alpaca', 'tfc:goat')
 
     rm.item_tag('waterflasks:flasks', 'waterflasks:iron_flask', 'waterflasks:leather_flask')
     item_size(rm, 'waterflasks', '#waterflasks:flasks', Size.very_small, Weight.very_heavy)
 
     ### MISC DATA ###
-    chances = ('25', '50', '60')
+    chances = ('10', '20', '50')
     global_loot_modifiers(rm, *['waterflasks:bladders_%s' % i for i in chances])
     for chance in chances:
         global_loot_modifier(rm, 'bladders_%s' % chance, 'waterflasks:add_item', {'item': utils.item_stack('waterflasks:bladder'), 'chance': float(chance) / 100}, match_entity_tag('waterflasks:drops_bladders_%s' % chance))
