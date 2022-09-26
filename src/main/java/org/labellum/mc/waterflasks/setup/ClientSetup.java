@@ -28,10 +28,10 @@ public class ClientSetup {
     private static void setup(FMLClientSetupEvent event)
     {
         event.enqueueWork(() -> {
-            ItemProperties.register(Registration.LEATHER_FLASK.get(), new ResourceLocation(MOD_ID, "filled"), (stack, level, living, id) -> {
+            ItemProperties.register(Registration.LEATHER_FLASK.get(), new ResourceLocation(MOD_ID, "emptiness"), (stack, level, living, id) -> {
                 return FlaskItem.getEmptinessDisplay(stack);
             });
-            ItemProperties.register(Registration.IRON_FLASK.get(), new ResourceLocation(MOD_ID, "filled"), (stack, level, living, id) -> {
+            ItemProperties.register(Registration.IRON_FLASK.get(), new ResourceLocation(MOD_ID, "emptiness"), (stack, level, living, id) -> {
                 return FlaskItem.getEmptinessDisplay(stack);
             });
         });
