@@ -2,7 +2,7 @@
   "_comment": "Materials",
   "item.waterflasks.bladder": "Bladder",
   "item.waterflasks.leather_side": "Leather Flask Side",
-
+  "waterflasks.item.flaskbreak": "Flask breaking",
 
   "_comment": "Leather",
   "item.waterflasks.leather_flask.filled": "%s Leather Flask",

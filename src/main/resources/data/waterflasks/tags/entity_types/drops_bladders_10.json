@@ -4,7 +4,6 @@
   "values": [
     "tfc:sheep",
     "tfc:alpaca",
-    "tfc:goat",
-    "tfc:deer"
+    "tfc:goat"
   ]
 }

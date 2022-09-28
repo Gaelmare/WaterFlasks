@@ -7,7 +7,6 @@
 package org.labellum.mc.waterflasks.setup;
 
 import net.dries007.tfc.common.recipes.DelegateRecipe;
-import net.dries007.tfc.util.Helpers;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
@@ -58,7 +57,7 @@ public class Registration {
     public static final RegistryObject<Item> BROKEN_IRON_FLASK = register("broken_iron_flask", METAL);
     public static final RegistryObject<Item> IRON_FLASK = register("iron_flask", () -> new FlaskItem(ironProperties(), ConfigFlasks.IRON_CAPACITY, FlaskItem.DEFAULT_DRINK, BROKEN_IRON_FLASK));
 
-    public static final RegistryObject<SoundEvent> FLASK_BREAK = SOUNDS.register("item.flaskbreak", () -> new SoundEvent(Helpers.identifier("item.flaskbreak")));
+    public static final RegistryObject<SoundEvent> FLASK_BREAK = SOUNDS.register("item.flaskbreak", () -> new SoundEvent(new ResourceLocation("waterflasks", "item.flaskbreak")));
 
     public static final RegistryObject<RecipeSerializer<?>> HEAL_FLASK_SERIALIZER = registerSerializer("heal_flask", () -> DelegateRecipe.Serializer.shaped(HealFlaskRecipe::new));
 
