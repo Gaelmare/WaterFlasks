@@ -197,6 +197,14 @@ public class FlaskItem extends DiscreteFluidContainerItem {
         return PotionItem.EAT_DURATION;
     }
 
+    @Override
+    public ItemStack getContainerItem(ItemStack stack)
+    {
+        ItemStack items = new ItemStack(this);
+        items.setDamageValue(stack.getDamageValue());
+        return items;
+    }
+
     @NotNull
     @Override
     protected InteractionResultHolder<ItemStack> afterEmptyFailed(IFluidHandler handler, Level level, Player player, ItemStack stack, InteractionHand hand)
@@ -239,9 +247,8 @@ public class FlaskItem extends DiscreteFluidContainerItem {
 
                 ItemStack stack = new ItemStack(this);
                 Fluid finalFluid = fluid;
-                stack.getCapability(Capabilities.FLUID_ITEM).ifPresent((c) -> {
-                    c.fill(new FluidStack(finalFluid, capacity.get()), IFluidHandler.FluidAction.EXECUTE);
-                });
+                stack.getCapability(Capabilities.FLUID_ITEM).ifPresent((c) ->
+                        c.fill(new FluidStack(finalFluid, capacity.get()), IFluidHandler.FluidAction.EXECUTE));
                 items.add(stack);
             }
         }
