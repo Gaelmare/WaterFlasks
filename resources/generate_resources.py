@@ -16,6 +16,7 @@ from mcresources.type_definitions import Json
 
 import recipes
 import data
+import book
 
 
 class ModificationLoggingResourceManager(ResourceManager):
@@ -30,7 +31,7 @@ class ModificationLoggingResourceManager(ResourceManager):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='Generate resources for Firmalife')
+    parser = argparse.ArgumentParser(description='Generate resources for Water Flasks')
     rm = ResourceManager('waterflasks', resource_dir='./src/main/resources')
     parser.add_argument('--clean', action='store_true', dest='clean', help='Clean all auto generated resources')
     args = parser.parse_args()
@@ -54,6 +55,7 @@ def main():
 def generate_all(rm: ResourceManager):
     recipes.generate(rm)
     data.generate(rm)
+    book.generate(rm)
 
     rm.flush()
 

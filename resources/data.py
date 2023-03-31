@@ -4,6 +4,7 @@ from mcresources import ResourceManager
 from mcresources.type_definitions import Json
 
 from mcresources import utils
+from typing import Dict
 
 class Size(Enum):
     tiny = auto()
@@ -22,6 +23,14 @@ class Weight(Enum):
     heavy = auto()
     very_heavy = auto()
 
+DROP_ENTITIES: Dict[str, str] = {
+    'Sheep':     '10',
+    'Alpaca':    '10',
+    'Goat':      '10',
+    'Equines':   '20',
+    'Bears':     '20',
+    'Bovines':   '50',
+}
 
 def generate(rm: ResourceManager):
 
@@ -30,6 +39,7 @@ def generate(rm: ResourceManager):
     rm.entity_tag('drops_bladders_10', 'tfc:sheep', 'tfc:alpaca', 'tfc:goat')
 
     rm.item_tag('waterflasks:flasks', 'waterflasks:iron_flask', 'waterflasks:leather_flask')
+
     item_size(rm, 'waterflasks', '#waterflasks:flasks', Size.very_small, Weight.very_heavy)
 
     ### MISC DATA ###

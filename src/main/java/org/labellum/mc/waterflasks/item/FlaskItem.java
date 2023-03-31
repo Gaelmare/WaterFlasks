@@ -48,7 +48,8 @@ import static org.labellum.mc.waterflasks.setup.Registration.*;
 public class FlaskItem extends DiscreteFluidContainerItem {
 
     public static final int DEFAULT_DRINK = 100;
-    public static final TagKey<Fluid> DRINKABLE = TagKey.create(Registry.FLUID_REGISTRY, Helpers.identifier("drinkables"));
+    // drinkable would be better tag here, but is currently equal to usable_in_jug, which is applied by Homestead to its fluids
+    public static final TagKey<Fluid> DRINKABLE = TagKey.create(Registry.FLUID_REGISTRY, Helpers.identifier("usable_in_jug"));
 
     private final Supplier<Integer> capacity;
     private final Supplier<? extends Item> broken;

@@ -43,10 +43,10 @@ public class AddItemChanceModifier extends LootModifier {
     {
         final Player player = context.getParamOrNull(LootContextParams.LAST_DAMAGE_PLAYER);
 
-        // make attack damage 20 equivalent to an additional 50% chance of drop, so divide damage by 40
+        // make attack damage 15 (slightly better than red steel axe) equivalent to an additional 50% chance of drop, so divide damage by 30
         double bonus = 0.0D;
         if(!(player == null)) {
-            bonus = player.getAttributeValue(Attributes.ATTACK_DAMAGE) / 40.0D;
+            bonus = player.getAttributeValue(Attributes.ATTACK_DAMAGE) / 30.0D;
         }
         if (context.getRandom().nextDouble() < chance + bonus)
             loot.add(item.copy());
