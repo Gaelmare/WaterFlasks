@@ -1,11 +1,11 @@
 {
   "__comment__1": "Матеріали",
   "item.waterflasks.bladder": "Сечовий міхур",
-  "item.waterflasks.leather_side": "Кожа на бурдюк",
+  "item.waterflasks.leather_side": "Шкіра на бурдюк",
   "waterflasks.item.flaskbreak": "Фляга лопнула/Бурдюк лопнув",
 
 
-  "__comment__2": "Кожа",
+  "__comment__2": "Шкіра",
   "item.waterflasks.leather_flask.filled": "Бурдюк (%s)",
   "item.waterflasks.leather_flask": "Бурдюк",
   "item.waterflasks.broken_leather_flask": "Зіпсований бурдюк",
@@ -13,6 +13,6 @@
   "__comment__3": "Метал",
   "item.waterflasks.iron_flask.filled": "Фляга (%s)",
   "item.waterflasks.iron_flask": "Фляга",
-  "item.waterflasks.unfinished_iron_flask": "Недороблена фляга",
+  "item.waterflasks.unfinished_iron_flask": "Незакінчена фляга",
   "item.waterflasks.broken_iron_flask": "Пошкоджена фляга"
 }
