@@ -6,25 +6,18 @@
 
 package org.labellum.mc.waterflasks.setup;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
-import net.dries007.tfc.util.JsonHelpers;
-import net.minecraft.Util;
-import net.minecraft.resources.ResourceLocation;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.GlobalLootModifierSerializer;
+import net.minecraftforge.common.loot.IGlobalLootModifier;
 import net.minecraftforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
-import org.labellum.mc.waterflasks.Waterflasks;
-
-import java.util.List;
 
 public class AddItemChanceModifier extends LootModifier {
     private final ItemStack item;
@@ -37,9 +30,14 @@ public class AddItemChanceModifier extends LootModifier {
         this.chance = chance;
     }
 
+    public static final Codec<AddItemChanceModifier> CODEC = RecordCodecBuilder.create(instance -> codecStart(instance)
+            .and(ItemStack.CODEC.fieldOf("item").forGetter(c -> c.item))
+            .and(Codec.DOUBLE.optionalFieldOf("chance", 1d).forGetter(c -> c.chance)
+            ).apply(instance, AddItemChanceModifier::new));
+
     @NotNull
     @Override
-    protected List<ItemStack> doApply(List<ItemStack> loot, LootContext context)
+    protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> loot, LootContext context)
     {
         final Player player = context.getParamOrNull(LootContextParams.LAST_DAMAGE_PLAYER);
 
@@ -53,27 +51,9 @@ public class AddItemChanceModifier extends LootModifier {
         return loot;
     }
 
-    public static class Serializer extends GlobalLootModifierSerializer<AddItemChanceModifier>
-    {
-        @Override
-        public AddItemChanceModifier read(ResourceLocation location, JsonObject json, LootItemCondition[] conditions)
-        {
-            return new AddItemChanceModifier(conditions, JsonHelpers.getItemStack(json, "item"), JsonHelpers.getAsDouble(json, "chance", 1.0 ));
-        }
-
-        @Override
-        public JsonObject write(AddItemChanceModifier instance)
-        {
-            JsonObject json = makeConditions(instance.conditions);
-            json.add("item", codecToJson(ItemStack.CODEC, instance.item));
-            json.add("chance", codecToJson(Codec.DOUBLE, instance.chance));
-            return json;
-        }
-
-        public static <T> JsonElement codecToJson(Codec<T> codec, T instance)
-        {
-            return codec.encodeStart(JsonOps.INSTANCE, instance).getOrThrow(false, Util.prefix("Error encoding: ", Waterflasks.LOGGER::error));
-        }
-
+    @Override
+    public Codec<? extends IGlobalLootModifier> codec() {
+        return Registration.ADD_ITEM.get();
     }
+
 }

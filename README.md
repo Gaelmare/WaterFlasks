@@ -1,9 +1,9 @@
 # WaterFlasks
 Water Flasks TFC/Minecraft mod, inspired by Emris's Leather Water Sac for 1.7.10.
 
-For Minecraft 1.18.2 (and 1.12.2) + TerraFirmaCraft TNG.
+For Minecraft 1.20.1, 1.18.2, and 1.12.2 as an addon to TerraFirmaCraft TNG.
 
-See TerraFirmaCraft #addons discord channel for support: https://invite.gg/terrafirmacraft
+See the TerraFirmaCraft discord #content thread for WaterFlasks support: https://invite.gg/terrafirmacraft
 
 All code and resources used according to their published licenses.
 
@@ -36,8 +36,8 @@ Fluid level in Iron Flask is indicated by vertical bar. The Leather Flask change
 
 ## Status
 
-Initial 1.18 release!
+Alpha 1.20 release!
 
 ## Developing
 
-See pins in the #addons channel in the TFC discord for info 
+See pins in the #content-dev channel in the TFC discord for info 

@@ -11,14 +11,18 @@ import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.common.recipes.DelegateRecipe;
 import net.dries007.tfc.util.Helpers;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraftforge.common.crafting.IShapedRecipe;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
+
+import static net.minecraft.world.item.crafting.CraftingBookCategory.EQUIPMENT;
 
 public class HealFlaskRecipe extends DelegateRecipe<IShapedRecipe<CraftingContainer>, CraftingContainer> implements CraftingRecipe
 {
@@ -28,7 +32,7 @@ public class HealFlaskRecipe extends DelegateRecipe<IShapedRecipe<CraftingContai
     }
 
     @Override
-    public ItemStack assemble(CraftingContainer inv)
+    public ItemStack assemble(CraftingContainer inv, RegistryAccess access)
     {
         FluidStack fluid = FluidStack.EMPTY;
         for (int i = 0; i < inv.getContainerSize(); i++)
@@ -40,7 +44,7 @@ public class HealFlaskRecipe extends DelegateRecipe<IShapedRecipe<CraftingContai
                 break;
             }
         }
-        final ItemStack result = super.assemble(inv);
+        final ItemStack result = super.assemble(inv, access);
         if (!fluid.isEmpty())
         {
             final FluidStack fillFluid = fluid;
@@ -72,4 +76,8 @@ public class HealFlaskRecipe extends DelegateRecipe<IShapedRecipe<CraftingContai
         return Registration.HEAL_FLASK_SERIALIZER.get();
     }
 
+    @Override
+    public CraftingBookCategory category() {
+        return EQUIPMENT;
+    }
 }

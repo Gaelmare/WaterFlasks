@@ -3,8 +3,8 @@
     "modid": "waterflasks",
     "name": "Waterflasks",
     "description": "Water containers of various sizes and durabilities",
-    "version": "${version}",
-    "mcversion": "${mcversion}",
+    "version": "${mod_version}",
+    "mcversion": "${minecraft_version}",
     "url": "github.com/Gaelmare/waterflasks",
     "updateUrl": "",
     "authorList": [

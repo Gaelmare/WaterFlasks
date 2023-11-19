@@ -6,18 +6,16 @@
 
 package org.labellum.mc.waterflasks.item;
 
+import net.dries007.tfc.common.TFCTags;
 import net.dries007.tfc.common.capabilities.Capabilities;
 import net.dries007.tfc.common.capabilities.food.TFCFoodData;
 import net.dries007.tfc.common.fluids.FluidHelpers;
 import net.dries007.tfc.common.items.DiscreteFluidContainerItem;
 import net.dries007.tfc.util.Drinkable;
 import net.dries007.tfc.util.Helpers;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.LivingEntity;
@@ -26,20 +24,17 @@ import net.minecraft.world.food.FoodData;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.material.FlowingFluid;
-import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.labellum.mc.waterflasks.fluids.FlaskFluidHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Iterator;
 import java.util.function.Supplier;
 
 import static net.dries007.tfc.common.capabilities.food.TFCFoodData.MAX_THIRST;
@@ -48,8 +43,6 @@ import static org.labellum.mc.waterflasks.setup.Registration.*;
 public class FlaskItem extends DiscreteFluidContainerItem {
 
     public static final int DEFAULT_DRINK = 100;
-    // drinkable would be better tag here, but is currently equal to usable_in_jug, which is applied by Homestead to its fluids
-    public static final TagKey<Fluid> DRINKABLE = TagKey.create(Registry.FLUID_REGISTRY, Helpers.identifier("usable_in_jug"));
 
     private final Supplier<Integer> capacity;
     private final Supplier<? extends Item> broken;
@@ -57,7 +50,7 @@ public class FlaskItem extends DiscreteFluidContainerItem {
 
     public FlaskItem(Item.Properties prop, Supplier<Integer> capFunc, int drink, Supplier<? extends Item> broken) {
 
-        super(prop, capFunc, DRINKABLE, false, false);
+        super(prop, capFunc, TFCTags.Fluids.USABLE_IN_JUG, false, false);
         this.capacity = capFunc;
         this.drink = drink;
         this.broken = broken;
@@ -79,7 +72,7 @@ public class FlaskItem extends DiscreteFluidContainerItem {
     @Override
     public ICapabilityProvider initCapabilities(@Nonnull ItemStack stack, @Nullable CompoundTag nbt)
     {
-        return new FlaskFluidHandler(stack, capacity.get(), DRINKABLE);
+        return new FlaskFluidHandler(stack, capacity.get(), TFCTags.Fluids.USABLE_IN_JUG);
     }
 
     public static int getLiquidAmount(ItemStack stack) {
@@ -100,7 +93,7 @@ public class FlaskItem extends DiscreteFluidContainerItem {
             FluidStack drained = cap.drain(capacity.get(), IFluidHandler.FluidAction.SIMULATE);
             if (!drained.isEmpty())
             {
-                return drained.getFluid().getAttributes().getColor();
+                return IClientFluidTypeExtensions.of(drained.getFluid()).getTintColor(drained);
             }
             return super.getBarColor(stack);
         }).orElse(super.getBarColor(stack));
@@ -198,14 +191,6 @@ public class FlaskItem extends DiscreteFluidContainerItem {
         return PotionItem.EAT_DURATION;
     }
 
-    @Override
-    public ItemStack getContainerItem(ItemStack stack)
-    {
-        ItemStack items = new ItemStack(this);
-        items.setDamageValue(stack.getDamageValue());
-        return items;
-    }
-
     @NotNull
     @Override
     protected InteractionResultHolder<ItemStack> afterEmptyFailed(IFluidHandler handler, Level level, Player player, ItemStack stack, InteractionHand hand)
@@ -222,36 +207,5 @@ public class FlaskItem extends DiscreteFluidContainerItem {
             return ItemUtils.startUsingInstantly(level, player, hand);
         }
         return InteractionResultHolder.pass(stack);
-    }
-
-    @Override
-    public void fillItemCategory(CreativeModeTab category, NonNullList<ItemStack> items) {
-        if (this.allowdedIn(category)) {
-            items.add(new ItemStack(this));
-            Iterator<Fluid> iterator = Helpers.getAllTagValues(DRINKABLE, ForgeRegistries.FLUIDS).iterator();
-
-            while(true) {
-                Fluid fluid;
-                FlowingFluid flowing;
-                do {
-                    if (!iterator.hasNext()) {
-                        return;
-                    }
-
-                    fluid = iterator.next();
-                    if (!(fluid instanceof FlowingFluid)) {
-                        break;
-                    }
-
-                    flowing = (FlowingFluid)fluid;
-                } while(flowing.getSource() != flowing);
-
-                ItemStack stack = new ItemStack(this);
-                Fluid finalFluid = fluid;
-                stack.getCapability(Capabilities.FLUID_ITEM).ifPresent((c) ->
-                        c.fill(new FluidStack(finalFluid, capacity.get()), IFluidHandler.FluidAction.EXECUTE));
-                items.add(stack);
-            }
-        }
     }
 }
