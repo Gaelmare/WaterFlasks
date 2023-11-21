@@ -24,13 +24,13 @@ public class ConfigFlasks {
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
         COMMON_BUILDER.comment("Settings for Water Flasks");
         LEATHER_CAPACITY = COMMON_BUILDER
-                .comment("Liquid Capacity of Leather Flask (500 = 1/2 bucket = 5 drinks or 2 water bars)")
+                .comment("NOTE: NONFUNCTIONAL, constant capacity. Liquid Capacity of Leather Flask (500 = 1/2 bucket = 5 drinks or 2 water bars)")
                 .defineInRange("leatherCapacity", 500, 100, Integer.MAX_VALUE);
         DAMAGE_FACTOR = COMMON_BUILDER
-                .comment("Damage Capability of Flasks are Capacity/(this value), 0 = MAXINT uses")
+                .comment("NOTE: NONFUNCTIONAL, constant damage capacity. Damage Capability of Flasks are Capacity/(this value), 0 = MAXINT uses")
                 .defineInRange("damageFactor", 5, 0, Integer.MAX_VALUE);
         IRON_CAPACITY = COMMON_BUILDER
-                .comment("Liquid Capacity of Iron Flask (1000 = 1 bucket = 10 drinks or 4 water bars)")
+                .comment("NOTE: NONFUNCTIONAL, constant capacity. Liquid Capacity of Iron Flask (1000 = 1 bucket = 10 drinks or 4 water bars)")
                 .defineInRange("ironCapacity", 2000, 100, Integer.MAX_VALUE);
         THIRSTY_DRINK = COMMON_BUILDER
                 .comment("Allow drinking when not thirsty? Could be useful or wasteful if that's not water in there... Default False")
