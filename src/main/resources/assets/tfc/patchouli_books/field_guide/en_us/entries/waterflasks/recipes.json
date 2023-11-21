@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "There are two tiers of water flasks.$(br)The leather flask holds 5 drinks and lasts for 100.$(br)The iron flask holds 20 drinks, and lasts for 400.$(br2)Both flasks may be repaired."
+      "text": "There are two tiers of water flasks.$(br)The leather flask holds 5 drinks and lasts for 100 uses.$(br)The iron flask holds 20 drinks, and lasts for 400 uses.$(br2)Both flasks may be repaired."
     },
     {
       "type": "patchouli:crafting",

@@ -15,7 +15,7 @@ import net.minecraftforge.fml.config.ModConfig;
  */
 
 public class ConfigFlasks {
-    public static ForgeConfigSpec.IntValue LEATHER_CAPACITY;
+/*    public static ForgeConfigSpec.IntValue LEATHER_CAPACITY;
     public static ForgeConfigSpec.IntValue DAMAGE_FACTOR;
     public static ForgeConfigSpec.IntValue IRON_CAPACITY;
 
@@ -32,6 +32,6 @@ public class ConfigFlasks {
                 .comment("Liquid Capacity of Iron Flask (1000 = 1 bucket = 10 drinks or 4 water bars)")
                 .defineInRange("ironCapacity", 2000, 100, Integer.MAX_VALUE);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_BUILDER.build());
-    }
+    }*/
 
 }

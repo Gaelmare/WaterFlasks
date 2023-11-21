@@ -58,10 +58,10 @@ public class Registration {
 
     public static final RegistryObject<Item> BLADDER = register("bladder");
     public static final RegistryObject<Item> BROKEN_LEATHER_FLASK = register("broken_leather_flask");
-    public static final RegistryObject<Item> LEATHER_FLASK = register("leather_flask", () -> new FlaskItem(leatherProperties(), ConfigFlasks.LEATHER_CAPACITY, FlaskItem.DEFAULT_DRINK, BROKEN_LEATHER_FLASK));
+    public static final RegistryObject<Item> LEATHER_FLASK = register("leather_flask", () -> new FlaskItem(leatherProperties(), () -> {return 500;}, FlaskItem.DEFAULT_DRINK, BROKEN_LEATHER_FLASK));
     public static final RegistryObject<Item> UNFINISHED_FLASK = register("unfinished_iron_flask");
     public static final RegistryObject<Item> BROKEN_IRON_FLASK = register("broken_iron_flask");
-    public static final RegistryObject<Item> IRON_FLASK = register("iron_flask", () -> new FlaskItem(ironProperties(), ConfigFlasks.IRON_CAPACITY, FlaskItem.DEFAULT_DRINK, BROKEN_IRON_FLASK));
+    public static final RegistryObject<Item> IRON_FLASK = register("iron_flask", () -> new FlaskItem(ironProperties(), () -> {return 2000;}, FlaskItem.DEFAULT_DRINK, BROKEN_IRON_FLASK));
 
     public static final CreativeTabHolder FLASKTAB = register("flasks", () -> new ItemStack(LEATHER_FLASK.get()), Registration::fillTab);
 
