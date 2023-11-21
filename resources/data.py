@@ -45,8 +45,8 @@ def generate(rm: ResourceManager):
     ### MISC DATA ###
     chances = ('10', '20', '50')
     global_loot_modifiers(rm, *['waterflasks:bladders_%s' % i for i in chances])
-    for chance in chances:
-        global_loot_modifier(rm, 'bladders_%s' % chance, 'waterflasks:add_item', {'item': utils.item_stack({"id": 'waterflasks:bladder',"count": "1"}), 'chance': float(chance) / 100}, match_entity_tag('waterflasks:drops_bladders_%s' % chance))
+    for chance in chances: ## todo: fix GLM generation, need bare int here in output for Count, autoconverts to "1" on output
+        global_loot_modifier(rm, 'bladders_%s' % chance, 'waterflasks:add_item', {'item': utils.item_stack({"id": 'waterflasks:bladder', "Count": 1}), 'chance': float(chance) / 100}, match_entity_tag('waterflasks:drops_bladders_%s' % chance))
 
     #  todo: add wildebeest, zebu, camel, llama, gazelle, deer...
 

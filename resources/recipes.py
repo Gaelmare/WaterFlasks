@@ -2,7 +2,7 @@
 #  See the project README.md and LICENSE.txt for more information.
 
 from enum import Enum
-from typing import Union, Tuple
+from typing import Union
 
 from mcresources import ResourceManager, RecipeContext, utils
 from mcresources.type_definitions import Json, ResourceIdentifier

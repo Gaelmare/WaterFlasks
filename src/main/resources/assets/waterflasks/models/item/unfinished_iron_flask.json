@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "waterflasks:items/unfinished_iron_flask"
+		"layer0": "waterflasks:item/unfinished_iron_flask"
 	}
 }

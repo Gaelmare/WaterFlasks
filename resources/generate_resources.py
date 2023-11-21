@@ -16,7 +16,6 @@ from mcresources.type_definitions import Json
 
 import recipes
 import data
-import book
 
 
 class ModificationLoggingResourceManager(ResourceManager):

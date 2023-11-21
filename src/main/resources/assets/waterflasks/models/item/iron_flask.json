@@ -1,7 +1,7 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "waterflasks:items/iron_flask"
+		"layer0": "waterflasks:item/iron_flask"
 	},
 	"overrides": [
 		{

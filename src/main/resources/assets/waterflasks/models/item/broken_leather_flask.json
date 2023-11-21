@@ -1,6 +1,6 @@
 {
 	"parent": "item/generated",
 	"textures": {
-		"layer0": "waterflasks:items/broken_leather_flask"
+		"layer0": "waterflasks:item/broken_leather_flask"
 	}
 }

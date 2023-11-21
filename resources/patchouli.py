@@ -1,7 +1,7 @@
 import json
 import os
 import re
-from typing import NamedTuple, Tuple, List, Mapping, Set, Any, Dict
+from typing import NamedTuple, Tuple, List, Mapping, Set, Any
 
 from mcresources import ResourceManager, utils
 from mcresources.type_definitions import JsonObject, ResourceLocation, ResourceIdentifier
