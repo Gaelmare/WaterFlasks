@@ -84,11 +84,11 @@ public class Registration {
     // we generally want to instantiate *new* properties per item, as the properties builder is mutable.
     private static Item.Properties leatherProperties()
     {
-        return new Item.Properties().durability(ConfigFlasks.DAMAGE_FACTOR.get() == 0 ? Integer.MAX_VALUE : ConfigFlasks.LEATHER_CAPACITY.get() / ConfigFlasks.DAMAGE_FACTOR.get());
+        return new Item.Properties().durability(100);
     }
     private static Item.Properties ironProperties()
     {
-        return new Item.Properties().durability(ConfigFlasks.DAMAGE_FACTOR.get() == 0 ? Integer.MAX_VALUE : ConfigFlasks.IRON_CAPACITY.get() / ConfigFlasks.DAMAGE_FACTOR.get());
+        return new Item.Properties().durability(400);
     }
 
     private static RegistryObject<Item> register(String name)
