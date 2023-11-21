@@ -1,10 +1,10 @@
 {
   "__comment__": "This file was automatically created by mcresources",
-  "extend": "tfc:field_guide",
   "name": "waterflasks field_guide extension",
   "landing_text": "waterflasks field_guide extension",
   "subtitle": "${version}",
   "dont_generate_book": false,
   "show_progress": false,
-  "macros": {}
+  "macros": {},
+  "use_resource_pack": true
 }

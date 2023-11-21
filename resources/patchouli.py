@@ -1,7 +1,7 @@
 import json
 import os
 import re
-from typing import NamedTuple, Tuple, List, Mapping, Set, Any
+from typing import NamedTuple, Tuple, List, Mapping, Set, Any, Dict
 
 from mcresources import ResourceManager, utils
 from mcresources.type_definitions import JsonObject, ResourceLocation, ResourceIdentifier
@@ -13,7 +13,6 @@ NON_TEXT_FIRST_PAGE = 'NON_TEXT_FIRST_PAGE'
 PAGE_BREAK = 'PAGE_BREAK'
 EMPTY_LAST_PAGE = 'EMPTY_LAST_PAGE'
 
-NUM_TFC_CATEGORIES = 3
 
 class Component(NamedTuple):
     type: str
@@ -94,7 +93,7 @@ class Book:
     def __init__(self, rm: ResourceManager, root_name: str, macros: JsonObject, i18n: I18n, local_instance: bool, reverse_translate: bool):
         self.rm: ResourceManager = rm
         self.root_name = root_name
-        self.category_count = NUM_TFC_CATEGORIES
+        self.category_count = 0
         self.i18n = i18n
         self.local_instance = local_instance
         self.reverse_translate = reverse_translate
@@ -103,11 +102,12 @@ class Book:
         self.macros = macros
 
     def template(self, template_id: str, *components: Component):
-        self.rm.data(('patchouli_books', self.root_name, 'en_us', 'templates', template_id), {
-            'components': [{
-                'type': c.type, 'x': c.x, 'y': c.y, **c.data
-            } for c in components]
-        })
+        if self.i18n.is_root():  # Templates are only required in root
+            self.rm.data(('patchouli_books', self.root_name, self.i18n.lang, 'templates', template_id), {
+                'components': [{
+                    'type': c.type, 'x': c.x, 'y': c.y, **c.data
+                } for c in components]
+            }, root_domain='assets')
 
     def category(self, category_id: str, name: str, description: str, icon: str, parent: str | None = None, is_sorted: bool = False, entries: Tuple[Entry, ...] = ()):
         """
@@ -127,7 +127,7 @@ class Book:
         # Only generate the book.json if we're in the root language
         if self.i18n.lang == 'en_us':
             self.rm.data(('patchouli_books', self.root_name, 'book'), {
-                'extend': 'tfc:field_guide',
+                #'extend': 'tfc:field_guide',
                 'name': 'waterflasks field_guide extension',
                 'landing_text': 'waterflasks field_guide extension',
                 'subtitle': '${version}',
@@ -135,7 +135,8 @@ class Book:
                 # If neither we nor patchy make a book item, this will show up as 'Air'. So we make one to allow the title to work properly.
                 'dont_generate_book': False,
                 'show_progress': False,
-                'macros': self.macros
+                'macros': self.macros,
+                'use_resource_pack': not self.local_instance,  # Required since 1.20 for mod books
             })
 
         # Find all valid link targets
@@ -158,8 +159,8 @@ class Book:
                 'description': self.i18n.translate(description),
                 'icon': icon,
                 'parent': parent,
-                'sortnum': self.category_count
-            })
+                'sortnum': self.category_count,
+            }, root_domain='assets')
         self.category_count += 1
 
         category_res: ResourceLocation = utils.resource_location(self.rm.domain, category_id)
@@ -254,11 +255,11 @@ class Book:
                 'read_by_default': True,
                 'sortnum': i if is_sorted else None,
                 'extra_recipe_mappings': extra_recipe_mappings
-            })
+            }, root_domain='assets')
 
     def prefix(self, path: str) -> str:
         """ In a local instance, domains are all under patchouli, otherwise under tfc """
-        return ('patchouli' if self.local_instance else 'waterflasks') + ':' + path
+        return ('patchouli' if self.local_instance else 'tfc') + ':' + path
 
     def load_data(self, name_parts: ResourceIdentifier) -> JsonObject:
         res = utils.resource_location(self.rm.domain, name_parts)
@@ -332,6 +333,8 @@ def crafting(first_recipe: str, second_recipe: str | None = None, title: Transla
     :param text_contents: The text to display on this page, under the recipes. This text can be formatted.
     Note: the text will not display if there are two recipes with two different outputs, and "title" is not set. This is the case of the image displayed, in which both recipes have the output names displayed, and there's no space for text.
     """
+    if second_recipe is not None:
+        assert ' ' not in second_recipe
     return page('patchouli:crafting', {'recipe': first_recipe, 'recipe2': second_recipe, 'title': title, 'text': text_contents}, translation_keys=('text', 'title'))
 
 
@@ -364,7 +367,7 @@ def two_tall_block_spotlight(title: TranslatableStr, text_content: TranslatableS
     return multiblock(title, text_content, False, pattern=(('X',), ('Y',), ('0',)), mapping={'X': upper, 'Y': lower})
 
 
-def multiblock(title: TranslatableStr, text_content: TranslatableStr, enable_visualize: bool, pattern: Tuple[Tuple[str, ...], ...] | None = None, mapping: Mapping[str, str] | None = None, offset: Tuple[int, int, int] | None = None, multiblock_id: str | None = None) -> Page:
+def multiblock(title: TranslatableStr = '', text_content: TranslatableStr = '', enable_visualize: bool = False, pattern: Tuple[Tuple[str, ...], ...] | None = None, mapping: Mapping[str, str] | None = None, offset: Tuple[int, int, int] | None = None, multiblock_id: str | None = None) -> Page:
     """
     Page type: "patchouli:multiblock"
 
@@ -393,6 +396,10 @@ def empty() -> Page:
     return page('patchouli:empty', {})
 
 
+def blank() -> Page:
+    return page('patchouli:empty', {'draw_filler': False})
+
+
 # ==============
 # TFC Page Types
 # ==============
@@ -401,9 +408,7 @@ def multimultiblock(text_content: TranslatableStr, *pages) -> Page:
     return page('multimultiblock', {'text': text_content, 'multiblocks': [p.data['multiblock'] if 'multiblock' in p.data else p.data['multiblock_id'] for p in pages]}, custom=True, translation_keys=('text',))
 
 
-def leather_knapping(recipe: str, text_content: TranslatableStr) -> Page: return recipe_page('leather_knapping_recipe', recipe, text_content)
-def clay_knapping(recipe: str, text_content: TranslatableStr) -> Page: return recipe_page('clay_knapping_recipe', recipe, text_content)
-def fire_clay_knapping(recipe: str, text_content: TranslatableStr) -> Page: return recipe_page('fire_clay_knapping_recipe', recipe, text_content)
+def knapping(recipe: str, text_content: TranslatableStr) -> Page: return recipe_page('knapping_recipe', recipe, text_content)
 def heat_recipe(recipe: str, text_content: TranslatableStr) -> Page: return recipe_page('heat_recipe', recipe, text_content)
 def quern_recipe(recipe: str, text_content: TranslatableStr) -> Page: return recipe_page('quern_recipe', recipe, text_content)
 def anvil_recipe(recipe: str, text_content: TranslatableStr) -> Page: return recipe_page('anvil_recipe', recipe, text_content)

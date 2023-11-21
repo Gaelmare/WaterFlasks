@@ -1,7 +1,7 @@
 {
   "__comment__": "This file was automatically created by mcresources",
   "name": "Flask Recipes",
-  "category": "waterflasks:waterflasks",
+  "category": "tfc:waterflasks",
   "icon": "waterflasks:leather_flask",
   "pages": [
     {

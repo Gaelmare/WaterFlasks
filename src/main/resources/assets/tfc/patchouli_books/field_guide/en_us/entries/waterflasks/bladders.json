@@ -1,7 +1,7 @@
 {
   "__comment__": "This file was automatically created by mcresources",
   "name": "Flask Materials",
-  "category": "waterflasks:waterflasks",
+  "category": "tfc:waterflasks",
   "icon": "waterflasks:bladder",
   "pages": [
     {
@@ -20,7 +20,7 @@
       "text": "Flask Sides are used in both flask recipes."
     },
     {
-      "type": "waterflasks:leather_knapping_recipe",
+      "type": "tfc:knapping_recipe",
       "recipe": "waterflasks:leather_knapping/leather_side",
       "text": "Leather flask sides are knapped out of leather to protect the bladder from punctures."
     }

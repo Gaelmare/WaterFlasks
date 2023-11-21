@@ -5,7 +5,7 @@
       "type": "patchouli:custom",
       "x": 0,
       "y": 0,
-      "class": "net.dries007.tfc.compat.patchouli.component.LeatherKnappingComponent",
+      "class": "net.dries007.tfc.compat.patchouli.component.KnappingComponent",
       "recipe": "#recipe"
     },
     {

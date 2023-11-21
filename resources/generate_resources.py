@@ -55,7 +55,7 @@ def main():
 def generate_all(rm: ResourceManager):
     recipes.generate(rm)
     data.generate(rm)
-    book.generate(rm)
+    #book.generate(rm)
 
     rm.flush()
 

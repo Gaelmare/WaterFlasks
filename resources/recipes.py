@@ -109,15 +109,6 @@ def delegate_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier, r
     })
     return RecipeContext(rm, res)
 
-def leather_knapping(rm: ResourceManager, name_parts: utils.ResourceIdentifier, pattern: List[str], result: utils.Json, outside_slot_required: bool = None):
-    knapping_recipe(rm, 'leather_knapping', name_parts, pattern, result, outside_slot_required)
-
-def knapping_recipe(rm: ResourceManager, knapping_type: str, name_parts: utils.ResourceIdentifier, pattern: List[str], result: utils.Json, outside_slot_required: bool = None):
-    rm.recipe((knapping_type, name_parts), 'tfc:%s' % knapping_type, {
-        'outside_slot_required': outside_slot_required,
-        'pattern': pattern,
-        'result': utils.item_stack(result)
-    })
 
 def heat_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier, ingredient: utils.Json, temperature: float, result_item: Optional[Union[str, Json]] = None, result_fluid: Optional[str] = None) -> RecipeContext:
     result_item = item_stack_provider(result_item) if isinstance(result_item, str) else result_item
@@ -172,3 +163,18 @@ def item_stack_provider(data_in: Json = None, copy_input: bool = False, copy_hea
             'modifiers': modifiers
         }
     return stack
+
+
+def leather_knapping(rm: ResourceManager, name_parts: ResourceIdentifier, pattern: List[str], result: Json, outside_slot_required: bool = None):
+    knapping_recipe(rm, name_parts, 'tfc:leather', pattern, result, None, outside_slot_required)
+
+def knapping_recipe(rm: ResourceManager, name_parts: ResourceIdentifier, knap_type: str, pattern: List[str], result: Json, ingredient: Json, outside_slot_required: bool):
+    for part in pattern:
+        assert 0 < len(part) < 6, 'Incorrect length: %s' % part
+    rm.recipe((knap_type.split(':')[1] + '_knapping', name_parts), 'tfc:knapping', {
+        'knapping_type': knap_type,
+        'outside_slot_required': outside_slot_required,
+        'pattern': pattern,
+        'ingredient': None if ingredient is None else utils.ingredient(ingredient),
+        'result': utils.item_stack(result)
+    })
