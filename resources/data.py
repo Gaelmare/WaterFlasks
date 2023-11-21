@@ -27,16 +27,18 @@ DROP_ENTITIES: Dict[str, str] = {
     'Sheep':     '10',
     'Alpaca':    '10',
     'Goat':      '10',
+    'Deer':      '10',
     'Equines':   '20',
     'Bears':     '20',
     'Bovines':   '50',
+    'Moose':     '50',
 }
 
 def generate(rm: ResourceManager):
 
-    rm.entity_tag('drops_bladders_50', 'tfc:cow', 'tfc:musk_ox', 'tfc:yak')
-    rm.entity_tag('drops_bladders_20', 'tfc:horse', 'tfc:mule', 'tfc:donkey', 'tfc:grizzly_bear', 'tfc:polar_bear', 'tfc:black_bear')
-    rm.entity_tag('drops_bladders_10', 'tfc:sheep', 'tfc:alpaca', 'tfc:goat')
+    rm.entity_tag('drops_bladders_50', 'tfc:cow', 'tfc:musk_ox', 'tfc:yak', 'tfc:moose')
+    rm.entity_tag('drops_bladders_20', 'tfc:horse', 'tfc:mule', 'tfc:donkey', 'tfc:grizzly_bear', 'tfc:polar_bear', 'tfc:black_bear', 'tfc:panda')
+    rm.entity_tag('drops_bladders_10', 'tfc:sheep', 'tfc:alpaca', 'tfc:goat', 'tfc:deer')
 
     rm.item_tag('waterflasks:flasks', 'waterflasks:iron_flask', 'waterflasks:leather_flask')
 
@@ -48,7 +50,7 @@ def generate(rm: ResourceManager):
     for chance in chances: ## todo: fix GLM generation, need bare int here in output for Count, autoconverts to "1" on output
         global_loot_modifier(rm, 'bladders_%s' % chance, 'waterflasks:add_item', {'item': utils.item_stack({"id": 'waterflasks:bladder', "Count": 1}), 'chance': float(chance) / 100}, match_entity_tag('waterflasks:drops_bladders_%s' % chance))
 
-    #  todo: add wildebeest, zebu, camel, llama, gazelle, deer...
+    #  todo: add wildebeest, zebu, camel, llama, gazelle...
 
 def global_loot_modifier(rm: ResourceManager, name: str, mod_type: str, data_in: Json, *conditions: utils.Json):
     rm.write((*rm.resource_dir, 'data', rm.domain, 'loot_modifiers', name), {

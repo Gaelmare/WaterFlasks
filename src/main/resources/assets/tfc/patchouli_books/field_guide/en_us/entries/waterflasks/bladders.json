@@ -10,7 +10,7 @@
     },
     {
       "type": "patchouli:text",
-      "text": "$(br)$(bold)Animal____________Chance$(br)$()Sheep___________________10%$(br)Alpaca__________________10%$(br)Goat____________________10%$(br)Equines_________________20%$(br)Bears___________________20%$(br)Bovines_________________50%$(br)$(br)To increase your chances, use a higher damage weapon to butcher the animal."
+      "text": "$(br)$(bold)Animal____________Chance$(br)$()Sheep___________________10%$(br)Alpaca__________________10%$(br)Goat____________________10%$(br)Deer____________________10%$(br)Equines_________________20%$(br)Bears___________________20%$(br)Bovines_________________50%$(br)Moose___________________50%$(br)$(br)To increase your chances, use a higher damage weapon to butcher the animal."
     },
     {
       "type": "patchouli:spotlight",
