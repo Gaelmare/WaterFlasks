@@ -18,6 +18,7 @@ public class ConfigFlasks {
     public static ForgeConfigSpec.IntValue LEATHER_CAPACITY;
     public static ForgeConfigSpec.IntValue DAMAGE_FACTOR;
     public static ForgeConfigSpec.IntValue IRON_CAPACITY;
+    public static ForgeConfigSpec.BooleanValue THIRSTY_DRINK;
 
     public static void register() {
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
@@ -31,6 +32,9 @@ public class ConfigFlasks {
         IRON_CAPACITY = COMMON_BUILDER
                 .comment("Liquid Capacity of Iron Flask (1000 = 1 bucket = 10 drinks or 4 water bars)")
                 .defineInRange("ironCapacity", 2000, 100, Integer.MAX_VALUE);
+        THIRSTY_DRINK = COMMON_BUILDER
+                .comment("Allow drinking when not thirsty? Could be useful or wasteful if that's not water in there... Default False")
+                .define("thirstyDrinking", false);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_BUILDER.build());
     }
 
