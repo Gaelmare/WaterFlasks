@@ -31,6 +31,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.NotNull;
+import org.labellum.mc.waterflasks.ConfigFlasks;
 import org.labellum.mc.waterflasks.fluids.FlaskFluidHandler;
 
 import javax.annotation.Nonnull;
@@ -137,7 +138,7 @@ public class FlaskItem extends DiscreteFluidContainerItem {
             {
                 //Try to Drink
                 FoodData stats = player.getFoodData();
-                if (stats instanceof TFCFoodData && ((TFCFoodData) stats).getThirst() >= MAX_THIRST) {
+                if (!ConfigFlasks.THIRSTY_DRINK.get() && stats instanceof TFCFoodData && ((TFCFoodData) stats).getThirst() >= MAX_THIRST) {
                     // Don't drink if not thirsty
                     return InteractionResultHolder.fail(player.getItemInHand(hand));
                 }
