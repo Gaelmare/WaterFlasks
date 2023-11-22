@@ -29,7 +29,7 @@ public class Waterflasks {
     public Waterflasks() {
 
         // Register the deferred registry
-        //ConfigFlasks.register();
+        ConfigFlasks.register();
         Registration.init();
         ModSetup.init();
 
