@@ -93,7 +93,7 @@ class Book:
     def __init__(self, rm: ResourceManager, root_name: str, macros: JsonObject, i18n: I18n, local_instance: bool, reverse_translate: bool):
         self.rm: ResourceManager = rm
         self.root_name = root_name
-        self.category_count = 0
+        self.category_count = 3
         self.i18n = i18n
         self.local_instance = local_instance
         self.reverse_translate = reverse_translate
