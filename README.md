@@ -36,7 +36,7 @@ Fluid level in Iron Flask is indicated by vertical bar. The Leather Flask change
 
 ## Status
 
-Alpha 1.20 release!
+1.20 release!
 
 ## Developing
 
