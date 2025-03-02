@@ -89,28 +89,26 @@ def flask_repair(rm: ResourceManager, name_parts: utils.ResourceIdentifier, patt
     })
 
 def damage_shaped(rm: ResourceManager, name_parts: utils.ResourceIdentifier, pattern: Sequence[str], ingredients: Json, result: Json, group: str = None, conditions: Optional[Json] = None) -> RecipeContext:
+    return delegate_recipe(rm, name_parts, 'tfc:damage_inputs_shaped_crafting', {
+        'type': 'minecraft:crafting_shaped',
+        'group': group,
+        'pattern': pattern,
+        'key': utils.item_stack_dict(ingredients, ''.join(pattern)[0]),
+        'result': utils.item_stack(result),
+        'conditions': utils.recipe_condition(conditions)
+        })
+
+def write_crafting_recipe(rm: ResourceManager, name_parts: ResourceIdentifier, data: Json) -> RecipeContext:
     res = utils.resource_location(rm.domain, name_parts)
-    rm.write((*rm.resource_dir, 'data', res.domain, 'recipes', res.path), {
-        'type': 'tfc:damage_inputs_shaped_crafting',
-        'recipe': {
-            'type': 'minecraft:crafting_shaped',
-            'group': group,
-            'pattern': pattern,
-            'key': utils.item_stack_dict(ingredients, ''.join(pattern)[0]),
-            'result': utils.item_stack(result),
-            'conditions': utils.recipe_condition(conditions)
-        }
-    })
+    rm.write(('data', res.domain, 'recipes', res.path), data)
     return RecipeContext(rm, res)
 
-def delegate_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier, recipe_type: str, delegate: Json) -> RecipeContext:
-    res = utils.resource_location(rm.domain, name_parts)
-    rm.write((*rm.resource_dir, 'data', res.domain, 'recipes', res.path), {
+def delegate_recipe(rm: ResourceManager, name_parts: ResourceIdentifier, recipe_type: str, delegate: Json, data: Json = {}) -> RecipeContext:
+    return write_crafting_recipe(rm, name_parts, {
         'type': recipe_type,
-        'recipe': delegate
+        **data,
+        'recipe': delegate,
     })
-    return RecipeContext(rm, res)
-
 
 def heat_recipe(rm: ResourceManager, name_parts: utils.ResourceIdentifier, ingredient: utils.Json, temperature: float, result_item: Optional[Union[str, Json]] = None, result_fluid: Optional[str] = None) -> RecipeContext:
     result_item = item_stack_provider(result_item) if isinstance(result_item, str) else result_item

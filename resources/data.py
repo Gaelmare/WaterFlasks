@@ -53,7 +53,7 @@ def generate(rm: ResourceManager):
     #  todo: add wildebeest, zebu, camel, llama, gazelle...
 
 def global_loot_modifier(rm: ResourceManager, name: str, mod_type: str, data_in: Json, *conditions: utils.Json):
-    rm.write((*rm.resource_dir, 'data', rm.domain, 'loot_modifiers', name), {
+    rm.write(('data', rm.domain, 'loot_modifiers', name), {
         'type': mod_type,
         'conditions': [c for c in conditions],
         **data_in
@@ -62,7 +62,7 @@ def global_loot_modifier(rm: ResourceManager, name: str, mod_type: str, data_in:
 
 # note for the mcresources dev: these work exactly the same as tags so if you implement this, do it like that
 def global_loot_modifiers(rm: ResourceManager, *modifiers: str):
-    rm.write((*rm.resource_dir, 'data', 'forge', 'loot_modifiers', 'global_loot_modifiers'), {
+    rm.write(('data', 'forge', 'loot_modifiers', 'global_loot_modifiers'), {
         'replace': False,
         'entries': [m for m in modifiers]
     })
