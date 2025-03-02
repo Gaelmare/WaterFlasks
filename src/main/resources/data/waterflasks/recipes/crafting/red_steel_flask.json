@@ -9,7 +9,7 @@
     ],
     "key": {
       "I": {
-        "item": "waterflasks:unfinished_blue_steel_flask"
+        "item": "waterflasks:unfinished_red_steel_flask"
       },
       "K": {
         "tag": "tfc:knives"
@@ -28,7 +28,7 @@
       }
     },
     "result": {
-      "item": "waterflasks:blue_steel_flask"
+      "item": "waterflasks:red_steel_flask"
     }
   }
 }

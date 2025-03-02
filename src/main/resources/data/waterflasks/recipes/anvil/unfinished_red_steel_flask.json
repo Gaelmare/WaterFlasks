@@ -1,10 +1,10 @@
 {
   "type": "tfc:anvil",
   "input": {
-    "tag": "forge:sheets/blue_steel"
+    "tag": "forge:sheets/red_steel"
   },
   "result": {
-    "item": "waterflasks:unfinished_blue_steel_flask"
+    "item": "waterflasks:unfinished_red_steel_flask"
   },
   "tier": 6,
   "rules": [
