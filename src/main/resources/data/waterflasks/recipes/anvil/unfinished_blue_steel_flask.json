@@ -1,0 +1,15 @@
+{
+  "type": "tfc:anvil",
+  "input": {
+    "tag": "forge:sheets/blue_steel"
+  },
+  "result": {
+    "item": "waterflasks:unfinished_blue_steel_flask"
+  },
+  "tier": 6,
+  "rules": [
+    "punch_last",
+    "bend_second_last",
+    "bend_third_last"
+  ]
+}

@@ -13,5 +13,10 @@
   "item.waterflasks.iron_flask.filled": "%s Iron Flask",
   "item.waterflasks.iron_flask": "Iron Flask",
   "item.waterflasks.unfinished_iron_flask": "Unfinished Iron Flask",
-  "item.waterflasks.broken_iron_flask": "Broken Iron Flask"
+  "item.waterflasks.broken_iron_flask": "Broken Iron Flask",
+
+  "_comment4": "Blue Steel",
+  "item.waterflasks.blue_steel_flask.filled": "%s Blue Steel Flask",
+  "item.waterflasks.blue_steel_flask": "Blue Steel Flask",
+  "item.waterflasks.unfinished_blue_steel_flask": "Unfinished Blue Steel Flask"
 }

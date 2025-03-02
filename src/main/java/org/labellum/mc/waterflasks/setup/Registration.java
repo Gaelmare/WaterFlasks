@@ -15,10 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
+import net.minecraft.world.item.*;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraftforge.common.loot.IGlobalLootModifier;
@@ -62,6 +59,8 @@ public class Registration {
     public static final RegistryObject<Item> UNFINISHED_FLASK = register("unfinished_iron_flask");
     public static final RegistryObject<Item> BROKEN_IRON_FLASK = register("broken_iron_flask");
     public static final RegistryObject<Item> IRON_FLASK = register("iron_flask", () -> new FlaskItem(ironProperties(), () -> {return 2000;}, FlaskItem.DEFAULT_DRINK, BROKEN_IRON_FLASK));
+    public static final RegistryObject<Item> UNFINISHED_BLUE_STEEL_FLASK = register("unfinished_blue_steel_flask", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
+    public static final RegistryObject<Item> BLUE_STEEL_FLASK = register("blue_steel_flask", () -> new FlaskItem(blueSteelProperties(), () -> {return 2000;}, FlaskItem.DEFAULT_DRINK, UNFINISHED_BLUE_STEEL_FLASK));
 
     public static final CreativeTabHolder FLASKTAB = register("flasks", () -> new ItemStack(LEATHER_FLASK.get()), Registration::fillTab);
 
@@ -77,6 +76,8 @@ public class Registration {
         accept(out, UNFINISHED_FLASK);
         accept(out, BROKEN_IRON_FLASK);
         accept(out, IRON_FLASK);
+        accept(out, UNFINISHED_BLUE_STEEL_FLASK);
+        accept(out, BLUE_STEEL_FLASK);
     }
 
     // todo this may not work
@@ -89,6 +90,11 @@ public class Registration {
     private static Item.Properties ironProperties()
     {
         return new Item.Properties().durability(400);
+    }
+    private static Item.Properties blueSteelProperties()
+    {
+        //-1 so that the item is ignored when taking durability
+        return new Item.Properties().durability(-1).rarity(Rarity.EPIC);
     }
 
     private static RegistryObject<Item> register(String name)
