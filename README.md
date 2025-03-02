@@ -1,43 +1,52 @@
-# WaterFlasks
-Water Flasks TFC/Minecraft mod, inspired by Emris's Leather Water Sac for 1.7.10.
+# Water Flasks for TFC:TNG!
 
-For Minecraft 1.20.1, 1.18.2, and 1.12.2 as an addon to TerraFirmaCraft TNG.
+## Announcing the 1.20.1 Release!
 
-See the TerraFirmaCraft discord #content thread for WaterFlasks support: https://invite.gg/terrafirmacraft
+### 1.20/1.18: Bladders
 
-All code and resources used according to their published licenses.
+With the demise of skills in 1.18, bladders now drop more often when animals are killed with higher damage weapons. A red steel axe is approximately 2x more effective than your fists.
 
-Translations and textures welcome.
+#### Drop Chances
 
-Sides of flask are knapped out of leather.
+| Animal  |Drop Chance |
+| ------- |----------- |
+| Bovines |50%         |
+| Moose   |50%         |
+| Bears   |20%         |
+| Equines |20%         |
+| Sheep   |10%         |
+| Goat    |10%         |
+| Alpaca  |10%         |
+| Deer    |10%         |
 
-Bladders drop from bears, cows, horses, sheep etc. at some probability affected by how many of that animal you have killed:
+The flasks break at 100 damage for leather, and 400 for iron. They can be repaired using bladders.
 
-|Animals|    Required |Minimum|
-|---:|------------:|---:|
-| |   **Kills** |**Chance**|
-|-----------| ----------- |-----------|
-|Bears|           2 |50|
-|Bovines|           5 |60|
-|Equines|           5 |50|
-|Camel|           5 |50|
-|Sheep|          10 |25|
-|Goat|          10 |25|
-|Alpaca|          10 |25|
-|Llama|          10 |25|
-|Deer|          25 |15|
-|Gazelle|          25 |15|
+The durability bar is the color of the liquid inside, if any.
 
-Bladders from canine and feline predators are not suitable for use as drinking vessels.
+### Leather Flask
 
-Flasks take damage, and are repairable.
+*   To make the leather flask, you'll need two strings, a bladder, two leather sides, and a knife.
+*   The capacity of this leather flask is 40% of the OG version, as it was very overpowered.
+*   The leather sides are knapped out of leather. Please look the recipe up in JEI, as it is different from the old Leather Sac recipe.
+*   Fluid level in the leather flask is indicated by the apparent size.
 
-Fluid level in Iron Flask is indicated by vertical bar. The Leather Flask changes in size in your inventory based on how full it is.
+### Iron Flask
 
-## Status
+*   Recipe includes burlap and an unfinished flask which is forged out of an iron sheet.
+*   The iron flask has quadruple the capacity of the leather flask.
+*   The iron flask requires burlap to repair.
+*   Fluid level in the iron flask is shown by a bar in the center of the item.
 
-1.20 release!
+Known issues:
 
-## Developing
+*   Filling flasks consumes the source block
+*   Flasks filled with all possible fluids do NOT show up in JEI, but do show up in creative tabs
+*   Iron Flasks can no longer be disabled as a config option, use a datapack instead
 
-See pins in the #content-dev channel in the TFC discord for info 
+### TFC Addon history
+
+This was heavily inspired by Emris' [Leather Water Sac](https://terrafirmacraft.com/f/topic/3460-tfc-07923-leather-water-sac-for-tfc) 1.7.10 TerraFirmaCraft(TFC) add-on.
+
+The Water Sac [Curseforge Page](https://www.curseforge.com/minecraft/mc-mods/tfc-leather-sac) is not by the original author, and has the [license](https://www.curseforge.com/project/325664/license) completely [incorrect](https://github.com/emris/LeatherWaterSacTFC/blob/master/license.txt). The source for the original mod is on [github](https://github.com/emris/LeatherWaterSacTFC).
+
+I missed this mod so much for TerraFirmaCraft for 1.12.2+ (TFC:TNG), I needed a replacement.
