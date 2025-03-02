@@ -31,7 +31,7 @@ class ModificationLoggingResourceManager(ResourceManager):
 
 def main():
     parser = argparse.ArgumentParser(description='Generate resources for Water Flasks')
-    rm = ResourceManager('waterflasks', resource_dir='./src/main/resources')
+    rm = ResourceManager('waterflasks', resource_dir='src/main/resources', on_error=lambda file, err: print(file, err))
     parser.add_argument('--clean', action='store_true', dest='clean', help='Clean all auto generated resources')
     args = parser.parse_args()
 
