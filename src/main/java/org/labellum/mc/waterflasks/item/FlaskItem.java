@@ -100,6 +100,10 @@ public class FlaskItem extends DiscreteFluidContainerItem {
         }).orElse(super.getBarColor(stack));
     }
 
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        return true;
+    }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
@@ -174,16 +178,13 @@ public class FlaskItem extends DiscreteFluidContainerItem {
                         drinkable.onDrink(player, fluidConsumed.getAmount());
                     }
 
-                    if(stack.getMaxDamage() != -1){
-
-                        // the consumer is triggered when the player breaks an item. So we always know when something actually broke!
-                        stack.hurtAndBreak(1, player, p -> {
-                            // vanilla requests that we do this. not sure why
-                            p.broadcastBreakEvent(player.getUsedItemHand());
-                            level.playSound(null, entity.getOnPos(), FLASK_BREAK.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
-                            ItemHandlerHelper.giveItemToPlayer((Player) entity, new ItemStack(broken.get()));
-                        });
-                    }
+                    // the consumer is triggered when the player breaks an item. So we always know when something actually broke!
+                    stack.hurtAndBreak(1, player, p -> {
+                        // vanilla requests that we do this. not sure why
+                        p.broadcastBreakEvent(player.getUsedItemHand());
+                        level.playSound(null, entity.getOnPos(), FLASK_BREAK.get(), SoundSource.PLAYERS, 1.0f, 1.0f);
+                        ItemHandlerHelper.giveItemToPlayer((Player) entity, new ItemStack(broken.get()));
+                    });
                 }
             });
         }

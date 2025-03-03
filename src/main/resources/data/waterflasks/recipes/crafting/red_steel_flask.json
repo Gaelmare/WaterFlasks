@@ -1,4 +1,5 @@
 {
+  "__comment__": "This file was automatically created by mcresources",
   "type": "tfc:damage_inputs_shaped_crafting",
   "recipe": {
     "type": "minecraft:crafting_shaped",

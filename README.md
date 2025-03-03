@@ -37,6 +37,13 @@ The durability bar is the color of the liquid inside, if any.
 *   The iron flask requires burlap to repair.
 *   Fluid level in the iron flask is shown by a bar in the center of the item.
 
+### Red Steel Flask
+
+*   Recipe includes silk and an unfinished flask which is forged out of a red steel sheet.
+*   The red steel flask has the same capacity as the iron flask.
+*   The red steel flask does not break.
+*   Fluid level in the red steel flask is shown by a bar in the center of the item.
+
 Known issues:
 
 *   Filling flasks consumes the source block

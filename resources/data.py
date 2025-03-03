@@ -40,7 +40,7 @@ def generate(rm: ResourceManager):
     rm.entity_tag('drops_bladders_20', 'tfc:horse', 'tfc:mule', 'tfc:donkey', 'tfc:grizzly_bear', 'tfc:polar_bear', 'tfc:black_bear', 'tfc:panda')
     rm.entity_tag('drops_bladders_10', 'tfc:sheep', 'tfc:alpaca', 'tfc:goat', 'tfc:deer')
 
-    rm.item_tag('waterflasks:flasks', 'waterflasks:iron_flask', 'waterflasks:leather_flask')
+    rm.item_tag('waterflasks:flasks', 'waterflasks:iron_flask', 'waterflasks:leather_flask', 'waterflasks:red_steel_flask')
 
     item_size(rm, 'waterflasks', '#waterflasks:flasks', Size.very_small, Weight.very_heavy)
 
