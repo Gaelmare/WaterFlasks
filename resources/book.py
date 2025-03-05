@@ -61,10 +61,12 @@ def make_book(rm: ResourceManager, i18n: I18n, local_instance: bool = False, rev
             knapping('waterflasks:leather_knapping/leather_side', 'Leather flask sides are knapped out of leather to protect the bladder from punctures.'),
         )),
         entry('recipes', 'Flask Recipes', 'waterflasks:leather_flask', pages=(
-            text('There are two tiers of water flasks.$(br)The leather flask holds 5 drinks and lasts for 100 uses.$(br)The iron flask holds 20 drinks, and lasts for 400 uses.$(br2)Both flasks may be repaired.'),
-            crafting('waterflasks:crafting/leather_flask', 'waterflasks:crafting/iron_flask').link('waterflasks:leather_flask').link('waterflasks:iron_flask'),
+            text('There are three tiers of water flasks.$(br)The leather flask holds 5 drinks and lasts for 100 uses.$(br)The iron flask holds 20 drinks, and lasts for 400 uses.$(br)The red steel flask holds 20 drinks, and lasts for ever.$(br)Both leather and iron flasks may be repaired.'),
+            crafting('waterflasks:crafting/leather_flask', 'waterflasks:crafting/iron_flask',).link('waterflasks:leather_flask').link('waterflasks:iron_flask'),
             crafting('waterflasks:crafting/repair_leather', 'waterflasks:crafting/repair_iron', title='Repair Recipes'),
             crafting('waterflasks:crafting/repair_broken_leather', 'waterflasks:crafting/repair_broken_iron', title='Renew Recipes', text_contents='Flasks can also be repaired when completely broken.'),
+            crafting('waterflasks:crafting/red_steel_flask').link('waterflasks:red_steel_flask'),
+            empty_last_page(),
         ))
     ))
 

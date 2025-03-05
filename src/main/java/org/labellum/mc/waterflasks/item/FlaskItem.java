@@ -100,6 +100,10 @@ public class FlaskItem extends DiscreteFluidContainerItem {
         }).orElse(super.getBarColor(stack));
     }
 
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        return true;
+    }
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand)
@@ -173,6 +177,7 @@ public class FlaskItem extends DiscreteFluidContainerItem {
                     {
                         drinkable.onDrink(player, fluidConsumed.getAmount());
                     }
+
                     // the consumer is triggered when the player breaks an item. So we always know when something actually broke!
                     stack.hurtAndBreak(1, player, p -> {
                         // vanilla requests that we do this. not sure why

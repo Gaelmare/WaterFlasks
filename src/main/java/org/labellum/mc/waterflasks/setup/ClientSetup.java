@@ -34,6 +34,9 @@ public class ClientSetup {
             ItemProperties.register(Registration.IRON_FLASK.get(), new ResourceLocation(MOD_ID, "emptiness"), (stack, level, living, id) -> {
                 return FlaskItem.getEmptinessDisplay(stack);
             });
+            ItemProperties.register(Registration.RED_STEEL_FLASK.get(), new ResourceLocation(MOD_ID, "emptiness"), (stack, level, living, id) -> {
+                return FlaskItem.getEmptinessDisplay(stack);
+            });
         });
     }
 }

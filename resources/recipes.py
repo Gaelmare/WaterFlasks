@@ -52,10 +52,13 @@ def generate(rm: ResourceManager):
                                           '     '], 'waterflasks:leather_side')
 
     anvil_recipe(rm, 'unfinished_iron_flask', '#forge:sheets/wrought_iron', 'waterflasks:unfinished_iron_flask', 3, Rules.punch_last, Rules.bend_second_last, Rules.bend_third_last)
+    anvil_recipe(rm, 'unfinished_red_steel_flask', '#forge:sheets/red_steel', 'waterflasks:unfinished_red_steel_flask', 6, Rules.punch_last, Rules.bend_second_last, Rules.bend_third_last)
 
     heat_recipe(rm, 'wrought_iron_unfinished_iron_flask', 'waterflasks:unfinished_iron_flask', 1535, None, '200 tfc:metal/cast_iron')
+    heat_recipe(rm, 'red_steel_unfinished_red_steel_flask', 'waterflasks:unfinished_red_steel_flask', 1535, None, '200 tfc:metal/red_steel')
 
     item_heat(rm, 'unfinished_iron_flask', 'waterflasks:unfinished_iron_flask',2.857, mb=200) #iron
+    item_heat(rm, 'unfinished_red_steel_flask', 'waterflasks:unfinished_red_steel_flask',2.857, mb=200) #red_steel
 
     damage_shaped(rm, 'crafting/iron_flask', [' SK', 'CBC', 'LIL'], {'I': 'waterflasks:unfinished_iron_flask',
                                                                      'K': '#tfc:knives',
@@ -63,6 +66,13 @@ def generate(rm: ResourceManager):
                                                                      'S': '#forge:string',
                                                                      'L': 'waterflasks:leather_side',
                                                                      'B': 'waterflasks:bladder'}, 'waterflasks:iron_flask')
+
+    damage_shaped(rm, 'crafting/red_steel_flask', [' SK', 'CBC', 'LIL'], {'I': 'waterflasks:unfinished_red_steel_flask',
+                                                                          'K': '#tfc:knives',
+                                                                          'C': 'tfc:silk_cloth',
+                                                                          'S': '#forge:string',
+                                                                          'L': 'waterflasks:leather_side',
+                                                                              'B': 'waterflasks:bladder'}, 'waterflasks:red_steel_flask')
 
     damage_shaped(rm, 'crafting/leather_flask', [' L ', 'SBS', ' LK'], {'K': '#tfc:knives',
                                                                         'S': '#forge:string',
