@@ -39,6 +39,7 @@ import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
 import static net.dries007.tfc.common.capabilities.food.TFCFoodData.MAX_THIRST;
+import static org.labellum.mc.waterflasks.ConfigFlasks.SHIFT_EMPTY;
 import static org.labellum.mc.waterflasks.setup.Registration.*;
 
 public class FlaskItem extends DiscreteFluidContainerItem {
@@ -120,8 +121,8 @@ public class FlaskItem extends DiscreteFluidContainerItem {
             if(player.isCreative())
                 return InteractionResultHolder.pass(stack);
 
-            // If contains fluid, allow emptying with shift-right-click
-            if(player.isCrouching())
+            // If contains fluid, allow emptying with shift-right-click if configured
+            if(player.isCrouching() && SHIFT_EMPTY.get())
             {
                 handler.drain(capacity.get(), IFluidHandler.FluidAction.EXECUTE);
                 Helpers.playSound(level, player.blockPosition(), SoundEvents.BUCKET_EMPTY);

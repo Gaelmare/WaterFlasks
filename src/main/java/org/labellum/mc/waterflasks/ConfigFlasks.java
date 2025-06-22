@@ -20,6 +20,7 @@ public class ConfigFlasks {
     public static ForgeConfigSpec.IntValue DAMAGE_FACTOR;
     public static ForgeConfigSpec.IntValue IRON_CAPACITY;
     public static ForgeConfigSpec.BooleanValue THIRSTY_DRINK;
+    public static ForgeConfigSpec.BooleanValue SHIFT_EMPTY;
 
     public static void register() {
         ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
@@ -37,6 +38,9 @@ public class ConfigFlasks {
         THIRSTY_DRINK = COMMON_BUILDER
                 .comment("Allow drinking when not thirsty? Could be useful or wasteful if that's not water in there... Default False")
                 .define("thirstyDrinking", false);
+        SHIFT_EMPTY = COMMON_BUILDER
+                .comment("Empty flask when shift-right-clicked? Generally a useful feature, but does annoy a certain streamer... Default True")
+                .define("shiftClickToEmpty", true);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, COMMON_BUILDER.build());
     }
 
