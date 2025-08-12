@@ -17,7 +17,7 @@
   "item.waterflasks.iron_flask.filled": "Фляга (%s)",
   "item.waterflasks.iron_flask": "Фляга",
   "item.waterflasks.unfinished_iron_flask": "Недоделанная фляга",
-  "item.waterflasks.broken_iron_flask": "Сломанная фляга"
+  "item.waterflasks.broken_iron_flask": "Сломанная фляга",
   
   "_comment4": "Красная сталь",
   "item.waterflasks.red_steel_flask.filled": "Фляга из красной стали (%s)",
