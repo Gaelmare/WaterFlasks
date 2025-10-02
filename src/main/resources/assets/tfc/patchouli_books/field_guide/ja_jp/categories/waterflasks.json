@@ -1,0 +1,7 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "name": "水筒",
+  "description": "飲み物を持ち運ぶための、より良い容器を手に入れましょう。",
+  "icon": "waterflasks:iron_flask",
+  "sortnum": 3
+}
