@@ -1,6 +1,10 @@
 {
   "_comment1": "材料",
+<<<<<<< HEAD
   "item.waterflasks.bladder": "膀胱",
+=======
+  "item.waterflasks.bladder": "动物膀胱",
+>>>>>>> a7402539ecc06bab5cf86c0ffbcc7805b4bdb756
   "item.waterflasks.leather_side": "皮革水壶外壳",
   "waterflasks.item.flaskbreak": "水壶破裂",
 
