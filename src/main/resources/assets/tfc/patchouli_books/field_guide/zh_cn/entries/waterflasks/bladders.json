@@ -6,7 +6,7 @@
   "pages": [
     {
       "type": "patchouli:text",
-      "text": "高效储水的核心在于重复利用曾经储存过水（或类似液体）的东西。$(br2)$(bold)       动物膀胱！$()$(br)只有特定动物的膀胱适合此用途，且某些物种的膀胱比其他物种更容易获取。"
+      "text": "高效储水的核心在于重复利用曾经储存过水（或类似液体）的东西。$(br2)$(bold)         膀胱！$()$(br)只有特定动物的膀胱适合此用途，且某些物种的膀胱比其他物种更容易获取。"
     },
     {
       "type": "patchouli:text",
@@ -15,14 +15,14 @@
     {
       "type": "patchouli:spotlight",
       "item": "waterflasks:leather_side",
-      "title": "皮革水壶的侧边",
+      "title": "皮革水壶外壳",
       "link_recipes": false,
-      "text": "水壶侧边部件可用于制作两种水壶。"
+      "text": "水壶外壳可用于制作各种水壶。"
     },
     {
       "type": "tfc:knapping_recipe",
       "recipe": "waterflasks:leather_knapping/leather_side",
-      "text": "将皮革凿制成皮革水壶侧边，用以保护膀胱避免刺穿。"
+      "text": "将皮革凿制成皮革水壶外壳，用以保护膀胱避免刺穿。"
     }
   ],
   "read_by_default": true,
