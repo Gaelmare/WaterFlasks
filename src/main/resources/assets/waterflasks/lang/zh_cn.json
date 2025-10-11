@@ -1,10 +1,6 @@
 {
   "_comment1": "材料",
-<<<<<<< HEAD
   "item.waterflasks.bladder": "膀胱",
-=======
-  "item.waterflasks.bladder": "动物膀胱",
->>>>>>> a7402539ecc06bab5cf86c0ffbcc7805b4bdb756
   "item.waterflasks.leather_side": "皮革水壶外壳",
   "waterflasks.item.flaskbreak": "水壶破裂",
 
@@ -13,7 +9,7 @@
   "item.waterflasks.leather_flask": "皮革水壶",
   "item.waterflasks.broken_leather_flask": "损坏的皮革水壶",
 
-  "_comment3": "铁制品",
+  "_comment3": "锻铁制品",
   "item.waterflasks.iron_flask.filled": "锻铁水壶 (%s)",
   "item.waterflasks.iron_flask": "锻铁水壶",
   "item.waterflasks.unfinished_iron_flask": "未完成的锻铁水壶",
