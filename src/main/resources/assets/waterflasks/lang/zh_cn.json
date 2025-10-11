@@ -9,11 +9,11 @@
   "item.waterflasks.leather_flask": "皮革水壶",
   "item.waterflasks.broken_leather_flask": "损坏的皮革水壶",
 
-  "_comment3": "锻铁制品",
-  "item.waterflasks.iron_flask.filled": "锻铁水壶 (%s)",
-  "item.waterflasks.iron_flask": "锻铁水壶",
-  "item.waterflasks.unfinished_iron_flask": "未完成的锻铁水壶",
-  "item.waterflasks.broken_iron_flask": "损坏的锻铁水壶",
+  "_comment3": "铁制品",
+  "item.waterflasks.iron_flask.filled": "铁水壶 (%s)",
+  "item.waterflasks.iron_flask": "铁水壶",
+  "item.waterflasks.unfinished_iron_flask": "未完成的铁水壶",
+  "item.waterflasks.broken_iron_flask": "损坏的铁水壶",
 
   "_comment4": "红钢制品",
   "item.waterflasks.red_steel_flask.filled": "红钢水壶 (%s)",
