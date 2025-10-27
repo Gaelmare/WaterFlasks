@@ -22,7 +22,7 @@
     {
       "type": "tfc:knapping_recipe",
       "recipe": "waterflasks:leather_knapping/leather_side",
-      "text": "将皮革凿制成皮革水壶外壳，用以保护膀胱避免刺穿。"
+      "text": "将皮革剥制成皮革水壶外壳，用以保护膀胱避免刺穿。"
     }
   ],
   "read_by_default": true,
