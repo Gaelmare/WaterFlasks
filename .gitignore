@@ -21,6 +21,10 @@ build
 eclipse
 run
 resources/__pycache__
+runs
+run-data
+src/generated/resources/.cache/
 
 # Files from Forge MDK
 forge*changelog.txt
+repo
