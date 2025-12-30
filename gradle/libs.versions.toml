@@ -13,13 +13,16 @@ minecraft = "1.21.1"
 # The Minecraft version must agree with the Neo version to get a valid artifact
 neoforge = "21.1.217"
 emi = "1.1.10+1.21"
-jei = "19.22.1.316"
+jei = "19.25.0.321"
 top = "1.21_neo-12.0.4-6"
 patchouli = "1.21.1-92-NEOFORGE"
 datagenUtils = "1.1.2" # My (Traister101) datagen lib. Includes TFC datagen helpers, recomended
 # IMPORTANT change both this and the tfc file id for things to update correclty
 tfc = "4.0.16-beta"
 tfcFileId = "7343990"
+# cyanide!
+cyanide = "1.21.1-5.0.0"
+cyanId = "5782674"
 # Non standard version
 jadeFileId = "5591256"
 modernfixFileId = "6766126"
@@ -32,6 +35,7 @@ guava = "33.4.6-jre"
 jei-common-api = { group = "mezz.jei", name = "jei-1.21.1-common-api", version.ref = "jei" }
 jei-neoforge-api = { group = "mezz.jei", name = "jei-1.21.1-neoforge-api", version.ref = "jei" }
 jei = { group = "mezz.jei", name = "jei-1.21.1-neoforge", version.ref = "jei" }
+cyanide = { group = "curse.maven", name = "cyanide-541676", version.ref = "cyanId" }
 emi = { group = "dev.emi", name = "emi-neoforge", version.ref = "emi" }
 top = { group = "mcjty.theoneprobe", name = "theoneprobe", version.ref = "top" }
 patchouli = { group = "vazkii.patchouli", name = "Patchouli", version.ref = "patchouli" }

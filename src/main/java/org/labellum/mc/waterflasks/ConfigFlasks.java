@@ -29,9 +29,10 @@ public class ConfigFlasks {
         // todo: we need an unbreaking-like handler for durability tweaks, and no idea how to handle changes to capacities...
         LEATHER_CAPACITY = COMMON_BUILDER
                 .comment("Liquid Capacity of Leather Flask (500 = 1/2 bucket = 5 drinks or 2 water bars) Min 100, Max MAXINT")
-                .define("leatherCapacity",() -> 2000, // Default value as supplier
+                .define("leatherCapacity",() -> 500, // Default value as supplier
                         (value) -> {
                             // Validation function that returns true if valid
+                            if (value == null) return false;
                             int capacity = (Integer) value;
                             return capacity >= 100;
                         });
@@ -40,6 +41,7 @@ public class ConfigFlasks {
                 .define("damageFactor",() -> 5, // Default value as supplier
                         (value) -> {
                             // Validation function that returns true if valid
+                            if (value == null) return false;
                             int capacity = (Integer) value;
                             return capacity >= 0;
                         }); // Max value);
@@ -48,6 +50,7 @@ public class ConfigFlasks {
                 .define("ironCapacity",() -> 2000, // Default value as supplier
                         (value) -> {
                             // Validation function that returns true if valid
+                            if (value == null) return false;
                             int capacity = (Integer) value;
                             return capacity >= 100;
                         }); // Max value);
