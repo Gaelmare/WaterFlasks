@@ -7,6 +7,7 @@
 package org.labellum.mc.waterflasks.setup;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -15,8 +16,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import net.minecraftforge.common.loot.IGlobalLootModifier;
-import net.minecraftforge.common.loot.LootModifier;
+
+import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
+import net.neoforged.neoforge.common.loot.LootModifier;
 import org.jetbrains.annotations.NotNull;
 
 public class AddItemChanceModifier extends LootModifier {
@@ -30,7 +32,7 @@ public class AddItemChanceModifier extends LootModifier {
         this.chance = chance;
     }
 
-    public static final Codec<AddItemChanceModifier> CODEC = RecordCodecBuilder.create(instance -> codecStart(instance)
+    public static final MapCodec<AddItemChanceModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> LootModifier.codecStart(instance)
             .and(ItemStack.CODEC.fieldOf("item").forGetter(c -> c.item))
             .and(Codec.DOUBLE.optionalFieldOf("chance", 1d).forGetter(c -> c.chance)
             ).apply(instance, AddItemChanceModifier::new));
@@ -52,7 +54,7 @@ public class AddItemChanceModifier extends LootModifier {
     }
 
     @Override
-    public Codec<? extends IGlobalLootModifier> codec() {
+    public MapCodec<? extends IGlobalLootModifier> codec() {
         return Registration.ADD_ITEM.get();
     }
 

@@ -24,8 +24,9 @@ tfcFileId = "7343990"
 jadeFileId = "5591256"
 modernfixFileId = "6766126"
 # Test libs
-junit-jupiter = "5.10.3"
+junit-jupiter = "5.21.1"
 junit-platform-launcher = "1.10.3"
+guava = "33.4.6-jre"
 
 [libraries]
 jei-common-api = { group = "mezz.jei", name = "jei-1.21.1-common-api", version.ref = "jei" }
@@ -43,6 +44,7 @@ tfc = { group = "curse.maven", name = "TerraFirmaCraft-302973", version.ref = "t
 # Test libs
 junit-platform = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "junit-platform-launcher" }
 junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter", version.ref = "junit-jupiter" }
+guava = { module = "com.google.guava:guava", version.ref = "guava" }
 
 [plugins]
 githubPackages = { id = "io.github.apdevteam.github-packages", version.ref = "githubPackages" }

@@ -9,6 +9,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import org.labellum.mc.waterflasks.setup.ClientSetup;
 
 // This class will not load on dedicated servers. Accessing client side code from here is safe.
 @Mod(value = Waterflasks.MODID, dist = Dist.CLIENT)
@@ -25,6 +26,7 @@ public class WaterflasksClient {
     @SubscribeEvent
     static void onClientSetup(FMLClientSetupEvent event) {
         // Some client setup code
+        ClientSetup.setup(event);
         Waterflasks.LOGGER.info("HELLO FROM CLIENT SETUP");
         Waterflasks.LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
     }
