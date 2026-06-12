@@ -8,6 +8,7 @@ package org.labellum.mc.waterflasks.setup;
 
 import com.mojang.serialization.MapCodec;
 import net.dries007.tfc.TerraFirmaCraft;
+import net.dries007.tfc.common.capabilities.ItemCapabilities;
 import net.dries007.tfc.common.recipes.RecipeSerializerImpl;
 import net.dries007.tfc.common.recipes.TFCRecipeSerializers;
 import net.dries007.tfc.util.SelfTests;
@@ -26,6 +27,8 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -47,6 +50,18 @@ public class Registration {
             DeferredRegister.create(NeoForgeRegistries.Keys.GLOBAL_LOOT_MODIFIER_SERIALIZERS, MODID);
 
     public static final net.neoforged.neoforge.registries.DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = net.neoforged.neoforge.registries.DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MODID);
+
+    /**
+     * Registers the fluid handler capability for our flask items. TFC only registers it for its own
+     * {@link net.dries007.tfc.common.items.FluidContainerItem}s, so addon flasks must register themselves.
+     * We reuse TFC's own provider ({@link ItemCapabilities#forBucket}), which builds a
+     * {@code FluidContainerHandler} from any {@code FluidContainerItem}'s {@code containerInfo()}.
+     */
+    public static void registerCapabilities(RegisterCapabilitiesEvent event)
+    {
+        event.registerItem(Capabilities.FluidHandler.ITEM, ItemCapabilities::forBucket,
+                LEATHER_FLASK.get(), IRON_FLASK.get(), RED_STEEL_FLASK.get());
+    }
 
     public static void init(IEventBus modEventBus)
     {
@@ -102,16 +117,15 @@ public class Registration {
         accept(out, RED_STEEL_FLASK);
     }
 
-    // todo this may not work
-    // todo we can also set a config-based capacity for our flask items.
     // we generally want to instantiate *new* properties per item, as the properties builder is mutable.
+    // Durability gives the flask its wear bar and lets Helpers.damageItem deplete it on use.
     private static Item.Properties leatherProperties()
     {
-        return new Item.Properties();
+        return new Item.Properties().durability(100);
     }
     private static Item.Properties ironProperties()
     {
-        return new Item.Properties();
+        return new Item.Properties().durability(400);
     }
     private static Item.Properties redSteelProperties()
     {

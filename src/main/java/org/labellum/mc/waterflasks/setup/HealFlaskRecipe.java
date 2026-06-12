@@ -68,20 +68,22 @@ public class HealFlaskRecipe extends ShapedRecipe
     public ItemStack assemble(CraftingInput input, HolderLookup.Provider registries)
     {
         FluidStack fluid = FluidStack.EMPTY;
+        ItemStack flask = ItemStack.EMPTY;
         for (int i = 0; i < input.size(); i++)
         {
             ItemStack stack = input.getItem(i);
             if (Helpers.isItem(stack, Registration.FLASKS))
             {
+                flask = stack;
                 IFluidHandler handler = stack.getCapability(Capabilities.FluidHandler.ITEM);
                 if (handler != null) {
                     fluid = handler.getFluidInTank(0);
                 }
-                //fluid = stack.getCapability(Capabilities.FLUID_ITEM).map(cap -> cap.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE)).orElse(FluidStack.EMPTY);
                 break;
             }
         }
-        final ItemStack result = super.assemble(input, registries);
+        // Build the output from our ItemStackProvider result, not the (empty) ShapedRecipe result
+        final ItemStack result = this.result.getSingleStack(flask);
         if (!fluid.isEmpty())
         {
             final FluidStack fillFluid = fluid;
@@ -91,6 +93,12 @@ public class HealFlaskRecipe extends ShapedRecipe
             }
         }
         return result;
+    }
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.Provider registries)
+    {
+        return result.getStackDisplayOnly(ItemStack.EMPTY);
     }
 
     @Override

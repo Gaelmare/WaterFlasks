@@ -1,0 +1,16 @@
+{
+  "type": "tfc:anvil",
+  "ingredient": {
+    "tag": "c:sheets/red_steel"
+  },
+  "result": {
+    "id": "waterflasks:unfinished_red_steel_flask",
+    "count": 1
+  },
+  "tier": 6,
+  "rules": [
+    "punch_last",
+    "bend_second_last",
+    "bend_third_last"
+  ]
+}

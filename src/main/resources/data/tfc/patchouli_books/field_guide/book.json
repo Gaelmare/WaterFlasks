@@ -1,0 +1,9 @@
+{
+  "name": "waterflasks field_guide extension",
+  "landing_text": "waterflasks field_guide extension",
+  "subtitle": "Waterflasks",
+  "dont_generate_book": false,
+  "show_progress": false,
+  "macros": {},
+  "use_resource_pack": true
+}

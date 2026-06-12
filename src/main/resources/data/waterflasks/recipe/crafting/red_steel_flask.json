@@ -1,0 +1,39 @@
+{
+  "type": "tfc:advanced_shaped_crafting",
+  "pattern": [
+    " SK",
+    "CBC",
+    "LIL"
+  ],
+  "key": {
+    "I": {
+      "item": "waterflasks:unfinished_red_steel_flask"
+    },
+    "K": {
+      "tag": "c:tools/knife"
+    },
+    "C": {
+      "item": "tfc:silk_cloth"
+    },
+    "S": {
+      "tag": "c:strings"
+    },
+    "L": {
+      "item": "waterflasks:leather_side"
+    },
+    "B": {
+      "item": "waterflasks:bladder"
+    }
+  },
+  "result": {
+    "id": "waterflasks:red_steel_flask",
+    "count": 1
+  },
+  "remainder": {
+    "modifiers": [
+      {
+        "type": "tfc:damage_crafting_remainder"
+      }
+    ]
+  }
+}

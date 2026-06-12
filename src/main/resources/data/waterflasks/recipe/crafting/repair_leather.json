@@ -1,0 +1,18 @@
+{
+  "type": "waterflasks:heal_flask",
+  "pattern": [
+    "FB"
+  ],
+  "key": {
+    "F": {
+      "item": "waterflasks:leather_flask"
+    },
+    "B": {
+      "item": "waterflasks:bladder"
+    }
+  },
+  "result": {
+    "id": "waterflasks:leather_flask",
+    "count": 1
+  }
+}

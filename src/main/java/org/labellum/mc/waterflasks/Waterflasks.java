@@ -59,6 +59,9 @@ public class Waterflasks {
         // Register the commonSetup method for modloading
         modEventBus.addListener(ModSetup::setup);
 
+        // Attach the fluid handler capability to our flask items (TFC only does this for its own items)
+        modEventBus.addListener(Registration::registerCapabilities);
+
         // Register ourselves for server and other game events we are interested in.
         // Note that this is necessary if and only if we want *this* class (Waterflasks) to respond directly to events.
         // Do not add this line if there are no @SubscribeEvent-annotated functions in this class, like onServerStarting() below.

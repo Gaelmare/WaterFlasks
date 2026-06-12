@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "tfc:sheep",
+    "tfc:alpaca",
+    "tfc:goat",
+    "tfc:deer"
+  ]
+}

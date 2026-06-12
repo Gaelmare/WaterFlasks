@@ -1,0 +1,25 @@
+{
+  "type": "waterflasks:heal_flask",
+  "pattern": [
+    "FB",
+    "CK"
+  ],
+  "key": {
+    "K": {
+      "tag": "c:tools/knife"
+    },
+    "F": {
+      "item": "waterflasks:iron_flask"
+    },
+    "C": {
+      "item": "tfc:burlap_cloth"
+    },
+    "B": {
+      "item": "waterflasks:bladder"
+    }
+  },
+  "result": {
+    "id": "waterflasks:iron_flask",
+    "count": 1
+  }
+}

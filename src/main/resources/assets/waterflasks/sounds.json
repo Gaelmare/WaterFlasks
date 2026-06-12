@@ -1,0 +1,8 @@
+{
+  "item.flaskbreak": {
+    "subtitle": "waterflasks.item.flaskbreak",
+    "sounds": [
+      "waterflasks:leather_flask_break"
+    ]
+  }
+}

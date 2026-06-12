@@ -1,0 +1,8 @@
+{
+  "ingredient": {
+    "item": "waterflasks:unfinished_iron_flask"
+  },
+  "heat_capacity": 5.714286,
+  "forging_temperature": 921.0,
+  "welding_temperature": 1228.0
+}

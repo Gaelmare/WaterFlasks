@@ -1,0 +1,11 @@
+{
+  "type": "tfc:heating",
+  "ingredient": {
+    "item": "waterflasks:unfinished_iron_flask"
+  },
+  "result_fluid": {
+    "id": "tfc:metal/cast_iron",
+    "amount": 200
+  },
+  "temperature": 1535
+}

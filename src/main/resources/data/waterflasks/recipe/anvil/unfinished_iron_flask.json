@@ -1,0 +1,16 @@
+{
+  "type": "tfc:anvil",
+  "ingredient": {
+    "tag": "c:sheets/wrought_iron"
+  },
+  "result": {
+    "id": "waterflasks:unfinished_iron_flask",
+    "count": 1
+  },
+  "tier": 3,
+  "rules": [
+    "punch_last",
+    "bend_second_last",
+    "bend_third_last"
+  ]
+}

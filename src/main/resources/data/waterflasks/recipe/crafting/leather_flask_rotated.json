@@ -1,0 +1,33 @@
+{
+  "type": "tfc:advanced_shaped_crafting",
+  "pattern": [
+    " S ",
+    "LBL",
+    " SK"
+  ],
+  "key": {
+    "K": {
+      "tag": "c:tools/knife"
+    },
+    "S": {
+      "tag": "c:strings"
+    },
+    "L": {
+      "item": "waterflasks:leather_side"
+    },
+    "B": {
+      "item": "waterflasks:bladder"
+    }
+  },
+  "result": {
+    "id": "waterflasks:leather_flask",
+    "count": 1
+  },
+  "remainder": {
+    "modifiers": [
+      {
+        "type": "tfc:damage_crafting_remainder"
+      }
+    ]
+  }
+}

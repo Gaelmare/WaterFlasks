@@ -1,0 +1,17 @@
+{
+  "type": "waterflasks:add_item",
+  "conditions": [
+    {
+      "condition": "minecraft:entity_properties",
+      "predicate": {
+        "type": "#waterflasks:drops_bladders_10"
+      },
+      "entity": "this"
+    }
+  ],
+  "item": {
+    "id": "waterflasks:bladder",
+    "count": 1
+  },
+  "chance": 0.1
+}

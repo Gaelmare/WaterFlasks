@@ -1,0 +1,15 @@
+{
+  "type": "tfc:knapping",
+  "knapping_type": "tfc:leather",
+  "pattern": [
+    "   # ",
+    " ####",
+    "#####",
+    " ### ",
+    "     "
+  ],
+  "result": {
+    "id": "waterflasks:leather_side",
+    "count": 1
+  }
+}
