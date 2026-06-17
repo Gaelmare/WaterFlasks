@@ -1,0 +1,9 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "replace": false,
+  "values": [
+    "waterflasks:iron_flask",
+    "waterflasks:leather_flask",
+    "waterflasks:red_steel_flask"
+  ]
+}

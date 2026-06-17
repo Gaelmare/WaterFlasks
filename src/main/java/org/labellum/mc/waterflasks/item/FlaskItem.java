@@ -14,6 +14,7 @@ import net.dries007.tfc.common.player.IPlayerInfo;
 import net.dries007.tfc.common.player.PlayerInfo;
 import net.dries007.tfc.util.data.Drinkable;
 import net.dries007.tfc.util.Helpers;
+import net.minecraft.util.Mth;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.FastColor;
@@ -46,13 +47,14 @@ public class FlaskItem extends FluidContainerItem {
     private final Supplier<Integer> capacity;
     private final Supplier<? extends Item> broken;
     private final int drink;
+    private final boolean breakable;
 
-    public FlaskItem(Item.Properties prop, Supplier<Integer> capFunc, int drink, Supplier<? extends Item> broken) {
-
-        super(prop, capFunc, TFCTags.Fluids.USABLE_IN_JUG, false,  () -> false);
+    public FlaskItem(Item.Properties prop, Supplier<Integer> capFunc, int drink, Supplier<? extends Item> broken, boolean breakable) {
+        super(prop, capFunc, TFCTags.Fluids.USABLE_IN_JUG, false, () -> false);
         this.capacity = capFunc;
         this.drink = drink;
         this.broken = broken;
+        this.breakable = breakable;
     }
 
     @Override
@@ -63,6 +65,14 @@ public class FlaskItem extends FluidContainerItem {
 
     public static int getCapacity(ItemStack stack) {
         return ((FlaskItem)stack.getItem()).capacity.get();
+    }
+
+    @Override
+    public int getMaxDamage(ItemStack stack) {
+        if (!breakable) return 0;
+        int factor = ConfigFlasks.DAMAGE_FACTOR.get();
+        if (factor <= 0) return 0;
+        return Math.max(1, capacity.get() / factor);
     }
 
     /**
@@ -84,13 +94,6 @@ public class FlaskItem extends FluidContainerItem {
         }
     }
 
-    /**
-     * Returns the packed int RGB value used to render the durability bar in the GUI.
-     * Retrieves no-alpha RGB color from liquid to use in durability bar
-     *
-     * @param stack Stack to get color from
-     * @return A packed RGB value for the durability colour (0x00RRGGBB)
-     */
     @Override
     public int getBarColor(ItemStack stack)
     {
@@ -103,12 +106,25 @@ public class FlaskItem extends FluidContainerItem {
             final int b = FastColor.ARGB32.blue(color);
             return FastColor.ARGB32.color(0, r, g, b);
         }
-        return 0xFFFFF;
+        int maxDamage = getMaxDamage(stack);
+        if (maxDamage > 0) {
+            return Mth.hsvToRgb(Math.max(0.0F, (1.0F - (float) stack.getDamageValue() / (float) maxDamage) / 3.0F), 1.0F, 1.0F);
+        }
+        return 0x7BF600;
     }
 
     @Override
     public boolean isBarVisible(ItemStack stack) {
-        return true;
+        return getMaxDamage(stack) > 0 || !FluidHelpers.getContainedFluid(stack).isEmpty();
+    }
+
+    @Override
+    public int getBarWidth(ItemStack stack) {
+        int maxDamage = getMaxDamage(stack);
+        if (maxDamage <= 0) {
+            return FluidHelpers.getContainedFluid(stack).isEmpty() ? 0 : 13;
+        }
+        return Math.round(13.0F - (float) stack.getDamageValue() * 13.0F / (float) maxDamage);
     }
 
     @Override
@@ -179,7 +195,7 @@ public class FlaskItem extends FluidContainerItem {
                 if (drained.getAmount() >= drink) {
                     FluidStack fluidConsumed = handler.drain(drink, IFluidHandler.FluidAction.EXECUTE);
                     final Drinkable drinkable = Drinkable.get(fluidConsumed.getFluid());
-                    if (drinkable != null)
+                    if (drinkable != null && !level.isClientSide)
                     {
                         drinkable.onDrink(player, fluidConsumed.getAmount());
                     }
@@ -205,7 +221,7 @@ public class FlaskItem extends FluidContainerItem {
     @Override
     protected InteractionResultHolder<ItemStack> afterEmptyFailed(IFluidHandler handler, Level level, Player player, ItemStack stack, InteractionHand hand)
     {
-        if (player.isCrouching())
+        if (player.isCrouching() && ConfigFlasks.SHIFT_EMPTY.get())
         {
             level.playSound(player, player.blockPosition(), SoundEvents.BUCKET_EMPTY, SoundSource.PLAYERS, 0.5f, 1.2f);
             handler.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.EXECUTE);

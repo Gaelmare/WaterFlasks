@@ -1,0 +1,6 @@
+{
+	"parent": "item/generated",
+	"textures": {
+		"layer0": "waterflasks:item/unfinished_iron_flask"
+	}
+}

@@ -1,0 +1,17 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "tfc:anvil",
+  "ingredient": {
+    "tag": "c:sheets/wrought_iron"
+  },
+  "result": {
+    "count": 1,
+    "id": "waterflasks:unfinished_iron_flask"
+  },
+  "tier": 3,
+  "rules": [
+    "punch_last",
+    "bend_second_last",
+    "bend_third_last"
+  ]
+}

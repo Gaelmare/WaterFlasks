@@ -1,0 +1,37 @@
+{
+  "type": "tfc:advanced_shaped_crafting",
+  "pattern": [
+    " SK",
+    "CBC",
+    "LIL"
+  ],
+  "key": {
+    "I": {
+      "item": "waterflasks:unfinished_iron_flask"
+    },
+    "K": {
+      "tag": "c:tools/knife"
+    },
+    "C": {
+      "item": "tfc:burlap_cloth"
+    },
+    "S": {
+      "tag": "c:strings"
+    },
+    "L": {
+      "item": "waterflasks:leather_side"
+    },
+    "B": {
+      "item": "waterflasks:bladder"
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "waterflasks:iron_flask"
+  },
+  "remainder": {
+    "modifiers": [{"type": "tfc:damage_crafting_remainder"}]
+  },
+  "input_row": 0,
+  "input_column": 2
+}

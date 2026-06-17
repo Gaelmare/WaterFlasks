@@ -1,0 +1,36 @@
+{
+  "itemGroup.waterflasks": "Water Flasks",
+
+  "_comment1": "Materials",
+  "item.waterflasks.bladder": "Bladder",
+  "item.waterflasks.leather_side": "Leather Flask Side",
+  "waterflasks.item.flaskbreak": "Flask breaking",
+
+  "_comment2": "Leather",
+  "item.waterflasks.leather_flask.filled": "%s Leather Flask",
+  "item.waterflasks.leather_flask": "Leather Flask",
+  "item.waterflasks.broken_leather_flask": "Broken Leather Flask",
+
+  "_comment3": "Iron",
+  "item.waterflasks.iron_flask.filled": "%s Iron Flask",
+  "item.waterflasks.iron_flask": "Iron Flask",
+  "item.waterflasks.unfinished_iron_flask": "Unfinished Iron Flask",
+  "item.waterflasks.broken_iron_flask": "Broken Iron Flask",
+
+  "_comment4": "Red Steel",
+  "item.waterflasks.red_steel_flask.filled": "%s Red Steel Flask",
+  "item.waterflasks.red_steel_flask": "Red Steel Flask",
+  "item.waterflasks.unfinished_red_steel_flask": "Unfinished Red Steel Flask",
+
+  "_comment5": "Config",
+  "waterflasks.config.leatherCapacity": "Leather Flask Capacity",
+  "waterflasks.config.leatherCapacity.tooltip": "Liquid capacity of the Leather Flask in mB. 500 = 5 drinks. Min: 100",
+  "waterflasks.config.damageFactor": "Durability Factor",
+  "waterflasks.config.damageFactor.tooltip": "Flask durability is Capacity divided by this value. 0 = unlimited uses.",
+  "waterflasks.config.ironCapacity": "Iron Flask Capacity",
+  "waterflasks.config.ironCapacity.tooltip": "Liquid capacity of the Iron Flask in mB. 1000 = 10 drinks. Min: 100",
+  "waterflasks.config.thirstyDrinking": "Allow Drinking When Not Thirsty",
+  "waterflasks.config.thirstyDrinking.tooltip": "If enabled, flasks can be used even when the player is not thirsty.",
+  "waterflasks.config.shiftClickToEmpty": "Shift-Click to Empty",
+  "waterflasks.config.shiftClickToEmpty.tooltip": "If enabled, shift right-clicking a flask empties it."
+}

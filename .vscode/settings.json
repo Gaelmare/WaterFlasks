@@ -2,5 +2,7 @@
     "java.project.sourcePaths": [
         "src/main/java"
     ],
-    "java.project.referencedLibraries": []
+    "java.project.referencedLibraries": [],
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.compile.nullAnalysis.mode": "automatic"
 }

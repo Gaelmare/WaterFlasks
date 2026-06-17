@@ -29,6 +29,7 @@ public class ConfigFlasks {
         // todo: we need an unbreaking-like handler for durability tweaks, and no idea how to handle changes to capacities...
         LEATHER_CAPACITY = COMMON_BUILDER
                 .comment("Liquid Capacity of Leather Flask (500 = 1/2 bucket = 5 drinks or 2 water bars) Min 100, Max MAXINT")
+                .translation("waterflasks.config.leatherCapacity")
                 .define("leatherCapacity",() -> 500, // Default value as supplier
                         (value) -> {
                             // Validation function that returns true if valid
@@ -38,6 +39,7 @@ public class ConfigFlasks {
                         });
         DAMAGE_FACTOR = COMMON_BUILDER
                 .comment("Damage Capability of Flasks are Capacity/(this value), 0 = MAXINT uses")
+                .translation("waterflasks.config.damageFactor")
                 .define("damageFactor",() -> 5, // Default value as supplier
                         (value) -> {
                             // Validation function that returns true if valid
@@ -47,6 +49,7 @@ public class ConfigFlasks {
                         }); // Max value);
         IRON_CAPACITY = COMMON_BUILDER
                 .comment("Liquid Capacity of Iron Flask (1000 = 1 bucket = 10 drinks or 4 water bars) Min 100, Max MAXINT")
+                .translation("waterflasks.config.ironCapacity")
                 .define("ironCapacity",() -> 2000, // Default value as supplier
                         (value) -> {
                             // Validation function that returns true if valid
@@ -56,9 +59,11 @@ public class ConfigFlasks {
                         }); // Max value);
         THIRSTY_DRINK = COMMON_BUILDER
                 .comment("Allow drinking when not thirsty? Could be useful or wasteful if that's not water in there... Default False")
+                .translation("waterflasks.config.thirstyDrinking")
                 .define("thirstyDrinking", false);
         SHIFT_EMPTY = COMMON_BUILDER
                 .comment("Empty flask when shift-right-clicked? Generally a useful feature, but does annoy a certain streamer... Default True")
+                .translation("waterflasks.config.shiftClickToEmpty")
                 .define("shiftClickToEmpty", true);
         SPEC = COMMON_BUILDER.build();
         modContainer.registerConfig(ModConfig.Type.COMMON, ConfigFlasks.SPEC);

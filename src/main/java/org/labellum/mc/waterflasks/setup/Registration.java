@@ -25,7 +25,11 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 
+import net.dries007.tfc.common.component.fluid.FluidContainerHandler;
+import net.dries007.tfc.common.items.FluidContainerItem;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.common.loot.IGlobalLootModifier;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -66,12 +70,12 @@ public class Registration {
 
     public static final DeferredItem<Item> BLADDER = register("bladder");
     public static final DeferredItem<Item> BROKEN_LEATHER_FLASK = register("broken_leather_flask");
-    public static final DeferredItem<Item> LEATHER_FLASK = register("leather_flask", () -> new FlaskItem(leatherProperties(), ConfigFlasks.LEATHER_CAPACITY, FlaskItem.DEFAULT_DRINK, BROKEN_LEATHER_FLASK));
+    public static final DeferredItem<Item> LEATHER_FLASK = register("leather_flask", () -> new FlaskItem(leatherProperties(), ConfigFlasks.LEATHER_CAPACITY, FlaskItem.DEFAULT_DRINK, BROKEN_LEATHER_FLASK, true));
     public static final DeferredItem<Item> UNFINISHED_FLASK = register("unfinished_iron_flask");
     public static final DeferredItem<Item> BROKEN_IRON_FLASK = register("broken_iron_flask");
-    public static final DeferredItem<Item> IRON_FLASK = register("iron_flask", () -> new FlaskItem(ironProperties(), ConfigFlasks.IRON_CAPACITY, FlaskItem.DEFAULT_DRINK, BROKEN_IRON_FLASK));
+    public static final DeferredItem<Item> IRON_FLASK = register("iron_flask", () -> new FlaskItem(ironProperties(), ConfigFlasks.IRON_CAPACITY, FlaskItem.DEFAULT_DRINK, BROKEN_IRON_FLASK, true));
     public static final DeferredItem<Item> UNFINISHED_RED_STEEL_FLASK = register("unfinished_red_steel_flask", () -> new Item(new Item.Properties().rarity(Rarity.EPIC)));
-    public static final DeferredItem<Item> RED_STEEL_FLASK = register("red_steel_flask", () -> new FlaskItem(redSteelProperties(), ConfigFlasks.IRON_CAPACITY, FlaskItem.DEFAULT_DRINK, UNFINISHED_RED_STEEL_FLASK));
+    public static final DeferredItem<Item> RED_STEEL_FLASK = register("red_steel_flask", () -> new FlaskItem(redSteelProperties(), ConfigFlasks.IRON_CAPACITY, FlaskItem.DEFAULT_DRINK, UNFINISHED_RED_STEEL_FLASK, false));
 
     // Creates a creative tab with the id "waterflasks:example_tab" for the example item, that is placed after the combat tab
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> FLASKTAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
@@ -115,8 +119,18 @@ public class Registration {
     }
     private static Item.Properties redSteelProperties()
     {
-        //-1 so that the item is ignored when taking durability
-        return new Item.Properties().durability(-1).rarity(Rarity.EPIC);
+        return new Item.Properties().stacksTo(1).rarity(Rarity.EPIC);
+    }
+
+    public static void onRegisterCapabilities(RegisterCapabilitiesEvent event)
+    {
+        event.registerItem(
+            Capabilities.FluidHandler.ITEM,
+            (stack, ctx) -> stack.getItem() instanceof FluidContainerItem item
+                ? new FluidContainerHandler(stack, item.containerInfo())
+                : null,
+            LEATHER_FLASK.get(), IRON_FLASK.get(), RED_STEEL_FLASK.get()
+        );
     }
 
     private static DeferredItem<Item> register(String name)

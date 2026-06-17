@@ -33,7 +33,6 @@ import static net.minecraft.world.item.crafting.CraftingBookCategory.EQUIPMENT;
 public class HealFlaskRecipe extends ShapedRecipe
 {
     public static final MapCodec<HealFlaskRecipe> CODEC = RecordCodecBuilder.mapCodec(i -> i.group(
-            // Copied from AdvancedShapedRecipe.Serializer.CODEC, as we want to avoid the "result" field as a strict item stack
             ShapedRecipePattern.MAP_CODEC.forGetter(c -> c.pattern),
             ItemStackProvider.CODEC.fieldOf("result").forGetter(c -> c.result),
             ItemStackProvider.CODEC.optionalFieldOf("remainder").forGetter(c -> c.remainder),
@@ -52,16 +51,21 @@ public class HealFlaskRecipe extends ShapedRecipe
 
     private final ItemStackProvider result;
     private final Optional<ItemStackProvider> remainder;
-    private final int inputSlot, inputRow, inputColumn;
+    private final int inputRow, inputColumn;
 
     protected HealFlaskRecipe(ShapedRecipePattern pattern, ItemStackProvider result, Optional<ItemStackProvider> remainder, int inputRow, int inputColumn)
     {
         super("", EQUIPMENT, pattern, ItemStack.EMPTY);
         this.result = result;
         this.remainder = remainder;
-        this.inputSlot = RecipeHelpers.dissolveRowColumn(inputRow, inputColumn, pattern.width());
         this.inputRow = inputRow;
         this.inputColumn = inputColumn;
+    }
+
+    @Override
+    public ItemStack getResultItem(HolderLookup.Provider registries)
+    {
+        return this.result.getSingleStack(ItemStack.EMPTY);
     }
 
     @Override
@@ -77,20 +81,18 @@ public class HealFlaskRecipe extends ShapedRecipe
                 if (handler != null) {
                     fluid = handler.getFluidInTank(0);
                 }
-                //fluid = stack.getCapability(Capabilities.FLUID_ITEM).map(cap -> cap.drain(Integer.MAX_VALUE, IFluidHandler.FluidAction.SIMULATE)).orElse(FluidStack.EMPTY);
                 break;
             }
         }
-        final ItemStack result = super.assemble(input, registries);
+        final ItemStack output = this.result.getSingleStack(ItemStack.EMPTY);
         if (!fluid.isEmpty())
         {
-            final FluidStack fillFluid = fluid;
-            IFluidHandler handler = result.getCapability(Capabilities.FluidHandler.ITEM);
+            IFluidHandler handler = output.getCapability(Capabilities.FluidHandler.ITEM);
             if (handler != null) {
-                handler.fill(fillFluid, IFluidHandler.FluidAction.EXECUTE);
+                handler.fill(fluid, IFluidHandler.FluidAction.EXECUTE);
             }
         }
-        return result;
+        return output;
     }
 
     @Override

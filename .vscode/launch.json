@@ -26,32 +26,10 @@
     {
       "type": "java",
       "request": "launch",
-      "name": "Data",
-      "presentation": {
-        "group": "Mod Development - WaterFlasks-121",
-        "order": 1
-      },
-      "projectName": "WaterFlasks-121",
-      "mainClass": "net.neoforged.devlaunch.Main",
-      "args": [
-        "@/home/agilmore/workspace/WaterFlasks-121/build/moddev/dataRunProgramArgs.txt"
-      ],
-      "vmArgs": [
-        "@/home/agilmore/workspace/WaterFlasks-121/build/moddev/dataRunVmArgs.txt",
-        "-Dfml.modFolders\u003dwaterflasks%%/home/agilmore/workspace/WaterFlasks-121/bin/main:waterflasks%%/home/agilmore/workspace/WaterFlasks-121/bin/data"
-      ],
-      "cwd": "${workspaceFolder}/run",
-      "env": {},
-      "console": "internalConsole",
-      "shortenCommandLine": "none"
-    },
-    {
-      "type": "java",
-      "request": "launch",
       "name": "Server",
       "presentation": {
         "group": "Mod Development - WaterFlasks-121",
-        "order": 2
+        "order": 1
       },
       "projectName": "WaterFlasks-121",
       "mainClass": "net.neoforged.devlaunch.Main",

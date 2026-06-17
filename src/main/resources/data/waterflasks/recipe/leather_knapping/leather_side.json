@@ -1,0 +1,16 @@
+{
+  "__comment__": "This file was automatically created by mcresources",
+  "type": "tfc:knapping",
+  "knapping_type": "tfc:leather",
+  "pattern": [
+    "   X ",
+    " XXXX",
+    "XXXXX",
+    " XXX ",
+    "     "
+  ],
+  "result": {
+    "count": 1,
+    "id": "waterflasks:leather_side"
+  }
+}
