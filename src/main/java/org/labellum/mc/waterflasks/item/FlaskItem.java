@@ -143,7 +143,10 @@ public class FlaskItem extends DiscreteFluidContainerItem {
             {
                 //Try to Drink
                 FoodData stats = player.getFoodData();
-                if (!ConfigFlasks.THIRSTY_DRINK.get() && stats instanceof TFCFoodData && ((TFCFoodData) stats).getThirst() >= MAX_THIRST) {
+                final Drinkable drinkable = Drinkable.get(handler.getFluidInTank(0).getFluid());
+                boolean isTfcDrinkableWhenFull = drinkable != null && drinkable.mayDrinkWhenFull();
+                boolean isDrinkableWhenFull = ConfigFlasks.THIRSTY_DRINK.get() || isTfcDrinkableWhenFull;
+                if (!isDrinkableWhenFull && stats instanceof TFCFoodData && ((TFCFoodData) stats).getThirst() >= MAX_THIRST) {
                     // Don't drink if not thirsty
                     return InteractionResultHolder.fail(player.getItemInHand(hand));
                 }
