@@ -1,6 +1,78 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "waterflasks:item/iron_flask"
-  }
+    "layer0": "waterflasks:item/iron_flask-1"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.0,
+        "damage": 0.0
+      },
+      "model": "waterflasks:item/iron_flask-1"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.0,
+        "damage": 0.2
+      },
+      "model": "waterflasks:item/combined/iron/iron_flask_d1"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.0,
+        "damage": 0.4
+      },
+      "model": "waterflasks:item/combined/iron/iron_flask_d2"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.0,
+        "damage": 0.6
+      },
+      "model": "waterflasks:item/combined/iron/iron_flask_d3"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.0,
+        "damage": 0.8
+      },
+      "model": "waterflasks:item/combined/iron/iron_flask_d4"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 1.0,
+        "damage": 0.0
+      },
+      "model": "waterflasks:item/iron_flask_empty"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 1.0,
+        "damage": 0.2
+      },
+      "model": "waterflasks:item/combined/iron/iron_flask_empty_d1"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 1.0,
+        "damage": 0.4
+      },
+      "model": "waterflasks:item/combined/iron/iron_flask_empty_d2"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 1.0,
+        "damage": 0.6
+      },
+      "model": "waterflasks:item/combined/iron/iron_flask_empty_d3"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 1.0,
+        "damage": 0.8
+      },
+      "model": "waterflasks:item/combined/iron/iron_flask_empty_d4"
+    }
+  ]
 }
