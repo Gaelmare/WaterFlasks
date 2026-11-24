@@ -1,38 +1,218 @@
 {
-	"parent": "item/generated",
-	"textures": {
-		"layer0": "waterflasks:item/leather_flask"
-	},
-	"overrides": [
-		{
-			"predicate": {
-				"waterflasks:emptiness": 0.1
-			},
-			"model": "waterflasks:item/leather_flask-4"
-		},
-		{
-			"predicate": {
-				"waterflasks:emptiness": 0.4
-			},
-			"model": "waterflasks:item/leather_flask-3"
-		},
-		{
-			"predicate": {
-				"waterflasks:emptiness": 0.7
-			},
-			"model": "waterflasks:item/leather_flask-2"
-		},
-		{
-			"predicate": {
-				"waterflasks:emptiness": 0.9
-			},
-			"model": "waterflasks:item/leather_flask-1"
-		},
-		{
-			"predicate": {
-				"waterflasks:emptiness": 1.0
-			},
-			"model": "waterflasks:item/leather_flask-0"
-		}
-	]
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "waterflasks:item/leather_flask-5"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.0,
+        "damage": 0.0
+      },
+      "model": "waterflasks:item/leather_flask-5"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.0,
+        "damage": 0.2
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f5_d1"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.0,
+        "damage": 0.4
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f5_d2"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.0,
+        "damage": 0.6
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f5_d3"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.0,
+        "damage": 0.8
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f5_d4"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.1,
+        "damage": 0.0
+      },
+      "model": "waterflasks:item/leather_flask-4"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.1,
+        "damage": 0.2
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f4_d1"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.1,
+        "damage": 0.4
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f4_d2"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.1,
+        "damage": 0.6
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f4_d3"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.1,
+        "damage": 0.8
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f4_d4"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.3,
+        "damage": 0.0
+      },
+      "model": "waterflasks:item/leather_flask-3"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.3,
+        "damage": 0.2
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f3_d1"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.3,
+        "damage": 0.4
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f3_d2"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.3,
+        "damage": 0.6
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f3_d3"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.3,
+        "damage": 0.8
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f3_d4"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.6,
+        "damage": 0.0
+      },
+      "model": "waterflasks:item/leather_flask-2"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.6,
+        "damage": 0.2
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f2_d1"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.6,
+        "damage": 0.4
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f2_d2"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.6,
+        "damage": 0.6
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f2_d3"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.6,
+        "damage": 0.8
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f2_d4"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.8,
+        "damage": 0.0
+      },
+      "model": "waterflasks:item/leather_flask-1"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.8,
+        "damage": 0.2
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f1_d1"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.8,
+        "damage": 0.4
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f1_d2"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.8,
+        "damage": 0.6
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f1_d3"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 0.8,
+        "damage": 0.8
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_f1_d4"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 1.0,
+        "damage": 0.0
+      },
+      "model": "waterflasks:item/leather_flask_empty"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 1.0,
+        "damage": 0.2
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_empty_d1"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 1.0,
+        "damage": 0.4
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_empty_d2"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 1.0,
+        "damage": 0.6
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_empty_d3"
+    },
+    {
+      "predicate": {
+        "waterflasks:emptiness": 1.0,
+        "damage": 0.8
+      },
+      "model": "waterflasks:item/combined/leather/leather_flask_empty_d4"
+    }
+  ]
 }

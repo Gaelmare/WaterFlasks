@@ -1,0 +1,7 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "waterflasks:item/leather_flask_empty",
+    "layer1": "waterflasks:item/leather_flask_damage-1"
+  }
+}
